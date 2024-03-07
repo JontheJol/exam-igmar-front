@@ -1,0 +1,22 @@
+nav{
+    background-color: #2bc670;
+    color: white;
+}
+
+.navbar{
+    justify-content: space-evenly !important;
+}
+
+.container{
+    justify-content: space-around;
+}
+
+/*Utility*/
+.w-letters{
+    color: white;
+    font-size: 30px;
+}
+
+.space-evenly-important{
+    justify-content: space-evenly;
+}
