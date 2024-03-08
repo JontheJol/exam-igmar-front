@@ -1,17 +1,16 @@
 import { Component, Input } from '@angular/core';
-import { RouterModule } from '@angular/router'; 
+import { RouterOutlet, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-button',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './button.component.html',
   styleUrl: './button.component.css'
 })
 export class ButtonComponent {
   @Input() buttonText: string = '';
-  @Input() apiRoute?: string;
   @Input() route?: string;
 
   constructor(private router: Router) {}
@@ -21,5 +20,4 @@ export class ButtonComponent {
       this.router.navigate([this.route]);
     }
   }
-
 }
