@@ -1,14 +1,15 @@
 nav{
-    background-color: #2bc670;
+    background-color: #121f33;
     color: white;
+    width: 100% !important;
 }
 
-.navbar{
-    justify-content: space-evenly !important;
-}
-
-.container{
-    justify-content: space-around;
+.container-custom{
+    margin: 0;
+    width: 100% !important;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 /*Utility*/

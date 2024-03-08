@@ -1,23 +1,20 @@
 <nav class="navbar">
-    <div class="container d-flex justify-content-between align-items-center">
+    <div class="container-custom d-flex">
         <!-- Left side -->
-        <div class="d-flex align-items-center">
+        <div class="d-flex">
             <a class="navbar-brand d-flex align-items-center" href="#">
-                <img src="../assets/images/logo.png" alt="Bootstrap" width="50" height="45">
-                <h2 class="w-letters ms-2">SmartCage</h2>
+                <img src="../../assets/images/logo.png" alt="Logo" width="50" height="45">
+                <h2 class="w-letters ms-4">GameShock</h2>
             </a>
-            <div class="d-flex justify-content-between align-items-center ms-4">
-                <a class="nav-link" aria-current="page" href="#">Home</a>
-                <a class="nav-link ms-4" href="#">Sobre nosotros</a>
-            </div>
         </div>
 
         <!-- Right side -->
-        <div>
-            <div class="d-flex justify-content-between">
-                <a class="nav-link" href="#">Registrarse</a>
-                <a class="nav-link ms-4" href="#">Ingresar</a>
-            </div>
+        <div class="d-flex align-items-center">
+            <!-- De button.component.html-->
+            <app-button [buttonText]="'Ingresar'"></app-button>
+            <app-button [buttonText]="'Registrarse'" class="ms-3"></app-button>
         </div>
     </div>
 </nav>
+
+
