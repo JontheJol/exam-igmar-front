@@ -1,0 +1,14 @@
+.form-container{
+    border: 1px solid #536c7e;
+    padding: 20px;
+    border-radius: 10%;
+}
+
+::placeholder {
+    color: #536c7e; /* Puedes cambiar este valor al color que desees */
+}
+
+input{
+    color: white !important; 
+    border: none;
+}

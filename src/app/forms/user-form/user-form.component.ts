@@ -22,6 +22,7 @@ export class UserFormComponent implements OnInit{
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
+    this.switchToRegistration();
   }
 
   switchToRegistration() {
@@ -42,4 +43,5 @@ export class UserFormComponent implements OnInit{
       // TODO: Mensajes de error, rechazo de validciones etc
     }
   }
+
 }
