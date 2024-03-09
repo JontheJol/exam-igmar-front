@@ -5,7 +5,17 @@
 }
 
 ::placeholder {
-    color: #536c7e; /* Puedes cambiar este valor al color que desees */
+    color: #536c7e;
+}
+
+i{
+    color: #536c7e;
+}
+
+.form-group{
+    border-radius: none !important;
+    border-bottom: 1px solid #536c7e;
+    margin-bottom: 25px;
 }
 
 input{

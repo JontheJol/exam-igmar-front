@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { RouterOutlet, RouterLink, RouterLinkActive, RouterModule, Router } from '@angular/router';
+import { ButtonComponent } from '../../buttons/button/button.component';
 
 @Component({
   selector: 'app-user-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterOutlet, RouterLink, RouterLinkActive, RouterModule, ButtonComponent],
   templateUrl: './user-form.component.html',
   styleUrl: './user-form.component.css'
 })
