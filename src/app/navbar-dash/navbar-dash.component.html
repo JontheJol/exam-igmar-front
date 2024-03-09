@@ -1,4 +1,4 @@
-<nav class="navbar" *ngIf="mostrarNavbar()">
+<nav class="navbar">
     <div class="container-custom d-flex">
         <!-- Left side -->
         <div class="d-flex">
@@ -11,10 +11,7 @@
         <!-- Right side -->
         <div class="d-flex align-items-center">
             <!-- De button.component.html-->
-            <app-button [buttonText]="'Ingresar'" routerLink="/ingreso" routerLinkActive="active"></app-button>
-            <app-button [buttonText]="'Registrarse'" class="ms-3" routerLink="/registro" routerLinkActive="active" ></app-button>
+            <app-button [buttonText]="'Salir'" routerLink="/ingreso" routerLinkActive="active"></app-button>
         </div>
     </div>
 </nav>
-
-

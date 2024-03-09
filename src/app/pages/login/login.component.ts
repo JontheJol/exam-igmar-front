@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   constructor(private loginService: LoginService) { }
 
   ngOnInit(): void {
-    this.loginService.setIsRegistering(false); // Asegúrate de que estás en modo de registro al cargar la página
+    this.loginService.setIsRegistering(false);
   }
 
   switchToLogin(): void {
