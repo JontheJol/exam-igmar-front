@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RouterOutlet, RouterLink, RouterLinkActive, RouterModule, Router } from '@angular/router';
 import { ButtonComponent } from '../../buttons/button/button.component';
+import { LoginService } from '../../login.service';
 
 @Component({
   selector: 'app-user-form',
@@ -12,38 +13,40 @@ import { ButtonComponent } from '../../buttons/button/button.component';
   styleUrl: './user-form.component.css'
 })
 
-export class UserFormComponent implements OnInit{
+export class UserFormComponent implements OnInit {
   userForm!: FormGroup;
-  isRegistering: boolean = true; // Cambiar flag  a false si estamos en inicio de sesion
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private LoginService: LoginService) { }
 
   ngOnInit(): void {
-    // Inicializr el form con campos default (comunes)
+    this.initializeForm();
+    this.LoginService.isRegistering$.subscribe((value) => {
+      this.switchRegistrationMode(value);
+    });
+  }
+
+  initializeForm(): void {
     this.userForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
-    this.switchToRegistration();
+    //this.switchRegistrationMode(true); // Setea el modo de registro al inicializar el formulario
   }
 
-  switchToRegistration() {
-    this.isRegistering = true;
-    this.userForm.addControl('name', this.formBuilder.control('', Validators.required));
-  }
-
-  switchToLogin() {
-    this.isRegistering = false;
-    this.userForm.removeControl('name');
+  switchRegistrationMode(isRegistering: boolean): void {
+    if (isRegistering) {
+      this.userForm.addControl('name', this.formBuilder.control('', Validators.required));
+    } else {
+      this.userForm.removeControl('name');
+    }
   }
 
   onSubmit() {
     if (this.userForm.valid) {
-      // TODO: Manejr el registro o login del usuario segun sea el caso
       console.log(this.userForm.value);
+      // Aquí manejas el registro o inicio de sesión según corresponda
     } else {
-      // TODO: Mensajes de error, rechazo de validciones etc
+      // Aquí manejas la lógica para los errores de validación, etc.
     }
   }
-
 }
