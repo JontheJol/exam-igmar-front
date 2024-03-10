@@ -5,6 +5,7 @@ import { RouterOutlet, RouterLink, RouterLinkActive, RouterModule, Router } from
 import { ButtonComponent } from '../../buttons/button/button.component';
 import { LoginService } from '../../login.service';
 import { HttpClient } from '@angular/common/http';
+import { Validator } from '@angular/forms';
 
 @Component({
   selector: 'app-user-form',
@@ -17,6 +18,7 @@ import { HttpClient } from '@angular/common/http';
 export class UserFormComponent implements OnInit {
   userForm!: FormGroup;
   endpoint: string = ''; // Variable para almacenar el endpoint
+  serverError: string = '';
 
   constructor(private formBuilder: FormBuilder, private loginService: LoginService, private http: HttpClient) { }
 
@@ -27,10 +29,15 @@ export class UserFormComponent implements OnInit {
     });
   }
 
+  
+
   initializeForm(): void {
     this.userForm = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
+      phone: ['', [Validators.required, Validators.pattern("^[0-9]{10}$")]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      password_confirmation: ['', Validators.required]
     });
     //this.switchRegistrationMode(true); // Setea el modo de registro al inicializar el formulario
   }
@@ -43,24 +50,41 @@ export class UserFormComponent implements OnInit {
       this.endpoint = 'http://127.0.0.1:8000/api/register'; // Endpoint para el registro
     } else {
       this.userForm.removeControl('name');
-      this.endpoint = 'http://127.0.0.1:8000/api/login'; // Endpoint para el inicio de sesión
+      this.endpoint = 'http://127.0.0.1:8000/api/login'; // Endpoint para el inicio de sesion
     }
   }
 
   onSubmit() {
     if (this.userForm.valid) {
       console.log(this.userForm.value);
-      console.log("enviado");
-      
       // Enviar la solicitud al servidor utilizando HttpClient
       this.http.post(this.endpoint, this.userForm.value)
-        .subscribe((response) => {
-          console.log('Respuesta del servidor:', response);
-          // Aquí puedes manejar la respuesta del servidor según corresponda
-        }, (error) => {
-          console.error('Error al enviar la solicitud:', error);
-          // Aquí puedes manejar el error de la solicitud
-        });
+      .subscribe((response: any) => {
+        console.log('Respuesta del servidor:', response);
+        // Verificamos si la respuesta contiene errores
+        if (response && Object.keys(response).length > 0) {
+          // Reiniciamos el área de mensajes de error
+          this.serverError = '';
+    
+          // Iteramos sobre las claves (campos del formulario) en la respuesta
+          Object.keys(response).forEach((key: string) => {
+            // Obtenemos los mensajes de error para el campo actual
+            const errorMessages = response[key];
+            
+            // Mostramos cada mensaje de error en el área correspondiente
+            errorMessages.forEach((errorMessage: string) => {
+              this.serverError += `${key}: ${errorMessage}<br>`;
+            });
+          });
+        } else {
+          // Si no hay errores, limpiamos el área de mensajes de error
+          this.serverError = '';
+        }
+      }, (error) => {
+        console.error('Error al enviar la solicitud:', error);
+        // Si ocurre un error en la solicitud HTTP, mostramos un mensaje genérico de error
+        this.serverError = 'Error al enviar la solicitud al servidor';
+      });
 
     } else {
       // Aquí manejas la lógica para los errores de validación, etc.

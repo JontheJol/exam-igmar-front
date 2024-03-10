@@ -2,23 +2,26 @@
     <form class="form-container p-5" [formGroup]="userForm" (ngSubmit)="onSubmit()">
         <div class="">
             <!-- Campo de nombre para registro -->
-            <div *ngIf="userForm.controls['name']" class="form-group d-flex align-items-center">
+            <div *ngIf="userForm.get('name')" class="form-group d-flex align-items-center">
                 <i class="fa fa-user" aria-hidden="true"></i>
                 <input type="text" class="form-control bg-transparent text-white" id="name" formControlName="name" placeholder="Nombre">
             </div>
-            <div *ngIf="userForm.controls['phone']" class="form-group d-flex align-items-center">
+            <div *ngIf="userForm.get('phone')" class="form-group d-flex align-items-center">
                 <i class="fa fa-phone" aria-hidden="true"></i>
                 <input type="text" class="form-control bg-transparent text-white" id="phone" formControlName="phone" placeholder="Telefono">
+                
             </div>
-            <div class="form-group d-flex align-items-center">
+            <div *ngIf="userForm.get('email')" class="form-group d-flex align-items-center">
                 <i class="fa fa-envelope" aria-hidden="true"></i>
                 <input type="email" class="form-control bg-transparent text-white" id="email" formControlName="email" placeholder="Correo">
+                
             </div>
-            <div class="form-group d-flex align-items-center">
+            <div *ngIf="userForm.get('password')" class="form-group d-flex align-items-center">
                 <i class="fa fa-lock" aria-hidden="true"></i>
                 <input type="password" class="form-control bg-transparent text-white" id="password" formControlName="password" placeholder="Contraseña">
+                
             </div>
-            <div *ngIf="userForm.controls['password_confirmation']" class="form-group d-flex align-items-center">
+            <div *ngIf="userForm.get('password_confirmation')" class="form-group d-flex align-items-center">
                 <i class="fa fa-lock" aria-hidden="true"></i>
                 <input type="password" class="form-control bg-transparent text-white" id="password_confirmation" formControlName="password_confirmation" placeholder="Confrimar Contraseña">
             </div>
@@ -28,5 +31,35 @@
             <button class="btn" type="submt">Enviar</button>
         </div>
     </form>
-</div>
 
+    <!--Podriamos poner un div a la derecha que muestr los errores de validaciones-->
+        <!-- Div para mostrar errores de validación -->
+        <div class="error-container ms-4" style="width: 20%">
+            <div *ngIf="userForm.get('name')?.invalid && (userForm.get('name')?.dirty || userForm.get('name')?.touched)" class="alert alert-danger">
+                <div *ngIf="userForm.get('name')?.errors?.['required'] as required">El nombre es requerido.</div>
+                <div *ngIf="userForm.get('name')?.errors?.['minlength'] as minlength">El nombre debe tener al menos 4 caracteres.</div>
+            </div>
+            <div *ngIf="userForm.get('phone')?.invalid && (userForm.get('phone')?.dirty || userForm.get('phone')?.touched)" class="alert alert-danger">
+                <div *ngIf="userForm.get('phone')?.errors?.['required']">El teléfono es requerido.</div>
+                <div *ngIf="userForm.get('phone')?.errors?.['numeric']">El telefono debe ser numerico.</div>
+                <div *ngIf="userForm.get('phone')?.errors?.['digits']">El teléfono debe tener exactamente 10 dígitos.</div>
+            </div>
+            <div *ngIf="userForm.get('email')?.invalid && (userForm.get('email')?.dirty || userForm.get('email')?.touched)" class="alert alert-danger">
+                <div *ngIf="userForm.get('email')?.errors?.['required']">El correo electrónico es requerido.</div>
+                <div *ngIf="userForm.get('email')?.errors?.['email']">El correo electrónico debe ser válido.</div>
+                <div *ngIf="userForm.get('email')?.errors?.['unique']">El correo electrónico ya está en uso.</div>
+            </div>
+            <div *ngIf="userForm.get('password')?.invalid && (userForm.get('password')?.dirty || userForm.get('password')?.touched)" class="alert alert-danger">
+                <div *ngIf="userForm.get('password')?.errors?.['required']">La contraseña es requerida.</div>
+                <div *ngIf="userForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 8 caracteres.</div>
+            </div>
+
+            <div *ngIf="userForm.get('password_confirmation')?.invalid && (userForm.get('password_confirmation')?.dirty || userForm.get('password_confirmation')?.touched)" class="alert alert-danger">
+                <div *ngIf="userForm.get('password_confirmation')?.errors?.['required']">La confirmación de contraseña es requerida.</div>
+                <div *ngIf="userForm.get('password_confirmation')?.errors?.['confirmed']; else nomatch">Las contraseñas no coinciden.</div>
+                <ng-template #nomatch>Passwords don't match</ng-template>
+            </div>
+
+            <div *ngIf="serverError" class="alert alert-danger" [innerHTML]="serverError"></div>
+        </div>
+</div>
