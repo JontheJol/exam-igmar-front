@@ -10,6 +10,24 @@ nav{
     justify-content: space-between;
 }
 
+.dropdown-toggle{
+    color: white;
+}
+
+.dropdown-menu{
+    background-color: #121f33 !important;
+    color: white !important;
+    border: solid 1px #536c7e;
+}
+
+.dropdown-item{
+    color: white !important;
+}
+
+.dropdown-item:hover{
+    background-color: #536c7e !important;
+}
+
 .container-custom{
     margin: 0;
     width: 100% !important;
