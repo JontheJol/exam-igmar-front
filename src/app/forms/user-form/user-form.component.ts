@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { RouterOutlet, RouterLink, RouterLinkActive, RouterModule, Router } from '@angular/router';
 import { ButtonComponent } from '../../buttons/button/button.component';
 import { LoginService } from '../../login.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-form',
@@ -15,12 +16,13 @@ import { LoginService } from '../../login.service';
 
 export class UserFormComponent implements OnInit {
   userForm!: FormGroup;
+  endpoint: string = ''; // Variable para almacenar el endpoint
 
-  constructor(private formBuilder: FormBuilder, private LoginService: LoginService) { }
+  constructor(private formBuilder: FormBuilder, private loginService: LoginService, private http: HttpClient) { }
 
   ngOnInit(): void {
     this.initializeForm();
-    this.LoginService.isRegistering$.subscribe((value) => {
+    this.loginService.isRegistering$.subscribe((value) => {
       this.switchRegistrationMode(value);
     });
   }
@@ -36,17 +38,31 @@ export class UserFormComponent implements OnInit {
   switchRegistrationMode(isRegistering: boolean): void {
     if (isRegistering) {
       this.userForm.addControl('name', this.formBuilder.control('', Validators.required));
+      this.endpoint = 'http://127.0.0.1:8000/api/register'; // Endpoint para el registro
     } else {
       this.userForm.removeControl('name');
+      this.endpoint = 'http://127.0.0.1:8000/api/login'; // Endpoint para el inicio de sesión
     }
   }
 
   onSubmit() {
     if (this.userForm.valid) {
       console.log(this.userForm.value);
-      // Aquí manejas el registro o inicio de sesión según corresponda
+      console.log("enviado");
+      
+      // Enviar la solicitud al servidor utilizando HttpClient
+      this.http.post(this.endpoint, this.userForm.value)
+        .subscribe((response) => {
+          console.log('Respuesta del servidor:', response);
+          // Aquí puedes manejar la respuesta del servidor según corresponda
+        }, (error) => {
+          console.error('Error al enviar la solicitud:', error);
+          // Aquí puedes manejar el error de la solicitud
+        });
+
     } else {
       // Aquí manejas la lógica para los errores de validación, etc.
+      console.log("No enviado")
     }
   }
 }
