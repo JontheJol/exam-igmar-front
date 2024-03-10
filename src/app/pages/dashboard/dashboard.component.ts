@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavbarDashComponent } from '../../navbar-dash/navbar-dash.component';
+import { createPopper } from '@popperjs/core';
 
 @Component({
   selector: 'app-dashboard',

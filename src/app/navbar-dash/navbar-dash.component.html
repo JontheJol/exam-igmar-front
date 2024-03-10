@@ -13,5 +13,48 @@
             <!-- De button.component.html-->
             <app-button [buttonText]="'Salir'" routerLink="/ingreso" routerLinkActive="active"></app-button>
         </div>
+
+        <!-- Dropdowns -->
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownUsuarios" data-bs-toggle="dropdown" aria-expanded="false">
+                Usuarios
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownUsuarios">
+                <li><a class="dropdown-item" href="#">Usuarios</a></li>
+                <li><a class="dropdown-item" href="#">Carritos</a></li>
+            </ul>
+        </div>
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownProductos" data-bs-toggle="dropdown" aria-expanded="false">
+                Productos
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownProductos">
+                <li><a class="dropdown-item" href="#">Inventario</a></li>
+                <li><a class="dropdown-item" href="#">Categorías</a></li>
+                <li><a class="dropdown-item" href="#">Plataformas</a></li>
+                <li><a class="dropdown-item" href="#">Productos</a></li>
+            </ul>
+        </div>
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownPedidos" data-bs-toggle="dropdown" aria-expanded="false">
+                Pedidos
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownPedidos">
+                <li><a class="dropdown-item" href="#">Pedidos</a></li>
+                <li><a class="dropdown-item" href="#">Compras</a></li>
+                <li><a class="dropdown-item" href="#">Envíos</a></li>
+            </ul>
+        </div>
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownInteracciones" data-bs-toggle="dropdown" aria-expanded="false">
+                Interacciones
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownInteracciones">
+                <li><a class="dropdown-item" href="#">Comentarios</a></li>
+            </ul>
+        </div>
     </div>
 </nav>
