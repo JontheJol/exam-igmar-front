@@ -11,14 +11,20 @@ import { LoginService } from '../../login.service';
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
 })
-export class SignupComponent implements OnInit {
-  constructor(private loginService: LoginService) { }
+  export class SignupComponent implements OnInit {
+    buttonText: string = 'Registrarse';
+    endpoint: string = 'http://127.0.0.1:8000/api/register'; // Endpoint de registro
 
-  ngOnInit(): void {
-    this.loginService.setIsRegistering(true); // Asegúrate de que estás en modo de registro al cargar la página
-  }
+    constructor(private loginService: LoginService) {}
 
-  switchToLogin(): void {
-    this.loginService.setIsRegistering(false);
-  }
+    ngOnInit(): void {
+      // Puedes activar el formulario de registro al iniciar el componente si lo deseas
+      this.loginService.setIsRegistering(true);
+    }
+
+    switchToLogin(): void {
+      this.loginService.setIsRegistering(true);
+    }
 }
+
+
