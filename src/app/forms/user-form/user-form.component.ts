@@ -38,6 +38,8 @@ export class UserFormComponent implements OnInit {
   switchRegistrationMode(isRegistering: boolean): void {
     if (isRegistering) {
       this.userForm.addControl('name', this.formBuilder.control('', Validators.required));
+      this.userForm.addControl('phone', this.formBuilder.control('', Validators.required));
+      this.userForm.addControl('password_confirmation', this.formBuilder.control('', Validators.required));
       this.endpoint = 'http://127.0.0.1:8000/api/register'; // Endpoint para el registro
     } else {
       this.userForm.removeControl('name');
