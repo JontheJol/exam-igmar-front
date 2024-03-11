@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule ,AbstractControl } from '@angular/forms';
 import { RouterOutlet, RouterLink, RouterLinkActive, RouterModule, Router } from '@angular/router';
 import { ButtonComponent } from '../../buttons/button/button.component';
 import { LoginService } from '../../login.service';
@@ -19,6 +19,9 @@ export class UserFormComponent implements OnInit {
   userForm!: FormGroup;
   endpoint: string = ''; // Variable para almacenar el endpoint
   serverError: string = '';
+  serverSuccess: string = '';
+  isLoading: boolean = false;
+
 
   constructor(private formBuilder: FormBuilder, private loginService: LoginService, private http: HttpClient) { }
 
@@ -30,16 +33,28 @@ export class UserFormComponent implements OnInit {
   }
 
   
-
+// , Validators.pattern("^[0-9]{10}$")]
   initializeForm(): void {
     this.userForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
-      phone: ['', [Validators.required, Validators.pattern("^[0-9]{10}$")]],
+      phone: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]], // Aquí se agrega Validators.pattern
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      password_confirmation: ['', Validators.required]
-    });
-    //this.switchRegistrationMode(true); // Setea el modo de registro al inicializar el formulario
+      password_confirmation: ['', [Validators.required]]
+    }
+    , {
+      validators: this.passwordMatchValidator // Agregamos el validador personalizado a nivel de formulario
+    }
+    );
+  }
+
+  passwordMatchValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    const password = control.get('password')?.value;
+    const password_confirmation = control.get('password_confirmation')?.value;
+    if (password && password_confirmation && password !== password_confirmation) {
+      return { 'passwordMismatch': true };
+    }
+    return null;
   }
 
   switchRegistrationMode(isRegistering: boolean): void {
@@ -57,40 +72,93 @@ export class UserFormComponent implements OnInit {
   }
 
   onSubmit() {
+if (this.userForm.enabled){
     if (this.userForm.valid) {
-      console.log(this.userForm.value);
+    // if (true) {
+      this.serverError = '';
+      this.serverSuccess = '';
+      // this.userForm.disable();
+      this.isLoading = true;
+      // console.log(this.userForm.value);
       // Enviar la solicitud al servidor utilizando HttpClient
       this.http.post(this.endpoint, this.userForm.value)
-      .subscribe((response: any) => {
+      .subscribe((response: any) => 
+      {
         console.log('Respuesta del servidor:', response);
-        // Verificamos si la respuesta contiene errores
+
+        //quiero que el mensaje que traiga el servidor se muestre en el html
         if (response && Object.keys(response).length > 0) {
-          // Reiniciamos el área de mensajes de error
-          this.serverError = '';
-    
-          // Iteramos sobre las claves (campos del formulario) en la respuesta
+          this.serverSuccess = '';
           Object.keys(response).forEach((key: string) => {
-            // Obtenemos los mensajes de error para el campo actual
+            console.log("aqui0")
+
             const errorMessages = response[key];
-            
-            // Mostramos cada mensaje de error en el área correspondiente
-            errorMessages.forEach((errorMessage: string) => {
-              this.serverError += `${key}: ${errorMessage}<br>`;
-            });
+            if (Array.isArray(errorMessages)) {
+              console.log("aqui1")
+              errorMessages.forEach((errorMessage: string) => {
+                this.serverSuccess += `${key}: ${errorMessage}<br>`;
+              });
+            } else if (typeof errorMessages === 'string') {
+              this.serverSuccess += `${key}: ${errorMessages}<br>`;
+            }
           });
+          this.userForm.reset();
+          // this.userForm.enable(); 
         } else {
-          // Si no hay errores, limpiamos el área de mensajes de error
-          this.serverError = '';
+          console.log("aqui3")
+
+          this.serverSuccess = '';
         }
+
+      this.userForm.enable();
+      this.isLoading = false;
+
       }, (error) => {
         console.error('Error al enviar la solicitud:', error);
         // Si ocurre un error en la solicitud HTTP, mostramos un mensaje genérico de error
-        this.serverError = 'Error al enviar la solicitud al servidor';
+        // this.serverError = 'Error al enviar la solicitud al servidor';
+        console.log("aquiiii")
+
+        console.log(error)
+        console.log(error.error)
+        console.log(error.error.data.original)
+          this.serverError = '';  
+        Object.keys(error.error.data.original).forEach((key: string) => {
+          const errorMessages = error.error.data.original[key];
+          if (Array.isArray(errorMessages)) {
+            errorMessages.forEach((errorMessage: string) => {
+              this.serverError += ` ${errorMessage} <hr>`;
+              console.log(` ${errorMessage}`);
+              console.log("aqui")
+            });
+          } else if (typeof errorMessages === 'string') {
+            // Si errorMessages es una cadena, la añadimos directamente a this.serverError
+            this.serverError += `${key}: ${errorMessages}<br>`;
+            console.log("aqui2")
+
+          }
+        });
+        
+
+        if (error && error.error && error.error.message) {
+          this.serverError = error.error.message;
+        } else {
+          // Si no hay un mensaje de error personalizado, mostramos un mensaje genérico de error
+          // this.serverError = 'Error al enviar la solicitud al servidor';
+        }
+
+      this.userForm.enable();
+      this.isLoading = false;
       });
 
     } else {
-      // Aquí manejas la lógica para los errores de validación, etc.
+      console.log("Errores:")
+      console.log(this.userForm.controls)
+      console.log(this.userForm.value);
+
+      
       console.log("No enviado")
     }
+  }
   }
 }
