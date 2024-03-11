@@ -10,11 +10,9 @@
           <tr *ngFor="let item of datos">
             <td *ngFor="let campo of campos">{{ item[campo] }}</td>
             <td>
-              <button *ngFor="let boton of botonesAccion"
-              (click)="boton.accion(usuario)"
-              class="btn {{ boton.clase }}">
-        {{ boton.nombre }}
-      </button>
+              <button *ngFor="let boton of botonesAccion" (click)="boton.accion(item)">
+                {{ boton.nombre }}
+              </button>
             </td>
           </tr>
         </tbody>
