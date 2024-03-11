@@ -1,2 +1,5 @@
 <app-navbar-dash></app-navbar-dash>
-<p>productos works!</p>
+
+<div class="d-flex justify-content-center table-container">
+    <app-dynamic-table class="mt-3" [campos]="['name', 'phone', 'email', 'active', 'rol']" [datos]="productos" [botonesAccion]="botonesAccion"></app-dynamic-table>
+</div>
