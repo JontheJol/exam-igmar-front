@@ -1,0 +1,33 @@
+
+.tr{
+    color: white !important;
+    border: solid 1px #536c7e !important;
+    background-color: #121f33 !important;
+}
+
+table.table-custom{
+    width: 100%;
+    color: white !important;
+    background-color: #121f33 !important;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.table-container{
+    border-radius: 10px !important;
+    border: solid 1px #536c7e !important;
+    padding: 1px;
+}
+
+.table-custom th,
+.table-custom td {
+  padding: 10px;
+}
+
+th{
+    background-color: #536c7e;
+}
+
+.table-custom {
+    border-collapse: collapse;
+  }
