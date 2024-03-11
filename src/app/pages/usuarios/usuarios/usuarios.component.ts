@@ -36,8 +36,18 @@ export class UsuariosComponent  {
     // Puedes agregar más botones de acción según tus necesidades
   ];
 
-  eliminarUsuario(usuario: any){
-
+  eliminarUsuario(usuario: any) {
+    const endpoint = `http://127.0.0.1:8000/api/users/${usuario.id}/deactivate`;
+    this.http.put(endpoint, {}).subscribe(
+      (response: any) => {
+        console.log('Usuario desactivado:', usuario);
+        // Actualiza la lista de usuarios después de desactivar uno
+        this.obtenerUsuarios();
+      },
+      error => {
+        console.error('Error al desactivar usuario:', error);
+      }
+    );
   }
 
   editarUsuario(usuario: any) {
