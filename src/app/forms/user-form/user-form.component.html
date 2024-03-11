@@ -55,17 +55,6 @@
                 <div *ngIf="userForm.get('password')?.errors?.['required']">La contraseña es requerida.</div>
                 <div *ngIf="userForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 8 caracteres.</div>
             </div>
-
-            <!-- <div *ngIf="userForm.get('password_confirmation')?.invalid && (userForm.get('password_confirmation')?.dirty || userForm.get('password_confirmation')?.touched)" class="alert alert-danger">
-                <div *ngIf="userForm.get('password_confirmation')?.errors?.['required']">La confirmación de contraseña es requerida.</div> -->
-                <!-- <div *ngIf="userForm.get('password_confirmation')?.errors?.['confirmed']; else nomatch">Las contraseñas no coinciden.</div> -->
-                <!-- <div *ngIf="userForm.get('password_confirmation')?.errors?.['passwordMismatch'] && (userForm.get('password_confirmation')?.dirty || userForm.get('password_confirmation')?.touched)" class="alert alert-danger">Las contraseñas no coinciden.</div> -->
-                <!-- <ng-template #nomatch>Passwords don't match</ng-template> -->
-                <!-- <div *ngIf="userForm.hasError('passwordMismatch') && (userForm.get('password_confirmation')?.dirty || userForm.get('password_confirmation')?.touched)" class="alert alert-danger">
-                    Las contraseñas no coinciden.
-                </div>
-            </div> -->
-
     <div *ngIf="userForm.get('password_confirmation')?.invalid && (userForm.get('password_confirmation')?.dirty || userForm.get('password_confirmation')?.touched)" class="alert alert-danger">
             <div *ngIf="userForm.get('password_confirmation')?.errors?.['required']">La confirmación de contraseña es requerida.</div>
     </div>  

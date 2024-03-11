@@ -41,9 +41,11 @@ export class UserFormComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       password_confirmation: ['', [Validators.required]]
-    }, {
+    }
+    , {
       validators: this.passwordMatchValidator // Agregamos el validador personalizado a nivel de formulario
-    });
+    }
+    );
   }
 
   passwordMatchValidator(control: AbstractControl): { [key: string]: boolean } | null {
@@ -52,7 +54,7 @@ export class UserFormComponent implements OnInit {
     if (password && password_confirmation && password !== password_confirmation) {
       return { 'passwordMismatch': true };
     }
-    return { 'passwordMismatch': false };
+    return null;
   }
 
   switchRegistrationMode(isRegistering: boolean): void {
@@ -72,9 +74,10 @@ export class UserFormComponent implements OnInit {
   onSubmit() {
 if (this.userForm.enabled){
     if (this.userForm.valid) {
+    // if (true) {
       this.serverError = '';
       this.serverSuccess = '';
-      this.userForm.disable();
+      // this.userForm.disable();
       this.isLoading = true;
       // console.log(this.userForm.value);
       // Enviar la solicitud al servidor utilizando HttpClient
@@ -149,7 +152,11 @@ if (this.userForm.enabled){
       });
 
     } else {
-      // Aquí manejas la lógica para los errores de validación, etc.
+      console.log("Errores:")
+      console.log(this.userForm.controls)
+      console.log(this.userForm.value);
+
+      
       console.log("No enviado")
     }
   }
