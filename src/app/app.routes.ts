@@ -26,7 +26,6 @@ import { AddPlataformaComponent } from './pages/plataformas/add-plataforma/add-p
 export const routes: Routes = [
     {path: 'registro', component: SignupComponent},
     {path: 'ingreso', component: LoginComponent},
-    {path: 'verificar', component: VerificarCodigoComponent},
     {path: 'dashboard', component: DashboardComponent}, // TODO: no se que otra validacion necesitemos para acceder al dashboard
     {path: 'dashboard/usuarios', component: UsuariosComponent},
     {path: 'dashboard/usuarios/edit/:id', component: EditUsuarioComponent },
