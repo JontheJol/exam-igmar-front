@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavbarDashComponent } from '../../../navbar-dash/navbar-dash.component';
 import { DynamicTableComponent } from '../../../dynamic-table/dynamic-table.component';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-usuarios',
@@ -9,16 +10,35 @@ import { DynamicTableComponent } from '../../../dynamic-table/dynamic-table.comp
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css'
 })
-export class UsuariosComponent {
-  usuarios = [
-    { name: 'Juan', phone: '123456789', email: 'juan@example.com', active: true, rol: 'Admin' },
-    { name: 'María', phone: '987654321', email: 'maria@example.com', active: false, rol: 'User' }
-  ];
+export class UsuariosComponent  {
+  constructor(private http: HttpClient) {}
+  usuarios: any[] = [];
+
+  obtenerUsuarios() {
+    const endpoint = 'http://127.0.0.1:8000/api/users'; // Reemplaza 'tu/endpoint/aqui' con tu URL real
+    this.http.get<any[]>(endpoint).subscribe(
+      (data: any[]) => {
+        this.usuarios = data; // Asigna los datos de la respuesta de la API al arreglo de usuarios
+      },
+      error => {
+        console.error('Error al obtener usuarios:', error);
+      }
+    );
+  }
+
+  ngOnInit(): void {
+    this.obtenerUsuarios();
+  }
 
   botonesAccion = [
     { nombre: 'Editar', accion: this.editarUsuario },
+    { nombre: 'Eliminar', accion: this.eliminarUsuario, clase: 'btn-eliminar' }
     // Puedes agregar más botones de acción según tus necesidades
   ];
+
+  eliminarUsuario(usuario: any){
+
+  }
 
   editarUsuario(usuario: any) {
     console.log('Editar usuario:', usuario);

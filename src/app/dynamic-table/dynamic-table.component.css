@@ -31,3 +31,12 @@ th{
 .table-custom {
     border-collapse: collapse;
   }
+
+button{
+    background-color: #536c7e !important ;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    margin-left: 5px;
+}
