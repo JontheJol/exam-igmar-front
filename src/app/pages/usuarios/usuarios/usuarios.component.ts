@@ -3,16 +3,18 @@ import { NavbarDashComponent } from '../../../navbar-dash/navbar-dash.component'
 import { DynamicTableComponent } from '../../../dynamic-table/dynamic-table.component';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'app-usuarios',
   standalone: true,
-  imports: [NavbarDashComponent, DynamicTableComponent, CommonModule],
+  imports: [NavbarDashComponent, DynamicTableComponent, CommonModule, RouterModule],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css'
 })
 export class UsuariosComponent  {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
   usuarios: any[] = [];
   notificacion: string = '';
 
@@ -33,7 +35,7 @@ export class UsuariosComponent  {
   }
 
   botonesAccion = [
-    { nombre: 'Editar', accion: this.editarUsuario },
+    { nombre: 'Editar', accion: this.editarUsuario, routerLink: ['/dashboard/usuarios/edit'] },
     { nombre: 'Eliminar', accion: (usuario: any) => this.eliminarUsuario(usuario), clase: 'btn-eliminar' }
     // Puedes agregar más botones de acción según tus necesidades
   ];
@@ -56,6 +58,6 @@ export class UsuariosComponent  {
 
   editarUsuario(usuario: any) {
     console.log('Editar usuario:', usuario);
-    // Agrega aquí la lógica para editar el usuario
+    this.router.navigate(['/dashboard/usuarios/edit', usuario.id]);
   }
 }
