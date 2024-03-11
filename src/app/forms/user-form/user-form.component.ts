@@ -50,6 +50,8 @@ export class UserFormComponent implements OnInit {
       this.endpoint = 'http://127.0.0.1:8000/api/register'; // Endpoint para el registro
     } else {
       this.userForm.removeControl('name');
+      this.userForm.removeControl('phone');
+      this.userForm.removeControl('password_confirmation');
       this.endpoint = 'http://127.0.0.1:8000/api/login'; // Endpoint para el inicio de sesion
     }
   }

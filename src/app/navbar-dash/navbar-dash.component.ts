@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ButtonComponent } from '../buttons/button/button.component';
-import { createPopper, popper } from '@popperjs/core';
+import { RouterOutlet, RouterLink, RouterLinkActive, RouterModule, Router } from '@angular/router';
 
 
 @Component({
   selector: 'app-navbar-dash',
   standalone: true,
-  imports: [ButtonComponent],
+  imports: [ButtonComponent, RouterOutlet, RouterLinkActive, RouterModule],
   templateUrl: './navbar-dash.component.html',
   styleUrl: './navbar-dash.component.css'
 })
