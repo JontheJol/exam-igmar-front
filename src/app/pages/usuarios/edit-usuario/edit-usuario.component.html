@@ -31,6 +31,10 @@
             <div *ngIf="usuarioForm.get('phone')?.errors?.['minlength']">El teléfono debe tener exactamente 10 dígitos.</div>
             <div *ngIf="usuarioForm.get('phone')?.errors?.['maxlength']">El teléfono debe tener exactamente 10 dígitos.</div>
         </div>
+
+        <div *ngIf="mensaje" class="alert alert-success" role="alert">
+            {{ mensaje }}
+        </div>
         
     </div>
 </div>
