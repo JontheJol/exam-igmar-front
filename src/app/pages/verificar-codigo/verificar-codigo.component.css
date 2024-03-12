@@ -1,0 +1,74 @@
+.form-container{
+    border: 1px solid #536c7e;
+    border: 1px solid #536c7e;
+    padding: 20px;
+    border-radius: 10px;
+    width: 50%; /* Ajusta esto según tus necesidades */
+    
+    margin: 0 auto;
+    
+}
+
+::placeholder {
+    color: #536c7e;
+}
+
+i{
+    color: #536c7e;
+}
+
+.form-group{
+    border-radius: none !important;
+    margin-bottom: 25px;
+}
+
+input{
+    /* color: #536c7e !important;  */
+    background-color: #0000; /* Añade un color de fondo */
+    border: none;
+}
+.token-inputs input {
+    width: 30px;
+  }
+  
+  /* Estilos para pantallas medianas (tablets, etc.) */
+  @media (min-width: 768px) {
+    .token-inputs input {
+      width: 40px;
+    }
+  }
+  
+  /* Estilos para pantallas grandes (escritorio, etc.) */
+  @media (min-width: 1024px) {
+    .token-inputs input {
+      width: 50px;
+    }
+  }
+
+.btn{
+    background-color: #30455b !important;
+    color: white;
+    border-radius: 10px !important;
+    display: block;
+    margin: 0 auto;
+
+}
+
+.token-inputs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+  margin-top:  10px;
+}
+
+.token-inputs input {
+  width: 30px;
+  text-align: center;
+  color: white !important; 
+  border: none;
+  border-bottom: 1px solid #536c7e;
+}
+
+.token-label {
+    text-align: center;
+  }
