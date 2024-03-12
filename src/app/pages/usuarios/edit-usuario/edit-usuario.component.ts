@@ -65,6 +65,19 @@ export class EditUsuarioComponent implements OnInit {
   }
 
   onSubmit(): void {
-    // Aquí puedes implementar la lógica para enviar los datos del formulario a la API para editar el usuario
+    if (this.usuarioForm.valid) {
+      const userId = this.usuario.id;
+      const endpoint = `http://127.0.0.1:8000/api/users/${userId}/update`;
+      this.http.put(endpoint, this.usuarioForm.value).subscribe(
+        (response: any) => {
+          console.log('Usuario actualizado:', response);
+          // Redirige a la página de detalles del usuario o a cualquier otra página
+        },
+        error => {
+          console.error('Error al actualizar usuario:', error);
+          // Maneja el error adecuadamente, por ejemplo, muestra un mensaje al usuario
+        }
+      );
+    }
   }
 }
