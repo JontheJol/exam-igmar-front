@@ -15,8 +15,8 @@ export const routes: Routes = [
     {path: 'ingreso', component: LoginComponent},
     {path: 'dashboard', component: DashboardComponent}, // TODO: no se que otra validacion necesitemos para acceder al dashboard
     {path: 'dashboard/usuarios', component: UsuariosComponent},
-    { path: 'dashboard/usuarios/edit/:id', component: EditUsuarioComponent },
+    {path: 'dashboard/usuarios/edit/:id', component: EditUsuarioComponent },
     {path: 'dashboard/productos/productos', component: ProductosComponent},
-    { path: '', redirectTo: '/ingreso', pathMatch: 'full' },
-    { path: '**', component: PageNotFoundComponent },
+    {path: '', redirectTo: '/ingreso', pathMatch: 'full' },
+    {path: '**', component: PageNotFoundComponent },
     ];

@@ -34,24 +34,29 @@ export class UsuariosComponent {
   ngOnInit(): void {
     this.obtenerUsuarios();
   }
-
+  
   configurarBotonesAccion() {
-    this.botonesAccion = []; // Limpiar el array antes de agregar nuevos botones
+    // Limpiar el array antes de agregar nuevos botones
+    this.botonesAccion = [];
+  
+    // Agregar botones de Editar y Eliminar una vez
+    const editarButton = {
+      nombre: 'Editar',
+      accion: (usuario: any) => this.editarUsuario(usuario),
+      routerLink: (usuario: any) => ['/dashboard/usuarios/edit', usuario.id]
+    };
+  
+    const eliminarButton = {
+      nombre: 'Eliminar',
+      accion: (usuario: any) => this.eliminarUsuario(usuario),
+      clase: 'btn-eliminar'
+    };
+  
+    this.botonesAccion.push(editarButton, eliminarButton);
+  
+    // Asignar botones a cada usuario
     this.usuarios.forEach(usuario => {
-      this.botonesAccion.push(
-        {
-          nombre: 'Editar',
-          accion: () => this.editarUsuario(usuario),
-          routerLink: ['/dashboard/usuarios/edit', usuario.id]
-        }
-      );
-      (
-        {
-          nombre: 'Eliminar',
-          accion: () => this.eliminarUsuario(usuario),
-          clase: 'btn-eliminar'
-        }
-      );
+      usuario.botonesAccion = this.botonesAccion;
     });
   }
 
@@ -72,5 +77,6 @@ export class UsuariosComponent {
 
   editarUsuario(usuario: any) {
     console.log('Editar usuario:', usuario);
+    this.router.navigate(['dashboard/usuarios/edit', usuario.id]);
   }
 }

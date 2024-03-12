@@ -10,8 +10,12 @@
           <tr *ngFor="let item of datos">
             <td *ngFor="let campo of campos">{{ item[campo] }}</td>
             <td>
-              <button *ngFor="let boton of botonesAccion" (click)="boton.accion(item)" [ngClass]="boton.clase" [routerLink]="boton.routerLink" [routerLinkActive]="'active'">
-                {{ boton.nombre }}
+              <button *ngFor="let boton of botonesAccion"
+              (click)="boton.accion(item)"
+              [ngClass]="boton.clase"
+              [routerLink]="boton.routerLink"
+              [routerLinkActive]="'active'">
+              {{ boton.nombre }}
               </button>
             </td>
           </tr>
