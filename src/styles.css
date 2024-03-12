@@ -6,38 +6,3 @@ body{
     color: white;
 }
 
-.form-container{
-    border: 1px solid #536c7e;
-    padding: 20px;
-    border-radius: 20px;
-}
-
-.form-control{
-    color: white;
-}
-
-option{
-    background-color: #30455b;
-}
-
-::placeholder {
-    color: #536c7e;
-}
-
-i{
-    color: #536c7e;
-}
-
-.form-group{
-    border-radius: none !important;
-    border-bottom: 1px solid #536c7e;
-    margin-bottom: 25px;
-}
-
-input{
-    color: white !important; 
-    border: none;
-}
-
-
-

@@ -3,27 +3,24 @@ import { NavbarDashComponent } from '../../../navbar-dash/navbar-dash.component'
 import { DynamicTableComponent } from '../../../dynamic-table/dynamic-table.component';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-usuarios',
   standalone: true,
-  imports: [NavbarDashComponent, DynamicTableComponent, CommonModule, RouterModule],
+  imports: [NavbarDashComponent, DynamicTableComponent, CommonModule],
   templateUrl: './usuarios.component.html',
-  styleUrls: ['./usuarios.component.css']
+  styleUrl: './usuarios.component.css'
 })
-export class UsuariosComponent {
-  constructor(private http: HttpClient, private router: Router) {}
+export class UsuariosComponent  {
+  constructor(private http: HttpClient) {}
   usuarios: any[] = [];
   notificacion: string = '';
-  botonesAccion: any[] = []; // Define botonesAccion como un array vacío
 
   obtenerUsuarios() {
-    const endpoint = 'http://127.0.0.1:8000/api/users';
-    this.http.get<any[]>(endpoint).subscribe(
-      (data: any[]) => {
-        this.usuarios = data;
-        this.configurarBotonesAccion(); // Llama a la función para configurar los botones de acción
+    const endpoint = 'http://127.0.0.1:8000/api/users'; // Reemplaza 'tu/endpoint/aqui' con tu URL real
+    this.http.get<Int16Array[]>(endpoint).subscribe(
+      (data: Int16Array[]) => {
+        this.usuarios = data; // Asigna los datos de la respuesta de la API al arreglo de usuarios
       },
       error => {
         console.error('Error al obtener usuarios:', error);
@@ -35,28 +32,15 @@ export class UsuariosComponent {
     this.obtenerUsuarios();
   }
 
-  configurarBotonesAccion() {
-    this.botonesAccion = []; // Limpiar el array antes de agregar nuevos botones
-    this.usuarios.forEach(usuario => {
-      this.botonesAccion.push(
-        {
-          nombre: 'Editar',
-          accion: () => this.editarUsuario(usuario),
-          routerLink: ['/dashboard/usuarios/edit', usuario.id]
-        }
-      );
-      (
-        {
-          nombre: 'Eliminar',
-          accion: () => this.eliminarUsuario(usuario),
-          clase: 'btn-eliminar'
-        }
-      );
-    });
-  }
+  botonesAccion = [
+    { nombre: 'Editar', accion: this.editarUsuario },
+    { nombre: 'Eliminar', accion: (usuario: any) => this.eliminarUsuario(usuario), clase: 'btn-eliminar' }
+    // Puedes agregar más botones de acción según tus necesidades
+  ];
 
   eliminarUsuario(usuario: any) {
     const endpoint = `http://127.0.0.1:8000/api/users/${usuario.id}/deactivate`;
+  
     this.http.put(endpoint, {}).subscribe(
       () => {
         console.log('Usuario desactivado correctamente');
@@ -72,5 +56,6 @@ export class UsuariosComponent {
 
   editarUsuario(usuario: any) {
     console.log('Editar usuario:', usuario);
+    // Agrega aquí la lógica para editar el usuario
   }
 }

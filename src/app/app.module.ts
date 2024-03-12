@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
 import { HttpClientModule } from '@angular/common/http';
-import { Router } from '@angular/router';
 
 @NgModule({
   declarations: [],
@@ -17,8 +16,6 @@ import { Router } from '@angular/router';
   providers: [],
   bootstrap: [] 
 })
-export class AppModule {
-  constructor(private router: Router){}
-}
+export class AppModule { }
 
 

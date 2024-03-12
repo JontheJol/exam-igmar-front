@@ -28,7 +28,7 @@
         </div>
         <!--TODO: Agregar Ruta para envio de registro-->
         <div class="text-center">
-            <button class="btn" type="submt" [disabled]="isLoading" >Enviar</button>
+            <button class="btn" type="submt">Enviar</button>
         </div>
     </form>
 
@@ -38,13 +38,11 @@
             <div *ngIf="userForm.get('name')?.invalid && (userForm.get('name')?.dirty || userForm.get('name')?.touched)" class="alert alert-danger">
                 <div *ngIf="userForm.get('name')?.errors?.['required'] as required">El nombre es requerido.</div>
                 <div *ngIf="userForm.get('name')?.errors?.['minlength'] as minlength">El nombre debe tener al menos 4 caracteres.</div>
-                <div *ngIf="userForm.get('name')?.errors?.['maxlength'] as maxlength">El nombre debe tener al maximo 20 .</div>
             </div>
             <div *ngIf="userForm.get('phone')?.invalid && (userForm.get('phone')?.dirty || userForm.get('phone')?.touched)" class="alert alert-danger">
                 <div *ngIf="userForm.get('phone')?.errors?.['required']">El teléfono es requerido.</div>
-                <div *ngIf="userForm.get('phone')?.errors?.['pattern']">El telefono debe ser numerico.</div>
-                <div *ngIf="userForm.get('phone')?.errors?.['minlength']">El teléfono debe tener exactamente 10 dígitos.</div>
-                <div *ngIf="userForm.get('phone')?.errors?.['maxlength']">El teléfono debe tener exactamente 10 dígitos.</div>
+                <div *ngIf="userForm.get('phone')?.errors?.['numeric']">El telefono debe ser numerico.</div>
+                <div *ngIf="userForm.get('phone')?.errors?.['digits']">El teléfono debe tener exactamente 10 dígitos.</div>
             </div>
             <div *ngIf="userForm.get('email')?.invalid && (userForm.get('email')?.dirty || userForm.get('email')?.touched)" class="alert alert-danger">
                 <div *ngIf="userForm.get('email')?.errors?.['required']">El correo electrónico es requerido.</div>
@@ -55,14 +53,13 @@
                 <div *ngIf="userForm.get('password')?.errors?.['required']">La contraseña es requerida.</div>
                 <div *ngIf="userForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 8 caracteres.</div>
             </div>
-    <div *ngIf="userForm.get('password_confirmation')?.invalid && (userForm.get('password_confirmation')?.dirty || userForm.get('password_confirmation')?.touched)" class="alert alert-danger">
-            <div *ngIf="userForm.get('password_confirmation')?.errors?.['required']">La confirmación de contraseña es requerida.</div>
-    </div>  
-        <div *ngIf="userForm.hasError('passwordMismatch') && (userForm.get('password_confirmation')?.dirty || userForm.get('password_confirmation')?.touched)" class="alert alert-danger">
-            Las contraseñas no coinciden.
-        </div>
+
+            <div *ngIf="userForm.get('password_confirmation')?.invalid && (userForm.get('password_confirmation')?.dirty || userForm.get('password_confirmation')?.touched)" class="alert alert-danger">
+                <div *ngIf="userForm.get('password_confirmation')?.errors?.['required']">La confirmación de contraseña es requerida.</div>
+                <div *ngIf="userForm.get('password_confirmation')?.errors?.['confirmed']; else nomatch">Las contraseñas no coinciden.</div>
+                <ng-template #nomatch>Passwords don't match</ng-template>
+            </div>
 
             <div *ngIf="serverError" class="alert alert-danger" [innerHTML]="serverError"></div>
-            <div *ngIf="serverSuccess" class="alert alert-success" [innerHTML]="serverSuccess"></div>
         </div>
 </div>
