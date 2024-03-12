@@ -3,12 +3,13 @@ import { NavbarDashComponent } from '../../../navbar-dash/navbar-dash.component'
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-edit-usuario',
   standalone: true,
-  imports: [NavbarDashComponent,  ReactiveFormsModule],
+  imports: [NavbarDashComponent,  ReactiveFormsModule, CommonModule],
   templateUrl: './edit-usuario.component.html',
   styleUrl: './edit-usuario.component.css'
 })
@@ -33,6 +34,11 @@ export class EditUsuarioComponent implements OnInit {
       const userId = params['id'];
       this.obtenerUsuario(userId);
     });
+    this.usuarioForm = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
+      phone: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]],
+      rol: ['', Validators.required]
+  });
   }
 
   obtenerUsuario(userId: number): void {
