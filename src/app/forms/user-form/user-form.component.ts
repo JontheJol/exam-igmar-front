@@ -6,6 +6,8 @@ import { ButtonComponent } from '../../buttons/button/button.component';
 import { LoginService } from '../../login.service';
 import { HttpClient } from '@angular/common/http';
 import { Validator } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
+
 
 @Component({
   selector: 'app-user-form',
@@ -13,6 +15,7 @@ import { Validator } from '@angular/forms';
   imports: [ReactiveFormsModule, CommonModule, RouterOutlet, RouterLink, RouterLinkActive, RouterModule, ButtonComponent],
   templateUrl: './user-form.component.html',
   styleUrl: './user-form.component.css'
+  
 })
 
 export class UserFormComponent implements OnInit {
@@ -23,8 +26,8 @@ export class UserFormComponent implements OnInit {
   isLoading: boolean = false;
 
 
-  constructor(private formBuilder: FormBuilder, private loginService: LoginService, private http: HttpClient) { }
-
+  constructor(private formBuilder: FormBuilder, private loginService: LoginService, private http: HttpClient, private cookieService: CookieService ) { }
+//el constructor es 
   ngOnInit(): void {
     this.initializeForm();
     this.loginService.isRegistering$.subscribe((value) => {
@@ -75,90 +78,58 @@ export class UserFormComponent implements OnInit {
 if (this.userForm.enabled){
     if (this.userForm.valid) {
     // if (true) {
+
       this.serverError = '';
       this.serverSuccess = '';
-      // this.userForm.disable();
-      this.isLoading = true;
-      // console.log(this.userForm.value);
-      // Enviar la solicitud al servidor utilizando HttpClient
-      this.http.post(this.endpoint, this.userForm.value)
+      this.userForm.disable();
+      this.isLoading = true; 
+      
+      // this.http.post(this.endpoint, this.userForm.value)
+      this.http.post(this.endpoint, this.userForm.value, { observe: 'response' })
       .subscribe((response: any) => 
       {
-        console.log('Respuesta del servidor:', response);
-
-        //quiero que el mensaje que traiga el servidor se muestre en el html
-        if (response && Object.keys(response).length > 0) {
-          this.serverSuccess = '';
-          Object.keys(response).forEach((key: string) => {
-            console.log("aqui0")
-
-            const errorMessages = response[key];
-            if (Array.isArray(errorMessages)) {
-              console.log("aqui1")
-              errorMessages.forEach((errorMessage: string) => {
-                this.serverSuccess += `${key}: ${errorMessage}<br>`;
-              });
-            } else if (typeof errorMessages === 'string') {
-              this.serverSuccess += `${key}: ${errorMessages}<br>`;
-            }
-          });
-          this.userForm.reset();
-          // this.userForm.enable(); 
-        } else {
-          console.log("aqui3")
-
-          this.serverSuccess = '';
-        }
-
-      this.userForm.enable();
-      this.isLoading = false;
-
-      }, (error) => {
-        console.error('Error al enviar la solicitud:', error);
-        // Si ocurre un error en la solicitud HTTP, mostramos un mensaje genérico de error
-        // this.serverError = 'Error al enviar la solicitud al servidor';
-        console.log("aquiiii")
-
-        console.log(error)
-        console.log(error.error)
-        console.log(error.error.data.original)
-          this.serverError = '';  
-        Object.keys(error.error.data.original).forEach((key: string) => {
-          const errorMessages = error.error.data.original[key];
-          if (Array.isArray(errorMessages)) {
-            errorMessages.forEach((errorMessage: string) => {
-              this.serverError += ` ${errorMessage} <hr>`;
-              console.log(` ${errorMessage}`);
-              console.log("aqui")
-            });
-          } else if (typeof errorMessages === 'string') {
-            // Si errorMessages es una cadena, la añadimos directamente a this.serverError
-            this.serverError += `${key}: ${errorMessages}<br>`;
-            console.log("aqui2")
-
+        // console.log('Respuesta del servidor:', response);
+        console.log(response.status);
+        console.log(response.body);
+        console.log(response.body.mensaje);
+        if (response.status === 200) { // Si el servidor responde con un status 200, osea que llego pero es un error 
+          if (!response.body.mensaje.original) {
+            this.serverError += response.body.mensaje;
           }
-        });
-        
-
-        if (error && error.error && error.error.message) {
-          this.serverError = error.error.message;
-        } else {
-          // Si no hay un mensaje de error personalizado, mostramos un mensaje genérico de error
-          // this.serverError = 'Error al enviar la solicitud al servidor';
+          for (const key in response.body.mensaje.original) {
+            if (Array.isArray(response.body.mensaje.original[key])) {
+              this.serverError += ` ${response.body.mensaje.original[key]} <hr>`;
+            }
+          }
+        }
+        else if (response.status === 202)  
+        {
+          if (!Array.isArray(response.body.data.mensaje)) {
+            this.serverSuccess += response.body.mensaje;
+          }
+          for (const key in response.body.data.mensaje) {
+            if (Array.isArray(response.body.data.mensaje[key])) {
+              this.serverSuccess += ` ${response.body.data.original[key]} <hr>`;
+            }
+          }
         }
 
-      this.userForm.enable();
-      this.isLoading = false;
+      }, (error) => { 
+        this.serverError = 'Error al enviar la solicitud, intente mas tarde';
+        this.userForm.enable();
+        this.isLoading = false;
+
+  console.error('Error al enviar la solicitud:', error);
+      },
+      () => {
+        // Este código se ejecutará cuando el Observable se complete (es decir, después de que la solicitud HTTP tenga éxito o falle)
+        console.log('La solicitud ha terminado');
+
       });
-
     } else {
-      console.log("Errores:")
-      console.log(this.userForm.controls)
-      console.log(this.userForm.value);
-
-      
-      console.log("No enviado")
+        this.serverError = 'Por favor, complete el formulario correctamente';
     }
+
   }
   }
 }
