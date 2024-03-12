@@ -36,18 +36,23 @@ export class UsuariosComponent {
   }
 
   configurarBotonesAccion() {
-    this.botonesAccion = this.usuarios.map(usuario => ([
-      {
-        nombre: 'Editar',
-        accion: () => this.editarUsuario(usuario),
-        routerLink: ['/dashboard/usuarios/edit', usuario.id]
-      },
-      {
-        nombre: 'Eliminar',
-        accion: () => this.eliminarUsuario(usuario),
-        clase: 'btn-eliminar'
-      }
-    ])).flat();
+    this.botonesAccion = []; // Limpiar el array antes de agregar nuevos botones
+    this.usuarios.forEach(usuario => {
+      this.botonesAccion.push(
+        {
+          nombre: 'Editar',
+          accion: () => this.editarUsuario(usuario),
+          routerLink: ['/dashboard/usuarios/edit', usuario.id]
+        }
+      );
+      (
+        {
+          nombre: 'Eliminar',
+          accion: () => this.eliminarUsuario(usuario),
+          clase: 'btn-eliminar'
+        }
+      );
+    });
   }
 
   eliminarUsuario(usuario: any) {
