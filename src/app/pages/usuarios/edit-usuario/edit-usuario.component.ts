@@ -68,7 +68,13 @@ export class EditUsuarioComponent implements OnInit {
     if (this.usuarioForm.valid) {
       const userId = this.usuario.id;
       const endpoint = `http://127.0.0.1:8000/api/users/${userId}/update`;
-      this.http.put(endpoint, this.usuarioForm.value).subscribe(
+      const userData = {
+        name: this.usuarioForm.value.name,
+        phone: this.usuarioForm.value.phone,
+        rol: this.usuarioForm.value.rol
+      };
+      console.log(userData);
+      this.http.put(endpoint, userData).subscribe(
         (response: any) => {
           console.log('Usuario actualizado:', response);
           // Redirige a la página de detalles del usuario o a cualquier otra página
