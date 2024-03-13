@@ -64,22 +64,20 @@ export class EditCategoriaComponent implements OnInit {
 
   onSubmit(): void {
     if (this.categoriaForm.valid) {
-      const userId = this.categoria.id;
-      const endpoint = `http://127.0.0.1:8000/api/users/${userId}/update`;
+      const categoryId = this.categoria.id;
+      const endpoint = `http://127.0.0.1:8000/api/categories/${categoryId}/update`;
       const userData = {
         name: this.categoriaForm.value.name,
-        phone: this.categoriaForm.value.phone,
-        rol: this.categoriaForm.value.rol
       };
       console.log(userData);
       this.http.put(endpoint, userData).subscribe(
         (response: any) => {
-          console.log('Usuario actualizado:', response);
-          this.mensaje = 'Usuario actualizado correctamente.';
+          console.log('Categoria actualizada:', response);
+          this.mensaje = 'Categoria actualizada correctamente.';
         },
         error => {
-          console.error('Error al actualizar usuario:', error);
-          this.mensaje = 'Error al actualizar usuario. Por favor, inténtalo de nuevo.';
+          console.error('Error al actualizar categoria:', error);
+          this.mensaje = 'Error al actualizar categoria. Por favor, inténtalo de nuevo.';
         }
       );
     }
