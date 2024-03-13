@@ -1,9 +1,9 @@
 <h2 class="text-center mt-3 mb-3">Verificación de Token</h2>
 <div class="form-container">
-    <form (ngSubmit)="onSubmit()">
+    <form (ngSubmit)="onSubmit()" [formGroup]="userForm">
         <div class="form-group">
-            <div class="token-label">Token de verificación:</div>            <div class="token-inputs">
-                <input type="text" id="token1" name="token1" maxlength="1" required>
+            <div class="token-label">Ingrese token de verificación (6 digitos) enviado al correo:</div>            <div class="token-inputs">
+                <input type="text" id="token1" name="token1" maxlength="1" required >
                 <input type="text" id="token2" name="token2" maxlength="1" required>
                 <input type="text" id="token3" name="token3" maxlength="1" required>
                 <input type="text" id="token4" name="token4" maxlength="1" required>
@@ -11,6 +11,6 @@
                 <input type="text" id="token6" name="token6" maxlength="1" required>
             </div>
         </div>
-        <button type="submit" class="btn">Verificar</button>
+        <button  class="btn">Verificar</button>
     </form>
 </div>

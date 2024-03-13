@@ -25,6 +25,10 @@
                 <i class="fa fa-lock" aria-hidden="true"></i>
                 <input type="password" class="form-control bg-transparent text-white" id="password_confirmation" formControlName="password_confirmation" placeholder="Confrimar Contraseña">
             </div>
+            <div *ngIf="userForm.get('code')" class="form-group d-flex align-items-center">
+                <i class="fa fa-lock" aria-hidden="true"></i>
+                <input type="password" class="form-control bg-transparent text-white" id="code" formControlName="code" placeholder="Ingresar codigo de verificacion"  (focus)="clearMessages()">
+            </div>
         </div>
         <!--TODO: Agregar Ruta para envio de registro-->
         <div class="text-center">
@@ -61,8 +65,15 @@
         <div *ngIf="userForm.hasError('passwordMismatch') && (userForm.get('password_confirmation')?.dirty || userForm.get('password_confirmation')?.touched)" class="alert alert-danger">
             Las contraseñas no coinciden.
         </div>
-
+        
             <div *ngIf="serverError" class="alert alert-danger" [innerHTML]="serverError"></div>
             <div *ngIf="serverSuccess" class="alert alert-success" [innerHTML]="serverSuccess"></div>
+        </div>
+
+        <div *ngIf="userForm.get('code')?.invalid && (userForm.get('code')?.dirty || userForm.get('code')?.touched)" class="alert alert-danger">
+            <div *ngIf="userForm.get('code')?.errors?.['required']">El codigo de validación es requerido.</div>
+            <div *ngIf="userForm.get('code')?.errors?.['pattern']">El codigo de validación debe ser numerico.</div>
+            <div *ngIf="userForm.get('code')?.errors?.['minlength']">El codigo de validación debe tener exactamente 10 dígitos.</div>
+            <div *ngIf="userForm.get('code')?.errors?.['maxlength']">El codigo de validación debe tener exactamente 10 dígitos.</div>
         </div>
 </div>
