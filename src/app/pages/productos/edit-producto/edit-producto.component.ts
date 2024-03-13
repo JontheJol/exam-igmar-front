@@ -39,6 +39,8 @@ export class EditProductoComponent {
     });
     this.productoForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
+      description: ['',[Validators.required,Validators.minLength(20)]],
+      price: ['',[Validators.required]],
   });
   }
 
