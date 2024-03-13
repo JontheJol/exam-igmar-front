@@ -76,9 +76,9 @@ export class PlataformasComponent {
     );
   }
 
-  editarPlataforma(categoria: any) {
-    console.log('Editar categoria:', categoria);
-    this.router.navigate(['dashboard/categorias/edit', categoria.id]);
+  editarPlataforma(plataforma: any) {
+    console.log('Editar categoria:', plataforma);
+    this.router.navigate(['dashboard/plataformas/edit', plataforma.id]);
   }
 
   agregarPlataforma(){
