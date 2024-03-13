@@ -16,5 +16,5 @@ export class DynamicTableComponent {
   constructor(private router: Router){}
   @Input() campos: string[] = [];
   @Input() datos: any[] = [];
-  @Input() botonesAccion: { nombre: string, accion: Function, routerLink?: any[], clase?: string }[] = [];
+  @Input() botonesAccion: { nombre: string, accion: Function, routerLink?: string, clase?: string }[] = [];
 }

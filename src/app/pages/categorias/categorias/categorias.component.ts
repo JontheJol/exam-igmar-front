@@ -1,28 +1,28 @@
 import { Component } from '@angular/core';
 import { NavbarDashComponent } from '../../../navbar-dash/navbar-dash.component';
 import { DynamicTableComponent } from '../../../dynamic-table/dynamic-table.component';
-import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-usuarios',
+  selector: 'app-categorias',
   standalone: true,
-  imports: [NavbarDashComponent, DynamicTableComponent, CommonModule, RouterModule],
-  templateUrl: './usuarios.component.html',
-  styleUrls: ['./usuarios.component.css']
+  imports: [NavbarDashComponent, CommonModule, RouterModule, DynamicTableComponent],
+  templateUrl: './categorias.component.html',
+  styleUrl: './categorias.component.css'
 })
-export class UsuariosComponent {
+export class CategoriasComponent {
   constructor(private http: HttpClient, private router: Router) {}
-  usuarios: any[] = [];
+  categories: any[] = [];
   notificacion: string = '';
   botonesAccion: any[] = []; // Define botonesAccion como un array vacío
 
-  obtenerUsuarios() {
-    const endpoint = 'http://127.0.0.1:8000/api/users';
+  obtenerCategorias() {
+    const endpoint = 'http://127.0.0.1:8000/api/categories';
     this.http.get<any[]>(endpoint).subscribe(
       (data: any[]) => {
-        this.usuarios = data;
+        this.categories = data;
         this.configurarBotonesAccion(); // Llama a la función para configurar los botones de acción
       },
       error => {
@@ -32,7 +32,7 @@ export class UsuariosComponent {
   }
 
   ngOnInit(): void {
-    this.obtenerUsuarios();
+    this.obtenerCategorias();
   }
   
   configurarBotonesAccion() {
@@ -42,41 +42,40 @@ export class UsuariosComponent {
     // Agregar botones de Editar y Eliminar una vez
     const editarButton = {
       nombre: 'Editar',
-      accion: (usuario: any) => this.editarUsuario(usuario),
-      routerLink: (usuario: any) => ['/dashboard/usuarios/edit', usuario.id]
+      accion: (categorie: any) => this.editarCategoria(categorie),
     };
   
     const eliminarButton = {
       nombre: 'Eliminar',
-      accion: (usuario: any) => this.eliminarUsuario(usuario),
+      accion: (categorie: any) => this.eliminarCategoria(categorie),
       clase: 'btn-eliminar'
     };
   
     this.botonesAccion.push(editarButton, eliminarButton);
   
     // Asignar botones a cada usuario
-    this.usuarios.forEach(usuario => {
-      usuario.botonesAccion = this.botonesAccion;
+    this.categories.forEach(categorie => {
+      categorie.botonesAccion = this.botonesAccion;
     });
   }
 
-  eliminarUsuario(usuario: any) {
-    const endpoint = `http://127.0.0.1:8000/api/users/${usuario.id}/deactivate`;
+  eliminarCategoria(categorie: any) {
+    const endpoint = `http://127.0.0.1:8000/api/categories/${categorie.id}/deactivate`;
     this.http.put(endpoint, {}).subscribe(
       () => {
-        console.log('Usuario desactivado correctamente');
-        this.notificacion = 'Usuario desactivado correctamente';
-        this.obtenerUsuarios();
+        //console.log('Usuario desactivado correctamente');
+        this.notificacion = 'Categoria desactivada correctamente';
+        this.obtenerCategorias();
       },
       error => {
-        console.error('Error al desactivar usuario:', error);
-        this.notificacion = 'Error al desactivar usuario';
+        console.error('Error al desactivar la categoria:', error);
+        this.notificacion = 'Error al desactivar la categoria';
       }
     );
   }
 
-  editarUsuario(usuario: any) {
-    console.log('Editar usuario:', usuario);
-    this.router.navigate(['dashboard/usuarios/edit', usuario.id]);
+  editarCategoria(categoria: any) {
+    console.log('Editar categoria:', categoria);
+    this.router.navigate(['dashboard/categorias/edit', categoria.id]);
   }
 }

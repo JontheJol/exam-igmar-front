@@ -1,26 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { NavbarDashComponent } from '../../../navbar-dash/navbar-dash.component';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-
 
 @Component({
   selector: 'app-edit-usuario',
   standalone: true,
-  imports: [NavbarDashComponent,  ReactiveFormsModule, CommonModule],
+  imports: [NavbarDashComponent,  ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './edit-usuario.component.html',
   styleUrl: './edit-usuario.component.css'
 })
 export class EditUsuarioComponent implements OnInit {
   usuarioForm: FormGroup;
   usuario: any;
+  mensaje: string | null = null; // Inicialmente no hay mensaje
 
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {
     this.usuarioForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -50,6 +51,7 @@ export class EditUsuarioComponent implements OnInit {
       },
       error => {
         console.error('Error al obtener usuario:', error);
+        this.router.navigate(['dashboard/usuarios/']);
       }
     );
   }
@@ -77,11 +79,11 @@ export class EditUsuarioComponent implements OnInit {
       this.http.put(endpoint, userData).subscribe(
         (response: any) => {
           console.log('Usuario actualizado:', response);
-          // Redirige a la página de detalles del usuario o a cualquier otra página
+          this.mensaje = 'Usuario actualizado correctamente.';
         },
         error => {
           console.error('Error al actualizar usuario:', error);
-          // Maneja el error adecuadamente, por ejemplo, muestra un mensaje al usuario
+          this.mensaje = 'Error al actualizar usuario. Por favor, inténtalo de nuevo.';
         }
       );
     }
