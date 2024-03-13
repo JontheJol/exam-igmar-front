@@ -18,6 +18,7 @@ import { ComentariosComponent } from './pages/commentarios/comentarios/comentari
 
 import { PlataformasComponent } from './pages/plataformas/plataformas/plataformas.component';
 import { EditPlataformaComponent } from './pages/plataformas/edit-plataforma/edit-plataforma.component';
+import { AddPlataformaComponent } from './pages/plataformas/add-plataforma/add-plataforma.component';
 
 
 
@@ -38,6 +39,7 @@ export const routes: Routes = [
     // Plataformas
     {path: 'dashboard/plataformas/plataformas', component: PlataformasComponent},
     {path: 'dashboard/plataformas/edit/:id', component: EditPlataformaComponent},
+    {path: 'dashboard/plataformas/create', component: AddPlataformaComponent},
 
     {path: '', redirectTo: '/ingreso', pathMatch: 'full' },
     {path: '**', component: PageNotFoundComponent },
