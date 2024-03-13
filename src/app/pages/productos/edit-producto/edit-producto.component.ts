@@ -1,20 +1,22 @@
 import { Component } from '@angular/core';
-import { NavbarDashComponent } from '../../../navbar-dash/navbar-dash.component';
-import { HttpClient } from '@angular/common/http';
+import { DynamicTableComponent } from '../../../dynamic-table/dynamic-table.component';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NavbarDashComponent } from '../../../navbar-dash/navbar-dash.component';
+import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { Route } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-edit-categoria',
+  selector: 'app-edit-producto',
   standalone: true,
-  imports: [NavbarDashComponent, CommonModule, ReactiveFormsModule],
+  imports: [DynamicTableComponent, CommonModule, ReactiveFormsModule, NavbarDashComponent, RouterModule],
   templateUrl: './edit-producto.component.html',
   styleUrl: './edit-producto.component.css'
 })
-export class EditProductoComponent implements OnInit {
+export class EditProductoComponent {
   productoForm: FormGroup;
   producto: any;
   mensaje: string | null = null; // Inicialmente no hay mensaje
@@ -40,15 +42,15 @@ export class EditProductoComponent implements OnInit {
   });
   }
 
-  obtenerProducto(productoId: number): void {
-    const endpoint = `http://127.0.0.1:8000/api/products/${productoId}`;
+  obtenerProducto(productId: number): void {
+    const endpoint = `http://127.0.0.1:8000/api/products/${productId}`;
     this.http.get<any>(endpoint).subscribe(
       (data: any) => {
         this.producto = data;
         this.initializeForm();
       },
       error => {
-        console.error('Error al obtener la categoria:', error);
+        console.error('Error al obtener la plataforma:', error);
         this.router.navigate(['dashboard/productos/']);
       }
     );
@@ -58,28 +60,26 @@ export class EditProductoComponent implements OnInit {
     if (this.producto) {
       this.productoForm.patchValue({
         name: this.producto.name,
-        description: this.producto.description,
-        price: this.producto.price,
       });
     }
   }
 
   onSubmit(): void {
     if (this.productoForm.valid) {
-      const productoId = this.producto.id;
-      const endpoint = `http://127.0.0.1:8000/api/products/${productoId}/update`;
+      const productId = this.producto.id;
+      const endpoint = `http://127.0.0.1:8000/api/products/${productId}/update`;
       const userData = {
         name: this.productoForm.value.name,
       };
       console.log(userData);
       this.http.put(endpoint, userData).subscribe(
         (response: any) => {
-          console.log('Producto actualizado:', response);
-          this.mensaje = 'Producto actualizado correctamente.';
+          console.log('Producto actualizada:', response);
+          this.mensaje = 'Producto actualizada correctamente.';
         },
         error => {
-          console.error('Error al actualizar producto:', error);
-          this.mensaje = 'Error al actualizar producto. Por favor, inténtalo de nuevo.';
+          console.error('Error al actualizar Producto:', error);
+          this.mensaje = 'Error al actualizar Producto. Por favor, inténtalo de nuevo.';
         }
       );
     }
