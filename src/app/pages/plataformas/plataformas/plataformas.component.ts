@@ -16,15 +16,15 @@ import { Router } from '@angular/router';
 export class PlataformasComponent {
 
   constructor(private http: HttpClient, private router: Router) {}
-  categories: any[] = [];
+  platforms: any[] = [];
   notificacion: string = '';
   botonesAccion: any[] = []; // Define botonesAccion como un array vacío
 
-  obtenerCategorias() {
-    const endpoint = 'http://127.0.0.1:8000/api/categories';
+  obtenerPlataformas() {
+    const endpoint = 'http://127.0.0.1:8000/api/platforms';
     this.http.get<any[]>(endpoint).subscribe(
       (data: any[]) => {
-        this.categories = data;
+        this.platforms = data;
         this.configurarBotonesAccion(); // Llama a la función para configurar los botones de acción
       },
       error => {
@@ -34,7 +34,7 @@ export class PlataformasComponent {
   }
 
   ngOnInit(): void {
-    this.obtenerCategorias();
+    this.obtenerPlataformas();
   }
   
   configurarBotonesAccion() {
@@ -44,44 +44,44 @@ export class PlataformasComponent {
     // Agregar botones de Editar y Eliminar una vez
     const editarButton = {
       nombre: 'Editar',
-      accion: (categorie: any) => this.editarCategoria(categorie),
+      accion: (platform: any) => this.editarPlataforma(platform),
     };
   
     const eliminarButton = {
       nombre: 'Eliminar',
-      accion: (categorie: any) => this.eliminarCategoria(categorie),
+      accion: (platform: any) => this.eliminarPlataforma(platform),
       clase: 'btn-eliminar'
     };
   
     this.botonesAccion.push(editarButton, eliminarButton);
   
     // Asignar botones a cada usuario
-    this.categories.forEach(categorie => {
-      categorie.botonesAccion = this.botonesAccion;
+    this.platforms.forEach(platform => {
+      platform.botonesAccion = this.botonesAccion;
     });
   }
 
-  eliminarCategoria(categorie: any) {
-    const endpoint = `http://127.0.0.1:8000/api/categories/${categorie.id}/deactivate`;
+  eliminarPlataforma(platform: any) {
+    const endpoint = `http://127.0.0.1:8000/api/platforms/${platform.id}/deactivate`;
     this.http.put(endpoint, {}).subscribe(
       () => {
         //console.log('Usuario desactivado correctamente');
-        this.notificacion = 'Categoria desactivada correctamente';
-        this.obtenerCategorias();
+        this.notificacion = 'Plataforma desactivada correctamente';
+        this.obtenerPlataformas();
       },
       error => {
-        console.error('Error al desactivar la categoria:', error);
+        console.error('Error al desactivar la plataforma:', error);
         this.notificacion = 'Error al desactivar la categoria';
       }
     );
   }
 
-  editarCategoria(categoria: any) {
+  editarPlataforma(categoria: any) {
     console.log('Editar categoria:', categoria);
     this.router.navigate(['dashboard/categorias/edit', categoria.id]);
   }
 
-  agregarCategoria(){
+  agregarPlataforma(){
     this.router.navigate(['dashboard/categorias/create']);
   }
 }
