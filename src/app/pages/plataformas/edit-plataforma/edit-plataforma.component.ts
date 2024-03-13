@@ -74,12 +74,12 @@ export class EditPlataformaComponent {
       console.log(userData);
       this.http.put(endpoint, userData).subscribe(
         (response: any) => {
-          console.log('Categoria actualizada:', response);
-          this.mensaje = 'Categoria actualizada correctamente.';
+          console.log('Plataforma actualizada:', response);
+          this.mensaje = 'Plataforma actualizada correctamente.';
         },
         error => {
-          console.error('Error al actualizar categoria:', error);
-          this.mensaje = 'Error al actualizar categoria. Por favor, inténtalo de nuevo.';
+          console.error('Error al actualizar plataforma:', error);
+          this.mensaje = 'Error al actualizar la plataforma. Por favor, inténtalo de nuevo.';
         }
       );
     }

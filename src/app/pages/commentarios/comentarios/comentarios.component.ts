@@ -20,7 +20,7 @@ export class ComentariosComponent {
   botonesAccion: any[] = []; // Define botonesAccion como un array vacío
 
   obtenerComentarios() {
-    const endpoint = 'http://127.0.0.1:8000/api/categories';
+    const endpoint = 'http://127.0.0.1:8000/api/comments';
     this.http.get<any[]>(endpoint).subscribe(
       (data: any[]) => {
         this.categories = data;
