@@ -101,6 +101,7 @@ if (this.userForm.enabled){
       this.http.post(this.endpoint, this.userForm.value, { observe: 'response' })
       .subscribe((response: any) => 
       {
+        console.log(response);
         if (response.status === 200) { // Si el servidor responde con un status 200, osea que llego pero es un error 
           if (response.body.mensaje.original) {
             for (const key in response.body.mensaje.original) {
@@ -154,6 +155,7 @@ if (this.userForm.enabled){
           
         }
       }, (error) => { 
+        console.log(error.response);
         this.serverError = 'Error al enviar la solicitud, intente mas tarde';
         this.userForm.enable();
         this.isLoading = false;
