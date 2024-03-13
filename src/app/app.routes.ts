@@ -12,6 +12,7 @@ import { ProductosComponent } from './pages/productos/productos/productos.compon
 
 import { CategoriasComponent } from './pages/categorias/categorias/categorias.component';
 import { EditCategoriaComponent } from './pages/categorias/edit-categoria/edit-categoria.component';
+import { AddCategoriaComponent } from './pages/categorias/add-categoria/add-categoria.component';
 
 export const routes: Routes = [
     {path: 'registro', component: SignupComponent},
@@ -24,6 +25,7 @@ export const routes: Routes = [
     // Categorias
     {path: 'dashboard/categorias/categorias', component: CategoriasComponent},
     {path: 'dashboard/categorias/edit/:id', component: EditCategoriaComponent},
+    {path: 'dashboard/categorias/create', component: AddCategoriaComponent},
 
 
     {path: '', redirectTo: '/ingreso', pathMatch: 'full' },

@@ -78,4 +78,8 @@ export class CategoriasComponent {
     console.log('Editar categoria:', categoria);
     this.router.navigate(['dashboard/categorias/edit', categoria.id]);
   }
+
+  agregarCategoria(){
+    this.router.navigate(['dashboard/categorias/create']);
+  }
 }
