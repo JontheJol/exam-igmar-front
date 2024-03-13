@@ -15,6 +15,9 @@ import { EditCategoriaComponent } from './pages/categorias/edit-categoria/edit-c
 import { AddCategoriaComponent } from './pages/categorias/add-categoria/add-categoria.component';
 
 import { ComentariosComponent } from './pages/commentarios/comentarios/comentarios.component';
+import { PlataformasComponent } from './pages/plataformas/plataformas/plataformas.component';
+
+
 
 export const routes: Routes = [
     {path: 'registro', component: SignupComponent},
@@ -30,6 +33,8 @@ export const routes: Routes = [
     {path: 'dashboard/categorias/create', component: AddCategoriaComponent},
     // Comentarios
     {path: 'dashboard/comentarios/comentarios', component: ComentariosComponent},
+    // Plataformas
+    {path: 'dashboard/plataformas/plataformas', component: PlataformasComponent},
 
     {path: '', redirectTo: '/ingreso', pathMatch: 'full' },
     {path: '**', component: PageNotFoundComponent },
