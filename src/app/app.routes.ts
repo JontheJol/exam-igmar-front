@@ -9,6 +9,7 @@ import { UsuariosComponent } from './pages/usuarios/usuarios/usuarios.component'
 import { EditUsuarioComponent } from './pages/usuarios/edit-usuario/edit-usuario.component';
 
 import { ProductosComponent } from './pages/productos/productos/productos.component';
+import { EditProductoComponent } from './pages/productos/edit-producto/edit-producto.component';
 
 import { CategoriasComponent } from './pages/categorias/categorias/categorias.component';
 import { EditCategoriaComponent } from './pages/categorias/edit-categoria/edit-categoria.component';
@@ -22,6 +23,7 @@ export const routes: Routes = [
     {path: 'dashboard/usuarios/edit/:id', component: EditUsuarioComponent },
     // Productos
     {path: 'dashboard/productos/productos', component: ProductosComponent},
+    {path: 'dashboard/productos/edit/:id', component: EditProductoComponent},
     // Categorias
     {path: 'dashboard/categorias/categorias', component: CategoriasComponent},
     {path: 'dashboard/categorias/edit/:id', component: EditCategoriaComponent},
