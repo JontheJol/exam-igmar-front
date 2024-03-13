@@ -8,14 +8,15 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { UsuariosComponent } from './pages/usuarios/usuarios/usuarios.component';
 import { EditUsuarioComponent } from './pages/usuarios/edit-usuario/edit-usuario.component';
 
+
 import { ProductosComponent } from './pages/productos/productos/productos.component';
 import { EditProductoComponent } from './pages/productos/edit-producto/edit-producto.component';
 
+import { AddCategoriaComponent } from './pages/categorias/add-categoria/add-categoria.component';
 import { CategoriasComponent } from './pages/categorias/categorias/categorias.component';
 import { EditCategoriaComponent } from './pages/categorias/edit-categoria/edit-categoria.component';
-import { AddCategoriaComponent } from './pages/categorias/add-categoria/add-categoria.component';
 
-import { ComentariosComponent } from './pages/commentarios/comentarios/comentarios.component';
+import { VerificarCodigoComponent } from './pages/verificar-codigo/verificar-codigo.component';
 
 import { PlataformasComponent } from './pages/plataformas/plataformas/plataformas.component';
 import { EditPlataformaComponent } from './pages/plataformas/edit-plataforma/edit-plataforma.component';
@@ -36,12 +37,11 @@ export const routes: Routes = [
     {path: 'dashboard/categorias/categorias', component: CategoriasComponent},
     {path: 'dashboard/categorias/edit/:id', component: EditCategoriaComponent},
     {path: 'dashboard/categorias/create', component: AddCategoriaComponent},
-    // Comentarios
-    {path: 'dashboard/comentarios/comentarios', component: ComentariosComponent},
     // Plataformas
     {path: 'dashboard/plataformas/plataformas', component: PlataformasComponent},
     {path: 'dashboard/plataformas/edit/:id', component: EditPlataformaComponent},
     {path: 'dashboard/plataformas/create', component: AddPlataformaComponent},
+
 
     {path: '', redirectTo: '/ingreso', pathMatch: 'full' },
     {path: '**', component: PageNotFoundComponent },

@@ -11,7 +11,7 @@ import { RouterOutlet, RouterLink, RouterLinkActive, RouterModule, Router } from
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  rutasConNavbar: string[] = ['', '/ingreso', '/registro']; // Rutas en las que se muestr ala navbar default
+  rutasConNavbar: string[] = ['', '/ingreso', '/registro','/verificar']; // Rutas en las que se muestr ala navbar default
 
   constructor(private router: Router) {}
 

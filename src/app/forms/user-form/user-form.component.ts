@@ -4,8 +4,14 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule ,AbstractContro
 import { RouterOutlet, RouterLink, RouterLinkActive, RouterModule, Router } from '@angular/router';
 import { ButtonComponent } from '../../buttons/button/button.component';
 import { LoginService } from '../../login.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Validator } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
+import { Injectable } from '@angular/core';
+import {  ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { Observable } from 'rxjs';
+
+
 
 @Component({
   selector: 'app-user-form',
@@ -13,6 +19,7 @@ import { Validator } from '@angular/forms';
   imports: [ReactiveFormsModule, CommonModule, RouterOutlet, RouterLink, RouterLinkActive, RouterModule, ButtonComponent],
   templateUrl: './user-form.component.html',
   styleUrl: './user-form.component.css'
+  
 })
 
 export class UserFormComponent implements OnInit {
@@ -21,10 +28,13 @@ export class UserFormComponent implements OnInit {
   serverError: string = '';
   serverSuccess: string = '';
   isLoading: boolean = false;
+  email: any;
+  contrasena: any;
+  isRegistering: boolean | undefined;
 
 
-  constructor(private formBuilder: FormBuilder, private loginService: LoginService, private http: HttpClient) { }
-
+  constructor(private formBuilder: FormBuilder, private loginService: LoginService, private http: HttpClient, private cookieService: CookieService, private router: Router ) { }
+//el constructor es 
   ngOnInit(): void {
     this.initializeForm();
     this.loginService.isRegistering$.subscribe((value) => {
@@ -40,7 +50,8 @@ export class UserFormComponent implements OnInit {
       phone: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]], // Aquí se agrega Validators.pattern
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      password_confirmation: ['', [Validators.required]]
+      password_confirmation: ['', [Validators.required]],
+      code: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]]
     }
     , {
       validators: this.passwordMatchValidator // Agregamos el validador personalizado a nivel de formulario
@@ -62,12 +73,18 @@ export class UserFormComponent implements OnInit {
       this.userForm.addControl('name', this.formBuilder.control('', Validators.required));
       this.userForm.addControl('phone', this.formBuilder.control('', Validators.required));
       this.userForm.addControl('password_confirmation', this.formBuilder.control('', Validators.required));
+            this.userForm.removeControl('code');
+            this.isRegistering = true;
       this.endpoint = 'http://127.0.0.1:8000/api/register'; // Endpoint para el registro
     } else {
       this.userForm.removeControl('name');
       this.userForm.removeControl('phone');
       this.userForm.removeControl('password_confirmation');
+      this.userForm.removeControl('code');
+      this.isRegistering = false;
+
       this.endpoint = 'http://127.0.0.1:8000/api/login'; // Endpoint para el inicio de sesion
+
     }
   }
 
@@ -75,90 +92,90 @@ export class UserFormComponent implements OnInit {
 if (this.userForm.enabled){
     if (this.userForm.valid) {
     // if (true) {
+
       this.serverError = '';
       this.serverSuccess = '';
-      // this.userForm.disable();
-      this.isLoading = true;
-      // console.log(this.userForm.value);
-      // Enviar la solicitud al servidor utilizando HttpClient
-      this.http.post(this.endpoint, this.userForm.value)
+      this.userForm.disable();
+      this.isLoading = true; 
+      // this.http.post(this.endpoint, this.userForm.value)
+      this.http.post(this.endpoint, this.userForm.value, { observe: 'response' })
       .subscribe((response: any) => 
       {
-        console.log('Respuesta del servidor:', response);
-
-        //quiero que el mensaje que traiga el servidor se muestre en el html
-        if (response && Object.keys(response).length > 0) {
-          this.serverSuccess = '';
-          Object.keys(response).forEach((key: string) => {
-            console.log("aqui0")
-
-            const errorMessages = response[key];
-            if (Array.isArray(errorMessages)) {
-              console.log("aqui1")
-              errorMessages.forEach((errorMessage: string) => {
-                this.serverSuccess += `${key}: ${errorMessage}<br>`;
-              });
-            } else if (typeof errorMessages === 'string') {
-              this.serverSuccess += `${key}: ${errorMessages}<br>`;
+        if (response.status === 200) { // Si el servidor responde con un status 200, osea que llego pero es un error 
+          if (response.body.mensaje.original) {
+            for (const key in response.body.mensaje.original) {
+              if (Array.isArray(response.body.mensaje.original[key])) {
+                this.serverError += ` ${response.body.mensaje.original[key]} <hr>`;
+              }
             }
-          });
-          this.userForm.reset();
-          // this.userForm.enable(); 
-        } else {
-          console.log("aqui3")
-
-          this.serverSuccess = '';
-        }
-
-      this.userForm.enable();
-      this.isLoading = false;
-
-      }, (error) => {
-        console.error('Error al enviar la solicitud:', error);
-        // Si ocurre un error en la solicitud HTTP, mostramos un mensaje genérico de error
-        // this.serverError = 'Error al enviar la solicitud al servidor';
-        console.log("aquiiii")
-
-        console.log(error)
-        console.log(error.error)
-        console.log(error.error.data.original)
-          this.serverError = '';  
-        Object.keys(error.error.data.original).forEach((key: string) => {
-          const errorMessages = error.error.data.original[key];
-          if (Array.isArray(errorMessages)) {
-            errorMessages.forEach((errorMessage: string) => {
-              this.serverError += ` ${errorMessage} <hr>`;
-              console.log(` ${errorMessage}`);
-              console.log("aqui")
-            });
-          } else if (typeof errorMessages === 'string') {
-            // Si errorMessages es una cadena, la añadimos directamente a this.serverError
-            this.serverError += `${key}: ${errorMessages}<br>`;
-            console.log("aqui2")
-
           }
-        });
-        
-
-        if (error && error.error && error.error.message) {
-          this.serverError = error.error.message;
-        } else {
-          // Si no hay un mensaje de error personalizado, mostramos un mensaje genérico de error
-          // this.serverError = 'Error al enviar la solicitud al servidor';
+          else if (response.body.mensaje) {
+            this.serverError += response.body.mensaje;
+            
+          }
+          
         }
+        else if (response.status === 202)  
+        {
+          console.log(response.body);
+          // if (!Array.isArray(response.body.mensaje)) { //para el login
+          if (response.body.token) { //para el login 2
 
-      this.userForm.enable();
-      this.isLoading = false;
+            this.serverSuccess += "Bienvenido!";
+            this.cookieService.set('token', response.body.token);
+            this.router.navigate(['/dashboard']);
+            
+          }
+          else if (Array.isArray(response.body.mensaje) && this.isRegistering == true)
+          { //para el registro
+          for (const key in response.body.data.mensaje) {
+            if (Array.isArray(response.body.data.mensaje[key])) {
+              this.serverSuccess += ` ${response.body.data.original[key]} <hr>`;
+            }
+          }
+          
+        }
+        else if (!Array.isArray(response.body.mensaje) )
+        {
+          this.serverSuccess += response.body.mensaje;
+          if (this.isRegistering == false){
+          this.serverSuccess += "<hr> Porfavor ingrese codigo enviado al correo..."
+          this.email = this.userForm.value.email;
+          this.contrasena = this.userForm.value.password;
+          setTimeout(() => {
+            // this.router.navigate(['/verificar'], { state: { nombre: this.email, contrasena: this.contrasena } });
+            // this.userForm.addControl('codigoVerificacion', this.formBuilder.control('', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]));
+            this.userForm.addControl('code', this.formBuilder.control('', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]));
+            this.isLoading = false;
+            this.endpoint = 'http://127.0.0.1:8000/api/auth';
+          }, 2000);
+        }
+        }
+          
+        }
+      }, (error) => { 
+        this.serverError = 'Error al enviar la solicitud, intente mas tarde';
+        this.userForm.enable();
+        this.isLoading = false;
+
+  console.error('Error al enviar la solicitud:', error);
+      },
+      () => {
+        // Este código se ejecutará cuando el Observable se complete (es decir, después de que la solicitud HTTP tenga éxito o falle)
+        console.log('La solicitud ha terminado');
+        this.userForm.enable();
+        this.isLoading = false;
+
       });
-
     } else {
-      console.log("Errores:")
-      console.log(this.userForm.controls)
-      console.log(this.userForm.value);
-
-      
-      console.log("No enviado")
+        this.serverError = 'Por favor, complete el formulario correctamente';
     }
+
   }
   }
+
+  clearMessages(): void {
+  this.serverError = '';
+  this.serverSuccess = '';
+}
 }
