@@ -30,6 +30,7 @@ export class UserFormComponent implements OnInit {
   isLoading: boolean = false;
   email: any;
   contrasena: any;
+  isRegistering: boolean | undefined;
 
 
   constructor(private formBuilder: FormBuilder, private loginService: LoginService, private http: HttpClient, private cookieService: CookieService, private router: Router ) { }
@@ -72,13 +73,18 @@ export class UserFormComponent implements OnInit {
       this.userForm.addControl('name', this.formBuilder.control('', Validators.required));
       this.userForm.addControl('phone', this.formBuilder.control('', Validators.required));
       this.userForm.addControl('password_confirmation', this.formBuilder.control('', Validators.required));
+            this.userForm.removeControl('code');
+            this.isRegistering = true;
       this.endpoint = 'http://127.0.0.1:8000/api/register'; // Endpoint para el registro
     } else {
       this.userForm.removeControl('name');
       this.userForm.removeControl('phone');
       this.userForm.removeControl('password_confirmation');
       this.userForm.removeControl('code');
+      this.isRegistering = false;
+
       this.endpoint = 'http://127.0.0.1:8000/api/login'; // Endpoint para el inicio de sesion
+
     }
   }
 
@@ -111,15 +117,16 @@ if (this.userForm.enabled){
         }
         else if (response.status === 202)  
         {
+          console.log(response.body);
           // if (!Array.isArray(response.body.mensaje)) { //para el login
-          if (response.body.token) { //para el login
+          if (response.body.token) { //para el login 2
 
             this.serverSuccess += "Bienvenido!";
             this.cookieService.set('token', response.body.token);
             this.router.navigate(['/dashboard']);
             
           }
-          else if (Array.isArray(response.body.mensaje))
+          else if (Array.isArray(response.body.mensaje) && this.isRegistering == true)
           { //para el registro
           for (const key in response.body.data.mensaje) {
             if (Array.isArray(response.body.data.mensaje[key])) {
@@ -128,9 +135,10 @@ if (this.userForm.enabled){
           }
           
         }
-        else if (!Array.isArray(response.body.mensaje))
+        else if (!Array.isArray(response.body.mensaje) )
         {
           this.serverSuccess += response.body.mensaje;
+          if (this.isRegistering == false){
           this.serverSuccess += "<hr> Porfavor ingrese codigo enviado al correo..."
           this.email = this.userForm.value.email;
           this.contrasena = this.userForm.value.password;
@@ -141,6 +149,7 @@ if (this.userForm.enabled){
             this.isLoading = false;
             this.endpoint = 'http://127.0.0.1:8000/api/auth';
           }, 2000);
+        }
         }
           
         }
@@ -154,6 +163,8 @@ if (this.userForm.enabled){
       () => {
         // Este código se ejecutará cuando el Observable se complete (es decir, después de que la solicitud HTTP tenga éxito o falle)
         console.log('La solicitud ha terminado');
+        this.userForm.enable();
+        this.isLoading = false;
 
       });
     } else {
