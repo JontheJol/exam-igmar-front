@@ -60,6 +60,8 @@ export class EditProductoComponent {
     if (this.producto) {
       this.productoForm.patchValue({
         name: this.producto.name,
+        description: this.producto.description,
+        price: this.producto.price,
       });
     }
   }
@@ -70,6 +72,8 @@ export class EditProductoComponent {
       const endpoint = `http://127.0.0.1:8000/api/products/${productId}/update`;
       const userData = {
         name: this.productoForm.value.name,
+        description: this.productoForm.value.description,
+        price: this.productoForm.value.price,
       };
       console.log(userData);
       this.http.put(endpoint, userData).subscribe(
