@@ -60,17 +60,17 @@ export class ComentariosComponent {
     });
   }
 
-  eliminarCategoria(categorie: any) {
-    const endpoint = `http://127.0.0.1:8000/api/categories/${categorie.id}/deactivate`;
+  eliminarCategoria(comment: any) {
+    const endpoint = `http://127.0.0.1:8000/api/comments/${comment.id}/deactivate`;
     this.http.put(endpoint, {}).subscribe(
       () => {
         //console.log('Usuario desactivado correctamente');
-        this.notificacion = 'Categoria desactivada correctamente';
+        this.notificacion = 'Comenatrio eliminado correctamente';
         this.obtenerComentarios();
       },
       error => {
-        console.error('Error al desactivar la categoria:', error);
-        this.notificacion = 'Error al desactivar la categoria';
+        console.error('Error al desactivar el comentario:', error);
+        this.notificacion = 'Error al desactivar el comentario';
       }
     );
   }
