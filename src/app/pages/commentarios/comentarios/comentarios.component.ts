@@ -43,7 +43,7 @@ export class ComentariosComponent {
     // Agregar botones de Editar y Eliminar una vez
     const editarButton = {
       nombre: 'Editar',
-      accion: (categorie: any) => this.editarCategoria(categorie),
+      accion: (categorie: any) => this.editarComentario(categorie),
     };
   
     const eliminarButton = {
@@ -75,9 +75,9 @@ export class ComentariosComponent {
     );
   }
 
-  editarCategoria(categoria: any) {
-    console.log('Editar categoria:', categoria);
-    this.router.navigate(['dashboard/categorias/edit', categoria.id]);
+  editarComentario(comentario: any) {
+    console.log('Editar categoria:', comentario);
+    this.router.navigate(['dashboard/comentarios/edit', comentario.id]);
   }
 
   agregarCategoria(){
