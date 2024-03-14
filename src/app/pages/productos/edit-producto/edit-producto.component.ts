@@ -77,15 +77,18 @@ export class EditProductoComponent{
 
   initializeForm(): void {
     if (this.producto) {
-      this.productoForm.patchValue({
-        name: this.producto.name,
-        description: this.producto.description,
-        price: this.producto.price,
+      const formValues = {
+        name: this.productoForm.value.name || this.producto.name,
+        description: this.productoForm.value.description || this.producto.description,
+        price: this.productoForm.value.price || this.producto.price,
         categories: this.producto.categories.map((category: any) => category.id),
         platforms: this.producto.platforms.map((platform: any) => platform.id)
-      });
+      };
+
+      this.productoForm.patchValue(formValues);
     }
-  }
+}
+
 
   onSubmit(): void {
     if (this.productoForm.valid) {
