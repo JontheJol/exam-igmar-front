@@ -8,21 +8,19 @@ import { NavbarDashComponent } from '../../../navbar-dash/navbar-dash.component'
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-edit-producto',
+  selector: 'app-add-producto',
   standalone: true,
   imports: [NavbarDashComponent, CommonModule, ReactiveFormsModule, RouterModule],
-  templateUrl: './edit-producto.component.html',
-  styleUrls: ['./edit-producto.component.css']
+  templateUrl: './add-producto.component.html',
+  styleUrls: ['./add-producto.component.css']
 })
-export class EditProductoComponent implements OnInit {
+export class AddProductoComponent implements OnInit {
   productoForm: FormGroup;
-  producto: any;
   mensaje: string | null = null;
   allCategories: any[] = [];
   allPlatforms: any[] = [];
 
   constructor(
-    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private http: HttpClient,
     private router: Router
@@ -37,11 +35,6 @@ export class EditProductoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      const productId = params['id'];
-      this.obtenerProducto(productId);
-    });
-
     this.http.get<any>('http://127.0.0.1:8000/api/categories').subscribe(
       (data: any) => {
         this.allCategories = data;
@@ -61,37 +54,9 @@ export class EditProductoComponent implements OnInit {
     );
   }
 
-  obtenerProducto(productId: number): void {
-    const endpoint = `http://127.0.0.1:8000/api/products/${productId}`;
-    this.http.get<any>(endpoint).subscribe(
-      (data: any) => {
-        this.producto = data;
-        this.initializeForm();
-      },
-      error => {
-        console.error('Error al obtener el producto:', error);
-        this.router.navigate(['dashboard/productos/']);
-      }
-    );
-  }
-
-  initializeForm(): void {
-    if (this.producto) {
-      console.log('Producto:', this.producto);
-      this.productoForm.patchValue({
-        name: this.producto.name,
-        description: this.producto.description,
-        price: this.producto.price,
-        category_id: this.producto.category_id, // Asigna el ID de la categoría
-        platform_id: this.producto.platform_id // Asigna el ID de la plataforma
-      });
-    }
-  }
-
   onSubmit(): void {
     if (this.productoForm.valid) {
-      const productId = this.producto.id;
-      const endpoint = `http://127.0.0.1:8000/api/products/${productId}/update`;
+      const endpoint = `http://127.0.0.1:8000/api/products/create`;
       const userData = {
         name: this.productoForm.value.name,
         description: this.productoForm.value.description,
@@ -100,16 +65,17 @@ export class EditProductoComponent implements OnInit {
         platform_id: this.productoForm.value.platform_id
       };
       console.log(userData);
-      this.http.put(endpoint, userData).subscribe(
+      this.http.post(endpoint, userData).subscribe(
         (response: any) => {
-          console.log('Producto actualizado:', response);
+          console.log('Producto creado:', response);
           const categoryNames = this.allCategories.find(category => category.id === userData.category_id)?.name;
           const platformName = this.allPlatforms.find(platform => platform.id === userData.platform_id)?.name;
-          this.mensaje = `Producto actualizado correctamente`;
+          this.mensaje = `Producto creado correctamente.`;
+          this.productoForm.reset();
         },
         error => {
-          console.error('Error al actualizar el producto:', error);
-          this.mensaje = 'Error al actualizar el producto. Por favor, inténtalo de nuevo.';
+          console.error('Error al crear el producto:', error);
+          this.mensaje = 'Error al crear el producto. Por favor, inténtalo de nuevo.';
         }
       );
     }

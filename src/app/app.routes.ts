@@ -11,6 +11,7 @@ import { EditUsuarioComponent } from './pages/usuarios/edit-usuario/edit-usuario
 
 import { ProductosComponent } from './pages/productos/productos/productos.component';
 import { EditProductoComponent } from './pages/productos/edit-producto/edit-producto.component';
+import { AddProductoComponent } from './pages/productos/add-producto/add-producto.component';
 
 import { AddCategoriaComponent } from './pages/categorias/add-categoria/add-categoria.component';
 import { CategoriasComponent } from './pages/categorias/categorias/categorias.component';
@@ -35,6 +36,7 @@ export const routes: Routes = [
     // Productos
     {path: 'dashboard/productos/productos', component: ProductosComponent},
     {path: 'dashboard/productos/edit/:id', component: EditProductoComponent},
+    {path: 'dashboard/productos/create', component: AddProductoComponent},
     // Categorias
     {path: 'dashboard/categorias/categorias', component: CategoriasComponent},
     {path: 'dashboard/categorias/edit/:id', component: EditCategoriaComponent},
