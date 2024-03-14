@@ -56,6 +56,8 @@ export class ProductosComponent {
     // Asignar botones a cada usuario
     this.products.forEach(product => {
       product.botonesAccion = this.botonesAccion;
+      product.category = product.category.name; // Cambiar objeto de categoría por nombre de categoría
+      product.platform = product.platform.name; // Cambiar objeto de plataforma por nombre de plataforma
     });
   }
 
