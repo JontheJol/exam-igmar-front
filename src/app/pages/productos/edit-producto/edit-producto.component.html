@@ -13,6 +13,18 @@
             <label for="price">Price</label>
             <input type="text" formControlName="price" class="form-control bg-transparent" id="price">
         </div>
+        <div class="form-group">
+            <label for="categories">Categorías</label>
+            <select formControlName="categories" id="categories" class="form-control" multiple>
+                <option *ngFor="let category of allCategories" [value]="category.id">{{ category.name }}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="platforms">Plataformas</label>
+            <select formControlName="platforms" id="platforms" class="form-control" multiple>
+                <option *ngFor="let platform of allPlatforms" [value]="platform.id">{{ platform.name }}</option>
+            </select>
+        </div>
         <button type="submit" class="btn">Guardar cambios</button>
     </form>
     <div class="error-container ms-4" style="width: 20%">

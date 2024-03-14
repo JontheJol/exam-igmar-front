@@ -1,25 +1,25 @@
-import { Component } from '@angular/core';
-import { DynamicTableComponent } from '../../../dynamic-table/dynamic-table.component';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavbarDashComponent } from '../../../navbar-dash/navbar-dash.component';
-import { FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
-import { Route } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-edit-producto',
   standalone: true,
-  imports: [DynamicTableComponent, CommonModule, ReactiveFormsModule, NavbarDashComponent, RouterModule],
+  imports: [NavbarDashComponent,CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './edit-producto.component.html',
-  styleUrl: './edit-producto.component.css'
+  styleUrls: ['./edit-producto.component.css']
 })
-export class EditProductoComponent {
+export class EditProductoComponent{
   productoForm: FormGroup;
   producto: any;
-  mensaje: string | null = null; // Inicialmente no hay mensaje
+  mensaje: string | null = null;
+  allCategories: any[] = [];
+  allPlatforms: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -28,7 +28,11 @@ export class EditProductoComponent {
     private router: Router
   ) {
     this.productoForm = this.formBuilder.group({
-      name: ['', Validators.required]
+      name: ['', Validators.required],
+      description: [''],
+      price: ['', Validators.required],
+      categories: [[]],
+      platforms: [[]]
     });
   }
 
@@ -37,11 +41,24 @@ export class EditProductoComponent {
       const productId = params['id'];
       this.obtenerProducto(productId);
     });
-    this.productoForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
-      description: ['',[Validators.required,Validators.minLength(20)]],
-      price: ['',[Validators.required]],
-  });
+
+    this.http.get<any>('http://127.0.0.1:8000/api/categories').subscribe(
+      (data: any) => {
+        this.allCategories = data;
+      },
+      error => {
+        console.error('Error al obtener las categorías:', error);
+      }
+    );
+
+    this.http.get<any>('http://127.0.0.1:8000/api/platforms').subscribe(
+      (data: any) => {
+        this.allPlatforms = data;
+      },
+      error => {
+        console.error('Error al obtener las plataformas:', error);
+      }
+    );
   }
 
   obtenerProducto(productId: number): void {
@@ -52,7 +69,7 @@ export class EditProductoComponent {
         this.initializeForm();
       },
       error => {
-        console.error('Error al obtener la plataforma:', error);
+        console.error('Error al obtener el producto:', error);
         this.router.navigate(['dashboard/productos/']);
       }
     );
@@ -64,6 +81,8 @@ export class EditProductoComponent {
         name: this.producto.name,
         description: this.producto.description,
         price: this.producto.price,
+        categories: this.producto.categories.map((category: any) => category.id),
+        platforms: this.producto.platforms.map((platform: any) => platform.id)
       });
     }
   }
@@ -76,16 +95,20 @@ export class EditProductoComponent {
         name: this.productoForm.value.name,
         description: this.productoForm.value.description,
         price: this.productoForm.value.price,
+        categories: this.productoForm.value.categories,
+        platforms: this.productoForm.value.platforms
       };
       console.log(userData);
       this.http.put(endpoint, userData).subscribe(
         (response: any) => {
-          console.log('Producto actualizada:', response);
-          this.mensaje = 'Producto actualizada correctamente.';
+          console.log('Producto actualizado:', response);
+          const categoryNames = this.allCategories.filter(category => userData.categories.includes(category.id)).map(category => category.name).join(', ');
+          const platformNames = this.allPlatforms.filter(platform => userData.platforms.includes(platform.id)).map(platform => platform.name).join(', ');
+          this.mensaje = `Producto actualizado correctamente. Categorías: ${categoryNames}, Plataformas: ${platformNames}`;
         },
         error => {
-          console.error('Error al actualizar Producto:', error);
-          this.mensaje = 'Error al actualizar Producto. Por favor, inténtalo de nuevo.';
+          console.error('Error al actualizar el producto:', error);
+          this.mensaje = 'Error al actualizar el producto. Por favor, inténtalo de nuevo.';
         }
       );
     }
