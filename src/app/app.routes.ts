@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { UsuariosComponent } from './pages/usuarios/usuarios/usuarios.component';
 import { EditUsuarioComponent } from './pages/usuarios/edit-usuario/edit-usuario.component';
-
+import { InventariosComponent } from './pages/inventarios/inventarios.component';
 
 import { ProductosComponent } from './pages/productos/productos/productos.component';
 import { EditProductoComponent } from './pages/productos/edit-producto/edit-producto.component';
@@ -47,7 +47,7 @@ export const routes: Routes = [
     // Comentarios
     {path: 'dashboard/comentarios/comentarios', component: ComentariosComponent},
     {path: 'dashboard/comentarios/edit/:id', component: EditComentarioComponent},
-
+    {path: 'dashboard/inventarios', component: InventariosComponent},
 
     {path: '', redirectTo: '/ingreso', pathMatch: 'full' },
     {path: '**', component: PageNotFoundComponent },
