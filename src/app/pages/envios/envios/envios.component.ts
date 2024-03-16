@@ -47,7 +47,7 @@ export class EnviosComponent {
   
     const eliminarButton = {
       nombre: 'Eliminar',
-      accion: (categorie: any) => this.eliminarCategoria(categorie),
+      accion: (categorie: any) => this.eliminarEnvio(categorie),
       clase: 'btn-eliminar'
     };
   
@@ -61,17 +61,17 @@ export class EnviosComponent {
     });
   }
 
-  eliminarCategoria(categorie: any) {
-    const endpoint = `http://127.0.0.1:8000/api/categories/${categorie.id}/deactivate`;
+  eliminarEnvio(shipment: any) {
+    const endpoint = `http://127.0.0.1:8000/api/shipments/${shipment.id}/deactivate`;
     this.http.put(endpoint, {}).subscribe(
       () => {
         //console.log('Usuario desactivado correctamente');
-        this.notificacion = 'Categoria desactivada correctamente';
+        this.notificacion = 'Envio eliminado correctamente';
         this.obtenerEnvios();
       },
       error => {
         console.error('Error al desactivar la categoria:', error);
-        this.notificacion = 'Error al desactivar la categoria';
+        this.notificacion = 'Error al eliminar el envio';
       }
     );
   }
