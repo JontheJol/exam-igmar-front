@@ -14,15 +14,15 @@ import { HttpClient } from '@angular/common/http';
 })
 export class EnviosComponent {
   constructor(private http: HttpClient, private router: Router) {}
-  categories: any[] = [];
+  shipments: any[] = [];
   notificacion: string = '';
   botonesAccion: any[] = []; // Define botonesAccion como un array vacío
 
   obtenerEnvios() {
-    const endpoint = 'http://127.0.0.1:8000/api/categories';
+    const endpoint = 'http://127.0.0.1:8000/api/shipments';
     this.http.get<any[]>(endpoint).subscribe(
       (data: any[]) => {
-        this.categories = data;
+        this.shipments = data;
         this.configurarBotonesAccion(); // Llama a la función para configurar los botones de acción
       },
       error => {
@@ -54,8 +54,10 @@ export class EnviosComponent {
     this.botonesAccion.push(editarButton, eliminarButton);
   
     // Asignar botones a cada usuario
-    this.categories.forEach(categorie => {
+    this.shipments.forEach(categorie => {
       categorie.botonesAccion = this.botonesAccion;
+      categorie.product = categorie.product.name;
+      categorie.user = categorie.user.name;
     });
   }
 
