@@ -26,6 +26,8 @@ import { AddPlataformaComponent } from './pages/plataformas/add-plataforma/add-p
 import { ComentariosComponent } from './pages/commentarios/comentarios/comentarios.component';
 import { EditComentarioComponent } from './pages/commentarios/edit-comentario/edit-comentario.component';
 
+import { EnviosComponent } from './pages/envios/envios/envios.component';
+
 
 
 export const routes: Routes = [
@@ -50,6 +52,8 @@ export const routes: Routes = [
     {path: 'dashboard/comentarios/comentarios', component: ComentariosComponent},
     {path: 'dashboard/comentarios/edit/:id', component: EditComentarioComponent},
     {path: 'dashboard/inventarios', component: InventariosComponent},
+    // Envios
+    {path: 'dashboard/envios/envios', component: EnviosComponent},
 
     {path: '', redirectTo: '/ingreso', pathMatch: 'full' },
     {path: '**', component: PageNotFoundComponent },
