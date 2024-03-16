@@ -2,7 +2,7 @@
 <div class="d-flex justify-content-center mt-5">
     <form class="form-container" [formGroup]="envioForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-            <label for="users">Users</label>
+            <label for="user">Users</label>
             <select formControlName="user_id" class="form-control bg-transparent" id="user">
                 <option *ngFor="let user of allUsers" [value]="user.id">{{ user.name }}</option>
             </select>

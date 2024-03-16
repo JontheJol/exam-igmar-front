@@ -94,26 +94,20 @@ export class EditEnviosComponent {
 
   onSubmit(): void {
     if (this.envioForm.valid) {
-      const productId = this.envio.id;
-      const endpoint = `http://127.0.0.1:8000/api/products/${productId}/update`;
-      const userData = {
-        name: this.envioForm.value.name,
-        description: this.envioForm.value.description,
-        price: this.envioForm.value.price,
-        category_id: this.envioForm.value.category_id,
-        platform_id: this.envioForm.value.platform_id
-      };
+      const shipmentId = this.envio.id;
+      const endpoint = `http://127.0.0.1:8000/api/shipments/${shipmentId}/update`;
+      const userData = this.envioForm.value; // Usar los valores del formulario
       console.log(userData);
       this.http.put(endpoint, userData).subscribe(
         (response: any) => {
           console.log('Producto actualizado:', response);
-          const categoryNames = this.allUsers.find(category => category.id === userData.category_id)?.name;
-          const platformName = this.allProducts.find(platform => platform.id === userData.platform_id)?.name;
-          this.mensaje = `Producto actualizado correctamente`;
+          const userNames = this.allUsers.find(user => user.id === userData.user_id)?.name;
+          const productName = this.allProducts.find(product => product.id === userData.product_id)?.name;
+          this.mensaje = `Envio actualizado correctamente`;
         },
         error => {
-          console.error('Error al actualizar el producto:', error);
-          this.mensaje = 'Error al actualizar el producto. Por favor, inténtalo de nuevo.';
+          console.error('Error al actualizar el envio:', error);
+          this.mensaje = 'Error al actualizar el envio. Por favor, inténtalo de nuevo.';
         }
       );
     }
