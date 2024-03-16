@@ -27,6 +27,7 @@ import { ComentariosComponent } from './pages/commentarios/comentarios/comentari
 import { EditComentarioComponent } from './pages/commentarios/edit-comentario/edit-comentario.component';
 
 import { EnviosComponent } from './pages/envios/envios/envios.component';
+import { EditEnviosComponent } from './pages/envios/edit-envios/edit-envios.component';
 
 
 
@@ -54,6 +55,7 @@ export const routes: Routes = [
     {path: 'dashboard/inventarios', component: InventariosComponent},
     // Envios
     {path: 'dashboard/envios/envios', component: EnviosComponent},
+    {path: 'dashboard/envios/edit/:id', component: EditEnviosComponent},
 
     {path: '', redirectTo: '/ingreso', pathMatch: 'full' },
     {path: '**', component: PageNotFoundComponent },

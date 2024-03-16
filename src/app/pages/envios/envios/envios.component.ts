@@ -76,9 +76,9 @@ export class EnviosComponent {
     );
   }
 
-  editarCategoria(categoria: any) {
-    console.log('Editar categoria:', categoria);
-    this.router.navigate(['dashboard/categorias/edit', categoria.id]);
+  editarCategoria(shipment: any) {
+    console.log('Editar categoria:', shipment);
+    this.router.navigate(['dashboard/envios/edit', shipment.id]);
   }
 
   agregarCategoria(){
