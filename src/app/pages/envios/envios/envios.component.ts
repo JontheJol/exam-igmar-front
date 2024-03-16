@@ -82,6 +82,6 @@ export class EnviosComponent {
   }
 
   agregarCategoria(){
-    this.router.navigate(['dashboard/categorias/create']);
+    this.router.navigate(['dashboard/envios/create']);
   }
 }
