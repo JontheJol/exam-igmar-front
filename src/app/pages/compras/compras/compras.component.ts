@@ -42,7 +42,7 @@ export class ComprasComponent {
     // Agregar botones de Editar y Eliminar una vez
     const editarButton = {
       nombre: 'Editar',
-      accion: (purchase: any) => this.editarCategoria(purchase),
+      accion: (purchase: any) => this.editarCompra(purchase),
     };
   
     const eliminarButton = {
@@ -76,9 +76,9 @@ export class ComprasComponent {
     );
   }
 
-  editarCategoria(shipment: any) {
-    console.log('Editar categoria:', shipment);
-    this.router.navigate(['dashboard/envios/edit', shipment.id]);
+  editarCompra(purchase: any) {
+    console.log('Editar compra:', purchase);
+    this.router.navigate(['dashboard/compras/edit', purchase.id]);
   }
 
   agregarCategoria(){

@@ -1,0 +1,55 @@
+<app-navbar-dash></app-navbar-dash>
+<div class="d-flex justify-content-center mt-5">
+    <form class="form-container" [formGroup]="compraForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="user">Users</label>
+            <select formControlName="user_id" class="form-control bg-transparent" id="user">
+                <option *ngFor="let user of allUsers" [value]="user.id">{{ user.name }}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="products">Products</label>
+            <select formControlName="product_id" class="form-control bg-transparent" id="products">
+                <option *ngFor="let product of allProducts" [value]="product.id">{{ product.name }}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input type="text" formControlName="quantity" class="form-control bg-transparent" id="quantity">
+        </div>
+        <div class="form-group">
+            <label for="date">Date</label>
+            <input type="text" formControlName="date" class="form-control bg-transparent" id="date">
+        </div>
+        <div class="form-group">
+            <label for="total">Total</label>
+            <input type="text" formControlName="total" class="form-control bg-transparent" id="total">
+        </div>
+        <button type="submit" class="btn">Guardar cambios</button>
+    </form>
+    <div class="error-container ms-4" style="width: 20%">
+        <div *ngIf="compraForm.get('address')?.invalid && (compraForm.get('name')?.dirty || compraForm.get('name')?.touched)" class="alert alert-danger">
+            <div *ngIf="compraForm.get('address')?.errors?.['required']">La direccion es requerida</div>
+            <div *ngIf="compraForm.get('address')?.errors?.['minlength']">La direccion debe tener al menos 4 caracteres.</div>
+            <div *ngIf="compraForm.get('address')?.errors?.['maxlength']">La direccion tener máximo 50 caracteres.</div>
+        </div>
+        <div *ngIf="compraForm.get('city')?.invalid && (compraForm.get('city')?.dirty || compraForm.get('city')?.touched)" class="alert alert-danger">
+            <div *ngIf="compraForm.get('city')?.errors?.['required']">La ciudad es requerida</div>
+            <div *ngIf="compraForm.get('city')?.errors?.['minlength']">La ciudad debe tener al menos 4 caracteres.</div>
+            <div *ngIf="compraForm.get('city')?.errors?.['maxlength']">La ciudad tener máximo 25 caracteres.</div>
+        </div>
+        <div *ngIf="compraForm.get('state')?.invalid && (compraForm.get('city')?.dirty || compraForm.get('state')?.touched)" class="alert alert-danger">
+            <div *ngIf="compraForm.get('state')?.errors?.['required']">El estado es requerido</div>
+            <div *ngIf="compraForm.get('state')?.errors?.['minlength']">El estado debe tener al menos 4 caracteres.</div>
+            <div *ngIf="compraForm.get('state')?.errors?.['maxlength']">El estado tener máximo 25 caracteres.</div>
+        </div>
+        <div *ngIf="compraForm.get('postal_code')?.invalid && (compraForm.get('postal_code')?.dirty || compraForm.get('postal_code')?.touched)" class="alert alert-danger">
+            <div *ngIf="compraForm.get('postal_code')?.errors?.['required']">El codigo postal es requerido</div>
+            <div *ngIf="compraForm.get('postal_code')?.errors?.['minlength']">El codigo postal  debe tener al menos  5 digitos</div>
+            <div *ngIf="compraForm.get('postal_code')?.errors?.['maxlength']">El codigo postal no debe tener mas de 5 digitos</div>
+        </div>
+        <div *ngIf="mensaje" class="alert alert-success" role="alert">
+            {{ mensaje }}
+        </div>
+    </div>
+</div>
