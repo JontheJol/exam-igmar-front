@@ -32,7 +32,7 @@ import { AddEnviosComponent } from './pages/envios/add-envios/add-envios.compone
 
 import { ComprasComponent } from './pages/compras/compras/compras.component';
 import { EditComprasComponent } from './pages/compras/edit-compras/edit-compras.component';
-
+import { AddComprasComponent } from './pages/compras/add-compras/add-compras.component';
 
 
 export const routes: Routes = [
@@ -64,6 +64,7 @@ export const routes: Routes = [
     // Compras
     {path: 'dashboard/compras/compras', component: ComprasComponent},
     {path: 'dashboard/compras/edit/:id', component: EditComprasComponent},
+    {path: 'dashboard/compras/create', component: AddComprasComponent},
 
     {path: '', redirectTo: '/ingreso', pathMatch: 'full' },
     {path: '**', component: PageNotFoundComponent },

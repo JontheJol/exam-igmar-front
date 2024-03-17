@@ -81,7 +81,7 @@ export class ComprasComponent {
     this.router.navigate(['dashboard/compras/edit', purchase.id]);
   }
 
-  agregarCategoria(){
-    this.router.navigate(['dashboard/envios/create']);
+  agregarCompra(){
+    this.router.navigate(['dashboard/compras/create']);
   }
 }
