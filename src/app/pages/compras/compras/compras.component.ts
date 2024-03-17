@@ -18,7 +18,7 @@ export class ComprasComponent {
   notificacion: string = '';
   botonesAccion: any[] = []; // Define botonesAccion como un array vacío
 
-  obtenerEnvios() {
+  obtenerCompras() {
     const endpoint = 'http://127.0.0.1:8000/api/purchases';
     this.http.get<any[]>(endpoint).subscribe(
       (data: any[]) => {
@@ -32,7 +32,7 @@ export class ComprasComponent {
   }
 
   ngOnInit(): void {
-    this.obtenerEnvios();
+    this.obtenerCompras();
   }
   
   configurarBotonesAccion() {
@@ -47,7 +47,7 @@ export class ComprasComponent {
   
     const eliminarButton = {
       nombre: 'Eliminar',
-      accion: (purchase: any) => this.eliminarEnvio(purchase),
+      accion: (purchase: any) => this.eliminarCompra(purchase),
       clase: 'btn-eliminar'
     };
   
@@ -61,17 +61,17 @@ export class ComprasComponent {
     });
   }
 
-  eliminarEnvio(shipment: any) {
-    const endpoint = `http://127.0.0.1:8000/api/shipments/${shipment.id}/deactivate`;
+  eliminarCompra(purchase: any) {
+    const endpoint = `http://127.0.0.1:8000/api/purchases/${purchase.id}/deactivate`;
     this.http.put(endpoint, {}).subscribe(
       () => {
         //console.log('Usuario desactivado correctamente');
-        this.notificacion = 'Envio eliminado correctamente';
-        this.obtenerEnvios();
+        this.notificacion = 'Compra eliminada correctamente';
+        this.obtenerCompras();
       },
       error => {
-        console.error('Error al desactivar la categoria:', error);
-        this.notificacion = 'Error al eliminar el envio';
+        console.error('Error al eliminar la compra:', error);
+        this.notificacion = 'Error al eliminar la compra';
       }
     );
   }
