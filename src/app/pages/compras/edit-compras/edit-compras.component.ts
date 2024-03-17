@@ -32,7 +32,7 @@ export class EditComprasComponent {
     this.compraForm = this.formBuilder.group({
       quantity: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(10)]],
       date: ['', [Validators.required]],
-      total: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
+      total: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(10)]],
       user_id: ['', Validators.required],
       product_id: ['', Validators.required]
     });
@@ -93,7 +93,7 @@ export class EditComprasComponent {
   onSubmit(): void {
     if (this.compraForm.valid) {
       const shipmentId = this.compra.id;
-      const endpoint = `http://127.0.0.1:8000/api/shipments/${shipmentId}/update`;
+      const endpoint = `http://127.0.0.1:8000/api/purchases/${shipmentId}/update`;
       const userData = this.compraForm.value; // Usar los valores del formulario
       console.log(userData);
       this.http.put(endpoint, userData).subscribe(
@@ -101,11 +101,11 @@ export class EditComprasComponent {
           console.log('Producto actualizado:', response);
           const userNames = this.allUsers.find(user => user.id === userData.user_id)?.name;
           const productName = this.allProducts.find(product => product.id === userData.product_id)?.name;
-          this.mensaje = `Envio actualizado correctamente`;
+          this.mensaje = `Compra actualizada correctamente`;
         },
         error => {
           console.error('Error al actualizar el envio:', error);
-          this.mensaje = 'Error al actualizar el envio. Por favor, inténtalo de nuevo.';
+          this.mensaje = 'Error al actualizar la compra. Por favor, inténtalo de nuevo.';
         }
       );
     }

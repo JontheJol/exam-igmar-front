@@ -29,24 +29,17 @@
     </form>
     <div class="error-container ms-4" style="width: 20%">
         <div *ngIf="compraForm.get('address')?.invalid && (compraForm.get('name')?.dirty || compraForm.get('name')?.touched)" class="alert alert-danger">
-            <div *ngIf="compraForm.get('address')?.errors?.['required']">La direccion es requerida</div>
-            <div *ngIf="compraForm.get('address')?.errors?.['minlength']">La direccion debe tener al menos 4 caracteres.</div>
-            <div *ngIf="compraForm.get('address')?.errors?.['maxlength']">La direccion tener máximo 50 caracteres.</div>
+            <div *ngIf="compraForm.get('quantity')?.errors?.['required']">La cantidad es requerida</div>
+            <div *ngIf="compraForm.get('quantity')?.errors?.['minlength']">La cantidad debe tener al menos 1 caracter.</div>
+            <div *ngIf="compraForm.get('quantity')?.errors?.['maxlength']">La cantidad tener máximo 10 caracteres.</div>
         </div>
-        <div *ngIf="compraForm.get('city')?.invalid && (compraForm.get('city')?.dirty || compraForm.get('city')?.touched)" class="alert alert-danger">
-            <div *ngIf="compraForm.get('city')?.errors?.['required']">La ciudad es requerida</div>
-            <div *ngIf="compraForm.get('city')?.errors?.['minlength']">La ciudad debe tener al menos 4 caracteres.</div>
-            <div *ngIf="compraForm.get('city')?.errors?.['maxlength']">La ciudad tener máximo 25 caracteres.</div>
+        <div *ngIf="compraForm.get('date')?.invalid && (compraForm.get('city')?.dirty || compraForm.get('city')?.touched)" class="alert alert-danger">
+            <div *ngIf="compraForm.get('date')?.errors?.['required']">La fecha es requerida</div>
         </div>
-        <div *ngIf="compraForm.get('state')?.invalid && (compraForm.get('city')?.dirty || compraForm.get('state')?.touched)" class="alert alert-danger">
-            <div *ngIf="compraForm.get('state')?.errors?.['required']">El estado es requerido</div>
-            <div *ngIf="compraForm.get('state')?.errors?.['minlength']">El estado debe tener al menos 4 caracteres.</div>
-            <div *ngIf="compraForm.get('state')?.errors?.['maxlength']">El estado tener máximo 25 caracteres.</div>
-        </div>
-        <div *ngIf="compraForm.get('postal_code')?.invalid && (compraForm.get('postal_code')?.dirty || compraForm.get('postal_code')?.touched)" class="alert alert-danger">
-            <div *ngIf="compraForm.get('postal_code')?.errors?.['required']">El codigo postal es requerido</div>
-            <div *ngIf="compraForm.get('postal_code')?.errors?.['minlength']">El codigo postal  debe tener al menos  5 digitos</div>
-            <div *ngIf="compraForm.get('postal_code')?.errors?.['maxlength']">El codigo postal no debe tener mas de 5 digitos</div>
+        <div *ngIf="compraForm.get('total')?.invalid && (compraForm.get('city')?.dirty || compraForm.get('state')?.touched)" class="alert alert-danger">
+            <div *ngIf="compraForm.get('total')?.errors?.['required']">El total es requerido</div>
+            <div *ngIf="compraForm.get('total')?.errors?.['minlength']">El total debe tener al menos 1 caracter.</div>
+            <div *ngIf="compraForm.get('total')?.errors?.['maxlength']">El total tener máximo 10 caracteres.</div>
         </div>
         <div *ngIf="mensaje" class="alert alert-success" role="alert">
             {{ mensaje }}
