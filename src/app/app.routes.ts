@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { UsuariosComponent } from './pages/usuarios/usuarios/usuarios.component';
 import { EditUsuarioComponent } from './pages/usuarios/edit-usuario/edit-usuario.component';
-
+import { InventariosComponent } from './pages/inventarios/inventarios.component';
 
 import { ProductosComponent } from './pages/productos/productos/productos.component';
 import { EditProductoComponent } from './pages/productos/edit-producto/edit-producto.component';
@@ -24,8 +24,19 @@ import { EditPlataformaComponent } from './pages/plataformas/edit-plataforma/edi
 import { AddPlataformaComponent } from './pages/plataformas/add-plataforma/add-plataforma.component';
 
 import { ComentariosComponent } from './pages/commentarios/comentarios/comentarios.component';
+import { EditComentarioComponent } from './pages/commentarios/edit-comentario/edit-comentario.component';
 
+import { EnviosComponent } from './pages/envios/envios/envios.component';
+import { EditEnviosComponent } from './pages/envios/edit-envios/edit-envios.component';
+import { AddEnviosComponent } from './pages/envios/add-envios/add-envios.component';
 
+import { ComprasComponent } from './pages/compras/compras/compras.component';
+import { EditComprasComponent } from './pages/compras/edit-compras/edit-compras.component';
+import { AddComprasComponent } from './pages/compras/add-compras/add-compras.component';
+
+import { PedidosComponent } from './pages/pedidos/pedidos/pedidos.component';
+import { EditPedidosComponent } from './pages/pedidos/edit-pedidos/edit-pedidos.component';
+import { AddPedidosComponent } from './pages/pedidos/add-pedidos/add-pedidos.component';
 
 export const routes: Routes = [
     {path: 'registro', component: SignupComponent},
@@ -47,7 +58,20 @@ export const routes: Routes = [
     {path: 'dashboard/plataformas/create', component: AddPlataformaComponent},
     // Comentarios
     {path: 'dashboard/comentarios/comentarios', component: ComentariosComponent},
-
+    {path: 'dashboard/comentarios/edit/:id', component: EditComentarioComponent},
+    {path: 'dashboard/inventarios', component: InventariosComponent},
+    // Envios
+    {path: 'dashboard/envios/envios', component: EnviosComponent},
+    {path: 'dashboard/envios/edit/:id', component: EditEnviosComponent},
+    {path: 'dashboard/envios/create', component: AddEnviosComponent},
+    // Compras
+    {path: 'dashboard/compras/compras', component: ComprasComponent},
+    {path: 'dashboard/compras/edit/:id', component: EditComprasComponent},
+    {path: 'dashboard/compras/create', component: AddComprasComponent},
+    // Pedidos
+    {path: 'dashboard/pedidos/pedidos', component: PedidosComponent},
+    {path: 'dashboard/pedidos/edit/:id', component: EditPedidosComponent},
+    {path: 'dashboard/pedidos/create', component: AddPedidosComponent},
 
     {path: '', redirectTo: '/ingreso', pathMatch: 'full' },
     {path: '**', component: PageNotFoundComponent },

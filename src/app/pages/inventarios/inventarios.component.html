@@ -1,0 +1,8 @@
+<app-navbar-dash></app-navbar-dash>
+<!-- boton para agregar -->
+<button (click)="agregarInventario()">Agregar Inventario</button>
+
+<div class="d-flex justify-content-center table-container">
+    <app-dynamic-table class="mt-3" [campos]="campos" [datos]="datos" [botonesAccion]="botonesAccion"></app-dynamic-table>
+    
+</div>
