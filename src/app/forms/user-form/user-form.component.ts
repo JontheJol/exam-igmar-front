@@ -123,7 +123,9 @@ if (this.userForm.enabled){
           if (response.body.token) { //para el login 2
 
             this.serverSuccess += "Bienvenido!";
-            this.cookieService.set('token', response.body.token);
+            // this.cookieService.set('token', response.body.token);
+            document.cookie = `authToken=${response.body.token}`;
+
             this.router.navigate(['/dashboard']);
             
           }
