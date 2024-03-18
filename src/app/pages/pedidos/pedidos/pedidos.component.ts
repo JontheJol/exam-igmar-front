@@ -47,7 +47,7 @@ export class PedidosComponent {
   
     const eliminarButton = {
       nombre: 'Eliminar',
-      accion: (purchase: any) => this.eliminarCompra(purchase),
+      accion: (purchase: any) => this.eliminarPedido(purchase),
       clase: 'btn-eliminar'
     };
   
@@ -60,17 +60,16 @@ export class PedidosComponent {
     });
   }
 
-  eliminarCompra(purchase: any) {
-    const endpoint = `http://127.0.0.1:8000/api/purchases/${purchase.id}/deactivate`;
+  eliminarPedido(order: any) {
+    const endpoint = `http://127.0.0.1:8000/api/orders/${order.id}/deactivate`;
     this.http.put(endpoint, {}).subscribe(
       () => {
-        //console.log('Usuario desactivado correctamente');
-        this.notificacion = 'Compra eliminada correctamente';
+        this.notificacion = 'Pedido eliminado correctamente';
         this.obtenerPedidos();
       },
       error => {
-        console.error('Error al eliminar la compra:', error);
-        this.notificacion = 'Error al eliminar la compra';
+        console.error('Error al eliminar el pedido:', error);
+        this.notificacion = 'Error al eliminar el pedido';
       }
     );
   }
