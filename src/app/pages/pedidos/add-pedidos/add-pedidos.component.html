@@ -1,0 +1,33 @@
+<app-navbar-dash></app-navbar-dash>
+<div class="d-flex justify-content-center mt-5">
+    <form class="form-container" [formGroup]="compraForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="user">User</label>
+            <select formControlName="user_id" class="form-control bg-transparent" id="user">
+                <option *ngFor="let user of allUsers" [value]="user.id">{{ user.name }}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="date">Date</label>
+            <input type="text" formControlName="date" class="form-control bg-transparent" id="date">
+        </div>
+        <div class="form-group">
+            <label for="total">Total</label>
+            <input type="text" formControlName="total" class="form-control bg-transparent" id="total">
+        </div>
+        <button type="submit" class="btn">Agregar Pedido</button>
+    </form>
+    <div class="error-container ms-4" style="width: 20%">
+        <div *ngIf="compraForm.get('date')?.invalid && (compraForm.get('city')?.dirty || compraForm.get('city')?.touched)" class="alert alert-danger">
+            <div *ngIf="compraForm.get('date')?.errors?.['required']">La fecha es requerida</div>
+        </div>
+        <div *ngIf="compraForm.get('total')?.invalid && (compraForm.get('city')?.dirty || compraForm.get('state')?.touched)" class="alert alert-danger">
+            <div *ngIf="compraForm.get('total')?.errors?.['required']">El total es requerido</div>
+            <div *ngIf="compraForm.get('total')?.errors?.['minlength']">El total debe tener al menos 1 caracter.</div>
+            <div *ngIf="compraForm.get('total')?.errors?.['maxlength']">El total tener máximo 10 caracteres.</div>
+        </div>
+        <div *ngIf="mensaje" class="alert alert-success" role="alert">
+            {{ mensaje }}
+        </div>
+    </div>
+</div>

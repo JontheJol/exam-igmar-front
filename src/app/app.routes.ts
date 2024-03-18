@@ -36,7 +36,7 @@ import { AddComprasComponent } from './pages/compras/add-compras/add-compras.com
 
 import { PedidosComponent } from './pages/pedidos/pedidos/pedidos.component';
 import { EditPedidosComponent } from './pages/pedidos/edit-pedidos/edit-pedidos.component';
-
+import { AddPedidosComponent } from './pages/pedidos/add-pedidos/add-pedidos.component';
 
 export const routes: Routes = [
     {path: 'registro', component: SignupComponent},
@@ -71,6 +71,7 @@ export const routes: Routes = [
     // Pedidos
     {path: 'dashboard/pedidos/pedidos', component: PedidosComponent},
     {path: 'dashboard/pedidos/edit/:id', component: EditPedidosComponent},
+    {path: 'dashboard/pedidos/create', component: AddPedidosComponent},
 
     {path: '', redirectTo: '/ingreso', pathMatch: 'full' },
     {path: '**', component: PageNotFoundComponent },

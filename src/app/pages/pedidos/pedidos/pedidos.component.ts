@@ -79,7 +79,7 @@ export class PedidosComponent {
     this.router.navigate(['dashboard/pedidos/edit', order.id]);
   }
 
-  agregarCompra(){
-    this.router.navigate(['dashboard/compras/create']);
+  agregarPedido(){
+    this.router.navigate(['dashboard/pedidos/create']);
   }
 }
