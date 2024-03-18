@@ -51,7 +51,18 @@
                     <li><a class="dropdown-item" href="#">Carritos</a></li>
                 </ul>
             </div>
+            <div class="dropdown" > 
+                <!-- *ngIf="authService" -->
+                <button class="btn dropdown-toggle" type="button" id="dropdownInteracciones" data-bs-toggle="dropdown" aria-expanded="false">
+                    Administración
+                </button>
+                <ul class="dropdown-menu align-items-start" aria-labelledby="dropdownInteracciones">
+                    <li><a class="dropdown-item" routerLink="/dashboard/logs" routerLinkActive="active">Logs</a></li>
+                </ul>
+            </div>
+
         </div>
+        
 
 
         <!-- Right side -->

@@ -25,7 +25,7 @@ import { AddPlataformaComponent } from './pages/plataformas/add-plataforma/add-p
 
 import { ComentariosComponent } from './pages/commentarios/comentarios/comentarios.component';
 import { EditComentarioComponent } from './pages/commentarios/edit-comentario/edit-comentario.component';
-
+import { LogListComponent } from './log-list/log-list.component';
 import { EnviosComponent } from './pages/envios/envios/envios.component';
 import { EditEnviosComponent } from './pages/envios/edit-envios/edit-envios.component';
 import { AddEnviosComponent } from './pages/envios/add-envios/add-envios.component';
@@ -72,6 +72,9 @@ export const routes: Routes = [
     {path: 'dashboard/pedidos/pedidos', component: PedidosComponent},
     {path: 'dashboard/pedidos/edit/:id', component: EditPedidosComponent},
     {path: 'dashboard/pedidos/create', component: AddPedidosComponent},
+
+    //Log
+    {path: 'dashboard/logs', component: LogListComponent},
 
     {path: '', redirectTo: '/ingreso', pathMatch: 'full' },
     {path: '**', component: PageNotFoundComponent },
