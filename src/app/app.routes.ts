@@ -25,6 +25,7 @@ import { AddPlataformaComponent } from './pages/plataformas/add-plataforma/add-p
 
 import { ComentariosComponent } from './pages/commentarios/comentarios/comentarios.component';
 import { EditComentarioComponent } from './pages/commentarios/edit-comentario/edit-comentario.component';
+import { AddComentarioComponent } from './pages/commentarios/add-comentario/add-comentario.component';
 
 import { EnviosComponent } from './pages/envios/envios/envios.component';
 import { EditEnviosComponent } from './pages/envios/edit-envios/edit-envios.component';
@@ -59,7 +60,7 @@ export const routes: Routes = [
     // Comentarios
     {path: 'dashboard/comentarios/comentarios', component: ComentariosComponent},
     {path: 'dashboard/comentarios/edit/:id', component: EditComentarioComponent},
-    {path: 'dashboard/inventarios', component: InventariosComponent},
+    {path: 'dashboard/comentarios/create', component: AddComentarioComponent},
     // Envios
     {path: 'dashboard/envios/envios', component: EnviosComponent},
     {path: 'dashboard/envios/edit/:id', component: EditEnviosComponent},

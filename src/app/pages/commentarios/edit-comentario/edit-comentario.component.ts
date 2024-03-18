@@ -26,6 +26,7 @@ export class EditComentarioComponent implements OnInit {
     private router: Router
   ) {
     this.comentarioForm = this.formBuilder.group({
+      user_id: ['', [Validators.required]],
       user_name: [{ value: ''}, [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
       comment: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]]
     });
@@ -66,6 +67,7 @@ export class EditComentarioComponent implements OnInit {
       this.http.get<any>(`http://127.0.0.1:8000/api/users/${this.comentario.user_id}`).subscribe(
         (userData: any) => {
           this.comentarioForm.patchValue({
+            user_id: this.comentario.user_id,
             user_name: userData.name,  // Suponiendo que el nombre del usuario está en el campo 'name'
             comment: this.comentario.comment
           });
@@ -78,11 +80,13 @@ export class EditComentarioComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.comentarioForm.valid) {
+    if (this.comentarioForm.valid && this.comentario && this.comentario.product_id) {
       const comentarioId = this.comentario.id;
       const endpoint = `http://127.0.0.1:8000/api/comments/${comentarioId}/update`;
       const userData = {
-        user_name: this.comentarioForm.value.user_name,
+        user_id: this.comentarioForm.value.user_id,
+        product_id: this.comentario.product_id,
+        rating: this.comentario.rating,
         comment: this.comentarioForm.value.comment
       };
       console.log(userData);
