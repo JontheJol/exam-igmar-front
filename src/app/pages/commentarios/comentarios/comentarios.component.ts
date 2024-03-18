@@ -67,8 +67,9 @@ export class ComentariosComponent {
     this.http.put(endpoint, {}).subscribe(
       () => {
         //console.log('Usuario desactivado correctamente');
-        this.notificacion = 'Comenatrio eliminado correctamente';
+        this.notificacion = 'Comentario eliminado correctamente';
         this.obtenerComentarios();
+        console.log("se desactivó el comentario")
       },
       error => {
         console.error('Error al desactivar el comentario:', error);

@@ -1,25 +1,24 @@
 <app-navbar-dash></app-navbar-dash>
 <div class="d-flex justify-content-center mt-5">
-    <form class="form-container" [formGroup]="categoriaForm" (ngSubmit)="onSubmit()">
+    <form class="form-container" [formGroup]="comentarioForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
             <label for="user_name">Usuario: </label>
-            <input type="text" formControlName="user_name" class="form-control bg-transparent" id="user_name" [disabled]="isDisabled">
-        </div>
+            <input type="text" formControlName="user_name" class="form-control bg-transparent" id="user_name">
+        </div>          
         <div class="form-group">
-            <label for="comment">Comment: </label>
+            <label for="comment">Comentario: </label>
             <input type="text" formControlName="comment" class="form-control bg-transparent" id="comment">
         </div>
         <button type="submit" class="btn">Guardar cambios</button>
     </form>
     <div class="error-container ms-4" style="width: 20%">
-        <div *ngIf="categoriaForm.get('name')?.invalid && (categoriaForm.get('name')?.dirty || categoriaForm.get('name')?.touched)" class="alert alert-danger">
-            <div *ngIf="categoriaForm.get('name')?.errors?.['required']">El nombre es requerido.</div>
-            <div *ngIf="categoriaForm.get('name')?.errors?.['minlength']">El nombre debe tener al menos 4 caracteres.</div>
-            <div *ngIf="categoriaForm.get('name')?.errors?.['maxlength']">El nombre debe tener máximo 20 caracteres.</div>
+        <div *ngIf="comentarioForm.get('user_name')?.invalid && (comentarioForm.get('user_name')?.dirty || comentarioForm.get('user_name')?.touched)" class="alert alert-danger">
+            <div *ngIf="comentarioForm.get('user_name')?.errors?.['required']">El nombre es requerido.</div>
+            <div *ngIf="comentarioForm.get('user_name')?.errors?.['minlength']">El nombre debe tener al menos 4 caracteres.</div>
+            <div *ngIf="comentarioForm.get('user_name')?.errors?.['maxlength']">El nombre debe tener máximo 50 caracteres.</div>
         </div>
         <div *ngIf="mensaje" class="alert alert-success" role="alert">
             {{ mensaje }}
         </div>
-        
     </div>
 </div>

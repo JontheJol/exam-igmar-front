@@ -3,20 +3,21 @@ import { NavbarDashComponent } from '../../../navbar-dash/navbar-dash.component'
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-edit-comentario',
   standalone: true,
-  imports: [NavbarDashComponent, CommonModule, ReactiveFormsModule],
+  imports: [NavbarDashComponent, CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './edit-comentario.component.html',
   styleUrl: './edit-comentario.component.css'
 })
 export class EditComentarioComponent implements OnInit {
-  categoriaForm: FormGroup;
-  comment: any;
-  mensaje: string | null = null; // Inicialmente no hay mensaje
+  comentarioForm: FormGroup;
+  comentario: any;
+  mensaje: string | null = null;
   isDisabled: boolean = true;
+  user_name: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -24,61 +25,75 @@ export class EditComentarioComponent implements OnInit {
     private http: HttpClient,
     private router: Router
   ) {
-    this.categoriaForm = this.formBuilder.group({
-      name: ['', Validators.required]
+    this.comentarioForm = this.formBuilder.group({
+      user_name: [{ value: ''}, [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
+      comment: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]]
     });
   }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      const categoryId = params['id'];
-      this.obtenerCategoria(categoryId);
+      const comentarioId = params['id'];
+      this.obtenerComentario(comentarioId);
     });
-    this.categoriaForm = this.formBuilder.group({
-      comment: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
-      user_name: [{ value: '', disabled: this.isDisabled }, [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
-  });
+    this.http.get<any>('http://127.0.0.1:8000/api/users/').subscribe(
+      (data: any) => {
+        this.user_name = data;
+      },
+      error => {
+        console.error('Error al obtener las categorías:', error);
+      }
+    );
   }
 
-  obtenerCategoria(categoriaId: number): void {
-    const endpoint = `http://127.0.0.1:8000/api/comments/${categoriaId}`;
+  obtenerComentario(comentarioId: number): void {
+    const endpoint = `http://127.0.0.1:8000/api/comments/${comentarioId}`;
     this.http.get<any>(endpoint).subscribe(
       (data: any) => {
-        this.comment = data;
+        this.comentario = data;
         this.initializeForm();
       },
       error => {
-        console.error('Error al obtener la categoria:', error);
+        console.error('Error al obtener el comentario:', error);
         this.router.navigate(['dashboard/comentarios/']);
       }
     );
   }
 
   initializeForm(): void {
-    if (this.comment) {
-      this.categoriaForm.patchValue({
-        comment: this.comment.comment,
-        user_name: this.comment.user_id
-      });
+    if (this.comentario) {
+      // Hacer la consulta a la API de usuarios
+      this.http.get<any>(`http://127.0.0.1:8000/api/users/${this.comentario.user_id}`).subscribe(
+        (userData: any) => {
+          this.comentarioForm.patchValue({
+            user_name: userData.name,  // Suponiendo que el nombre del usuario está en el campo 'name'
+            comment: this.comentario.comment
+          });
+        },
+        error => {
+          console.error('Error al obtener el nombre del usuario:', error);
+        }
+      );
     }
   }
 
   onSubmit(): void {
-    if (this.categoriaForm.valid) {
-      const categoryId = this.comment.id;
-      const endpoint = `http://127.0.0.1:8000/api/categories/${categoryId}/update`;
+    if (this.comentarioForm.valid) {
+      const comentarioId = this.comentario.id;
+      const endpoint = `http://127.0.0.1:8000/api/comments/${comentarioId}/update`;
       const userData = {
-        name: this.categoriaForm.value.name,
+        user_name: this.comentarioForm.value.user_name,
+        comment: this.comentarioForm.value.comment
       };
       console.log(userData);
       this.http.put(endpoint, userData).subscribe(
         (response: any) => {
-          console.log('Categoria actualizada:', response);
-          this.mensaje = 'Categoria actualizada correctamente.';
+          console.log('Comentario actualizado:', response);
+          this.mensaje = 'Comentario actualizado correctamente.';
         },
         error => {
-          console.error('Error al actualizar categoria:', error);
-          this.mensaje = 'Error al actualizar categoria. Por favor, inténtalo de nuevo.';
+          console.error('Error al actualizar comentario:', error);
+          this.mensaje = 'Error al actualizar comentario. Por favor, inténtalo de nuevo.';
         }
       );
     }
