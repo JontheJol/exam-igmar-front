@@ -79,19 +79,17 @@ export class EditPedidosComponent {
     if (this.compra) {
       console.log('Producto:', this.compra);
       this.compraForm.patchValue({
-        quantity: this.compra.quantity,
         date: this.compra.date,
         total: this.compra.total,
-        user_id: this.compra.user_id, 
-        product_id: this.compra.product_id,
+        user_id: this.compra.user_id 
       });
     }
   }
 
   onSubmit(): void {
     if (this.compraForm.valid) {
-      const shipmentId = this.compra.id;
-      const endpoint = `http://127.0.0.1:8000/api/purchases/${shipmentId}/update`;
+      const orderId = this.compra.id;
+      const endpoint = `http://127.0.0.1:8000/api/orders/${orderId}/update`;
       const userData = this.compraForm.value; // Usar los valores del formulario
       console.log(userData);
       this.http.put(endpoint, userData).subscribe(
@@ -99,11 +97,11 @@ export class EditPedidosComponent {
           console.log('Producto actualizado:', response);
           const userNames = this.allUsers.find(user => user.id === userData.user_id)?.name;
           const productName = this.allProducts.find(product => product.id === userData.product_id)?.name;
-          this.mensaje = `Compra actualizada correctamente`;
+          this.mensaje = `Pedido actualizado correctamente`;
         },
         error => {
           console.error('Error al actualizar el envio:', error);
-          this.mensaje = 'Error al actualizar la compra. Por favor, inténtalo de nuevo.';
+          this.mensaje = 'Error al actualizar el pedido. Por favor, inténtalo de nuevo.';
         }
       );
     }
