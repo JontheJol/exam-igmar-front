@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 })
 export class ComentariosComponent {
   constructor(private http: HttpClient, private router: Router) {}
-  categories: any[] = [];
+  commentaries: any[] = [];
   notificacion: string = '';
   botonesAccion: any[] = []; // Define botonesAccion como un array vacío
 
@@ -23,13 +23,14 @@ export class ComentariosComponent {
     const endpoint = 'http://127.0.0.1:8000/api/comments';
     this.http.get<any[]>(endpoint).subscribe(
       (data: any[]) => {
-        this.categories = data;
+        this.commentaries = data;
         this.configurarBotonesAccion(); // Llama a la función para configurar los botones de acción
       },
       error => {
         console.error('Error al obtener usuarios:', error);
       }
     );
+
   }
 
   ngOnInit(): void {
@@ -43,24 +44,25 @@ export class ComentariosComponent {
     // Agregar botones de Editar y Eliminar una vez
     const editarButton = {
       nombre: 'Editar',
-      accion: (categorie: any) => this.editarCategoria(categorie),
+      accion: (commentary: any) => this.editarComentario(commentary),
     };
   
     const eliminarButton = {
       nombre: 'Eliminar',
-      accion: (categorie: any) => this.eliminarCategoria(categorie),
+      accion: (commentary: any) => this.eliminarComentario(commentary),
       clase: 'btn-eliminar'
     };
   
     this.botonesAccion.push(editarButton, eliminarButton);
   
-    // Asignar botones a cada usuario
-    this.categories.forEach(categorie => {
-      categorie.botonesAccion = this.botonesAccion;
+    this.commentaries.forEach(commentary => {
+      commentary.botonesAccion = this.botonesAccion;
+      commentary.product = commentary.product.name; // Cambiar objeto de categoría por nombre de categoría
+      commentary.user = commentary.user.name; // Cambiar objeto de plataforma por nombre de plataforma
     });
   }
 
-  eliminarCategoria(comment: any) {
+  eliminarComentario(comment: any) {
     const endpoint = `http://127.0.0.1:8000/api/comments/${comment.id}/deactivate`;
     this.http.put(endpoint, {}).subscribe(
       () => {
@@ -75,12 +77,12 @@ export class ComentariosComponent {
     );
   }
 
-  editarCategoria(categoria: any) {
-    console.log('Editar categoria:', categoria);
-    this.router.navigate(['dashboard/categorias/edit', categoria.id]);
+  editarComentario(commentary: any) {
+    console.log('Editar categoria:', commentary);
+    this.router.navigate(['dashboard/comentarios/edit', commentary.id]);
   }
 
   agregarCategoria(){
-    this.router.navigate(['dashboard/categorias/create']);
+    this.router.navigate(['dashboard/comentarios/create']);
   }
 }
