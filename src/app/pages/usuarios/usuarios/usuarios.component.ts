@@ -4,6 +4,8 @@ import { DynamicTableComponent } from '../../../dynamic-table/dynamic-table.comp
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-usuarios',
@@ -13,14 +15,16 @@ import { Router, RouterModule } from '@angular/router';
   styleUrls: ['./usuarios.component.css']
 })
 export class UsuariosComponent {
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private cookieService: CookieService) {}
   usuarios: any[] = [];
   notificacion: string = '';
   botonesAccion: any[] = []; // Define botonesAccion como un array vacío
 
   obtenerUsuarios() {
     const endpoint = 'http://127.0.0.1:8000/api/users';
-    this.http.get<any[]>(endpoint).subscribe(
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    this.http.get<any[]>(endpoint, {headers: headers}).subscribe(
       (data: any[]) => {
         this.usuarios = data;
         this.configurarBotonesAccion(); // Llama a la función para configurar los botones de acción
@@ -61,8 +65,10 @@ export class UsuariosComponent {
   }
 
   eliminarUsuario(usuario: any) {
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const endpoint = `http://127.0.0.1:8000/api/users/${usuario.id}/deactivate`;
-    this.http.put(endpoint, {}).subscribe(
+    this.http.put(endpoint, {}, {headers: headers}).subscribe(
       () => {
         console.log('Usuario desactivado correctamente');
         this.notificacion = 'Usuario desactivado correctamente';

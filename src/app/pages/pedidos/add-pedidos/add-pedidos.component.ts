@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavbarDashComponent } from '../../../navbar-dash/navbar-dash.component';
 import { RouterModule } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+
 
 @Component({
   selector: 'app-add-pedidos',
@@ -23,7 +25,8 @@ export class AddPedidosComponent {
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private cookieService: CookieService
   ) {
     this.compraForm = this.formBuilder.group({
       date: ['', [Validators.required]],
@@ -55,6 +58,8 @@ export class AddPedidosComponent {
   onSubmit(): void {
     if (this.compraForm.valid) {
       const endpoint = `http://127.0.0.1:8000/api/orders/create`;
+      const token = this.cookieService.get('authToken');
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
       const userData = {
         date: this.compraForm.value.date,
         total: this.compraForm.value.total,
@@ -62,7 +67,7 @@ export class AddPedidosComponent {
         product_id: this.compraForm.value.product_id
       };
       console.log(userData);
-      this.http.post(endpoint, userData).subscribe(
+      this.http.post(endpoint, userData, {headers: headers}).subscribe(
         (response: any) => {
           console.log('Envio creado:', response);
           const categoryNames = this.allUsers.find(user => user.id === userData.user_id)?.name;

@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { NavbarDashComponent } from '../../../navbar-dash/navbar-dash.component';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-edit-usuario',
@@ -21,7 +22,8 @@ export class EditUsuarioComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private cookieService: CookieService
   ) {
     this.usuarioForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -43,8 +45,10 @@ export class EditUsuarioComponent implements OnInit {
   }
 
   obtenerUsuario(userId: number): void {
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const endpoint = `http://127.0.0.1:8000/api/users/${userId}`;
-    this.http.get<any>(endpoint).subscribe(
+    this.http.get<any>(endpoint, {headers: headers}).subscribe(
       (data: any) => {
         this.usuario = data;
         this.initializeForm();
@@ -76,7 +80,9 @@ export class EditUsuarioComponent implements OnInit {
         rol: this.usuarioForm.value.rol
       };
       console.log(userData);
-      this.http.put(endpoint, userData).subscribe(
+      const token = this.cookieService.get('authToken');
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      this.http.put(endpoint, userData, {headers: headers}).subscribe(
         (response: any) => {
           console.log('Usuario actualizado:', response);
           this.mensaje = 'Usuario actualizado correctamente.';
