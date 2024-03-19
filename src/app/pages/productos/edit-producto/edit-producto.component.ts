@@ -97,6 +97,8 @@ export class EditProductoComponent implements OnInit {
 
   onSubmit(): void {
     if (this.productoForm.valid) {
+      
+
       const productId = this.producto.id;
       const endpoint = `http://127.0.0.1:8000/api/products/${productId}/update`;
       const userData = {

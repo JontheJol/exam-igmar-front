@@ -7,7 +7,8 @@ import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { Route } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-edit-plataforma',
@@ -25,7 +26,9 @@ export class EditPlataformaComponent {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private cookieService: CookieService
+
   ) {
     this.plataformaForm = this.formBuilder.group({
       name: ['', Validators.required]
@@ -43,8 +46,10 @@ export class EditPlataformaComponent {
   }
 
   obtenerPlataforma(plataformaId: number): void {
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const endpoint = `http://127.0.0.1:8000/api/platforms/${plataformaId}`;
-    this.http.get<any>(endpoint).subscribe(
+    this.http.get<any>(endpoint, { headers: headers }).subscribe(
       (data: any) => {
         this.plataforma = data;
         this.initializeForm();
@@ -72,7 +77,9 @@ export class EditPlataformaComponent {
         name: this.plataformaForm.value.name,
       };
       console.log(userData);
-      this.http.put(endpoint, userData).subscribe(
+      const token = this.cookieService.get('authToken');
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      this.http.put(endpoint, userData, { headers: headers }).subscribe(
         (response: any) => {
           console.log('Plataforma actualizada:', response);
           this.mensaje = 'Plataforma actualizada correctamente.';

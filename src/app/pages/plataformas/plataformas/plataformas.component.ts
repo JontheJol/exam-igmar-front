@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { NavbarDashComponent } from '../../../navbar-dash/navbar-dash.component';
 import { DynamicTableComponent } from '../../../dynamic-table/dynamic-table.component';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-plataformas',
@@ -15,14 +15,16 @@ import { Router } from '@angular/router';
 })
 export class PlataformasComponent {
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private cookieService: CookieService) {}
   platforms: any[] = [];
   notificacion: string = '';
   botonesAccion: any[] = []; // Define botonesAccion como un array vacío
 
   obtenerPlataformas() {
     const endpoint = 'http://127.0.0.1:8000/api/platforms';
-    this.http.get<any[]>(endpoint).subscribe(
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    this.http.get<any[]>(endpoint, { headers: headers }).subscribe(
       (data: any[]) => {
         this.platforms = data;
         this.configurarBotonesAccion(); // Llama a la función para configurar los botones de acción
@@ -62,8 +64,10 @@ export class PlataformasComponent {
   }
 
   eliminarPlataforma(platform: any) {
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const endpoint = `http://127.0.0.1:8000/api/platforms/${platform.id}/deactivate`;
-    this.http.put(endpoint, {}).subscribe(
+    this.http.put(endpoint, {}, { headers: headers }).subscribe(
       () => {
         //console.log('Usuario desactivado correctamente');
         this.notificacion = 'Plataforma desactivada correctamente';

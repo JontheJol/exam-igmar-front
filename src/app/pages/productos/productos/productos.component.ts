@@ -3,7 +3,8 @@ import { NavbarDashComponent } from '../../../navbar-dash/navbar-dash.component'
 import { DynamicTableComponent } from '../../../dynamic-table/dynamic-table.component';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-productos',
@@ -13,14 +14,19 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './productos.component.css'
 })
 export class ProductosComponent {
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router,
+    private cookieService: CookieService
+    ) {}
   products: any[] = [];
   notificacion: string = '';
   botonesAccion: any[] = []; // Define botonesAccion como un array vacío
 
+  
   obtenerProductos() {
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const endpoint = 'http://127.0.0.1:8000/api/products';
-    this.http.get<any[]>(endpoint).subscribe(
+    this.http.get<any[]>(endpoint, { headers: headers }).subscribe(
       (data: any[]) => {
         this.products = data;
         this.configurarBotonesAccion(); // Llama a la función para configurar los botones de acción
@@ -62,8 +68,10 @@ export class ProductosComponent {
   }
 
   eliminarProducto(product: any) {
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const endpoint = `http://127.0.0.1:8000/api/products/${product.id}/deactivate`;
-    this.http.put(endpoint, {}).subscribe(
+    this.http.put(endpoint, {}, { headers: headers }).subscribe(
       () => {
         //console.log('Usuario desactivado correctamente');
         this.notificacion = 'Producto desactivado correctamente';
