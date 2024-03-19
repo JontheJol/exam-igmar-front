@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavbarDashComponent } from '../../../navbar-dash/navbar-dash.component';
 import { RouterModule } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-add-producto',
@@ -23,7 +24,9 @@ export class AddProductoComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private cookieService: CookieService
+
   ) {
     this.productoForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -35,7 +38,10 @@ export class AddProductoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.http.get<any>('http://127.0.0.1:8000/api/categories').subscribe(
+    
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    this.http.get<any>('http://127.0.0.1:8000/api/categories',{ headers: headers }).subscribe(
       (data: any) => {
         this.allCategories = data;
       },
@@ -44,7 +50,7 @@ export class AddProductoComponent implements OnInit {
       }
     );
 
-    this.http.get<any>('http://127.0.0.1:8000/api/platforms').subscribe(
+    this.http.get<any>('http://127.0.0.1:8000/api/platforms',{ headers: headers }).subscribe(
       (data: any) => {
         this.allPlatforms = data;
       },
@@ -65,7 +71,10 @@ export class AddProductoComponent implements OnInit {
         platform_id: this.productoForm.value.platform_id
       };
       console.log(userData);
-      this.http.post(endpoint, userData).subscribe(
+      
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      this.http.post(endpoint, userData,{ headers: headers }).subscribe(
         (response: any) => {
           console.log('Producto creado:', response);
           const categoryNames = this.allCategories.find(category => category.id === userData.category_id)?.name;

@@ -3,7 +3,8 @@ import { NavbarDashComponent } from '../../../navbar-dash/navbar-dash.component'
 import { DynamicTableComponent } from '../../../dynamic-table/dynamic-table.component';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpHeaders } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-categorias',
@@ -13,14 +14,16 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './categorias.component.css'
 })
 export class CategoriasComponent {
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private cookieService: CookieService) {}
   categories: any[] = [];
   notificacion: string = '';
   botonesAccion: any[] = []; // Define botonesAccion como un array vacío
 
   obtenerCategorias() {
     const endpoint = 'http://127.0.0.1:8000/api/categories';
-    this.http.get<any[]>(endpoint).subscribe(
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    this.http.get<any[]>(endpoint, { headers: headers }).subscribe(
       (data: any[]) => {
         this.categories = data;
         this.configurarBotonesAccion(); // Llama a la función para configurar los botones de acción
@@ -60,8 +63,11 @@ export class CategoriasComponent {
   }
 
   eliminarCategoria(categorie: any) {
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    
     const endpoint = `http://127.0.0.1:8000/api/categories/${categorie.id}/deactivate`;
-    this.http.put(endpoint, {}).subscribe(
+    this.http.put(endpoint, {}, { headers: headers } ).subscribe(
       () => {
         //console.log('Usuario desactivado correctamente');
         this.notificacion = 'Categoria desactivada correctamente';

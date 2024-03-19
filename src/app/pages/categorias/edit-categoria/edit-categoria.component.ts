@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { NavbarDashComponent } from '../../../navbar-dash/navbar-dash.component';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-edit-categoria',
@@ -23,7 +24,8 @@ export class EditCategoriaComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private cookieService: CookieService
   ) {
     this.categoriaForm = this.formBuilder.group({
       name: ['', Validators.required]
@@ -41,8 +43,10 @@ export class EditCategoriaComponent implements OnInit {
   }
 
   obtenerCategoria(categoriaId: number): void {
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const endpoint = `http://127.0.0.1:8000/api/categories/${categoriaId}`;
-    this.http.get<any>(endpoint).subscribe(
+    this.http.get<any>(endpoint,{ headers: headers }).subscribe(
       (data: any) => {
         this.categoria = data;
         this.initializeForm();
@@ -70,7 +74,9 @@ export class EditCategoriaComponent implements OnInit {
         name: this.categoriaForm.value.name,
       };
       console.log(userData);
-      this.http.put(endpoint, userData).subscribe(
+      const token = this.cookieService.get('authToken');
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      this.http.put(endpoint, userData, { headers: headers }).subscribe(
         (response: any) => {
           console.log('Categoria actualizada:', response);
           this.mensaje = 'Categoria actualizada correctamente.';

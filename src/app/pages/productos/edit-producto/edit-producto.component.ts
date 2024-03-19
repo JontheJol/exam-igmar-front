@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavbarDashComponent } from '../../../navbar-dash/navbar-dash.component';
 import { RouterModule } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-edit-producto',
@@ -25,7 +26,9 @@ export class EditProductoComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private cookieService: CookieService
+
   ) {
     this.productoForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -41,8 +44,10 @@ export class EditProductoComponent implements OnInit {
       const productId = params['id'];
       this.obtenerProducto(productId);
     });
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    this.http.get<any>('http://127.0.0.1:8000/api/categories').subscribe(
+    this.http.get<any>('http://127.0.0.1:8000/api/categories', { headers: headers }).subscribe(
       (data: any) => {
         this.allCategories = data;
       },
@@ -51,7 +56,7 @@ export class EditProductoComponent implements OnInit {
       }
     );
 
-    this.http.get<any>('http://127.0.0.1:8000/api/platforms').subscribe(
+    this.http.get<any>('http://127.0.0.1:8000/api/platforms', { headers: headers }).subscribe(
       (data: any) => {
         this.allPlatforms = data;
       },
@@ -62,8 +67,10 @@ export class EditProductoComponent implements OnInit {
   }
 
   obtenerProducto(productId: number): void {
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const endpoint = `http://127.0.0.1:8000/api/products/${productId}`;
-    this.http.get<any>(endpoint).subscribe(
+    this.http.get<any>(endpoint, { headers: headers }).subscribe(
       (data: any) => {
         this.producto = data;
         this.initializeForm();
@@ -100,7 +107,9 @@ export class EditProductoComponent implements OnInit {
         platform_id: this.productoForm.value.platform_id
       };
       console.log(userData);
-      this.http.put(endpoint, userData).subscribe(
+      const token = this.cookieService.get('authToken');
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      this.http.put(endpoint, userData,{ headers: headers }).subscribe(
         (response: any) => {
           console.log('Producto actualizado:', response);
           const categoryNames = this.allCategories.find(category => category.id === userData.category_id)?.name;

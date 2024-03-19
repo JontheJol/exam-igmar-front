@@ -10,7 +10,10 @@ export class TokenService {
   private isRegisteringSubject = new BehaviorSubject<boolean>(true);
   isRegistering$ = this.isRegisteringSubject.asObservable();
 
-  constructor(private http: HttpClient, private cookieService: CookieService) { }
+  constructor(
+    private http: HttpClient, 
+    private cookieService: CookieService
+    ) { }
 
   setIsRegistering(value: boolean): void {
     this.isRegisteringSubject.next(value);
