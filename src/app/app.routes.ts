@@ -27,6 +27,10 @@ import { ComentariosComponent } from './pages/commentarios/comentarios/comentari
 import { EditComentarioComponent } from './pages/commentarios/edit-comentario/edit-comentario.component';
 import { AddComentarioComponent } from './pages/commentarios/add-comentario/add-comentario.component';
 
+import { CarritosComponent } from './pages/carritos/carritos/carritos.component';
+import { EditCarritoComponent } from './pages/carritos/edit-carrito/edit-carrito.component';
+import { AddCarritoComponent } from './pages/carritos/add-carrito/add-carrito.component';
+
 import { EnviosComponent } from './pages/envios/envios/envios.component';
 import { EditEnviosComponent } from './pages/envios/edit-envios/edit-envios.component';
 import { AddEnviosComponent } from './pages/envios/add-envios/add-envios.component';
@@ -61,6 +65,10 @@ export const routes: Routes = [
     {path: 'dashboard/comentarios/comentarios', component: ComentariosComponent},
     {path: 'dashboard/comentarios/edit/:id', component: EditComentarioComponent},
     {path: 'dashboard/comentarios/create', component: AddComentarioComponent},
+    // Carritos
+    {path: 'dashboard/carritos/carritos', component: CarritosComponent},
+    {path: 'dashboard/carrito/edit/:id', component: EditCarritoComponent},
+    {path: 'dashboard/carrito/create', component: AddCarritoComponent},
     // Envios
     {path: 'dashboard/envios/envios', component: EnviosComponent},
     {path: 'dashboard/envios/edit/:id', component: EditEnviosComponent},
