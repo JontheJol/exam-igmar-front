@@ -3,8 +3,10 @@ import { NavbarDashComponent } from '../../../navbar-dash/navbar-dash.component'
 import { DynamicTableComponent } from '../../../dynamic-table/dynamic-table.component';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+
 
 @Component({
   selector: 'app-comentarios',
@@ -14,14 +16,16 @@ import { Router } from '@angular/router';
   styleUrl: './comentarios.component.css'
 })
 export class ComentariosComponent {
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private cookieService: CookieService) {}
   commentaries: any[] = [];
   notificacion: string = '';
   botonesAccion: any[] = []; // Define botonesAccion como un array vacío
 
   obtenerComentarios() {
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const endpoint = 'http://127.0.0.1:8000/api/comments';
-    this.http.get<any[]>(endpoint).subscribe(
+    this.http.get<any[]>(endpoint, {headers: headers}).subscribe(
       (data: any[]) => {
         this.commentaries = data;
         this.configurarBotonesAccion(); // Llama a la función para configurar los botones de acción
@@ -63,8 +67,10 @@ export class ComentariosComponent {
   }
 
   eliminarComentario(comment: any) {
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const endpoint = `http://127.0.0.1:8000/api/comments/${comment.id}/deactivate`;
-    this.http.put(endpoint, {}).subscribe(
+    this.http.put(endpoint, {}, {headers: headers}).subscribe(
       () => {
         //console.log('Usuario desactivado correctamente');
         this.notificacion = 'Comentario eliminado correctamente';

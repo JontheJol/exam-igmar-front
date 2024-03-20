@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NavbarDashComponent } from '../../../navbar-dash/navbar-dash.component';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+
 
 @Component({
   selector: 'app-edit-comentario',
@@ -23,7 +25,8 @@ export class EditComentarioComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private cookieService: CookieService
   ) {
     this.comentarioForm = this.formBuilder.group({
       user_id: ['', [Validators.required]],
@@ -37,7 +40,10 @@ export class EditComentarioComponent implements OnInit {
       const comentarioId = params['id'];
       this.obtenerComentario(comentarioId);
     });
-    this.http.get<any>('http://127.0.0.1:8000/api/users/').subscribe(
+
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    this.http.get<any>('http://127.0.0.1:8000/api/users/', {headers: headers}).subscribe(
       (data: any) => {
         this.user_name = data;
       },
@@ -48,8 +54,10 @@ export class EditComentarioComponent implements OnInit {
   }
 
   obtenerComentario(comentarioId: number): void {
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const endpoint = `http://127.0.0.1:8000/api/comments/${comentarioId}`;
-    this.http.get<any>(endpoint).subscribe(
+    this.http.get<any>(endpoint, {headers: headers}).subscribe(
       (data: any) => {
         this.comentario = data;
         this.initializeForm();
@@ -64,7 +72,9 @@ export class EditComentarioComponent implements OnInit {
   initializeForm(): void {
     if (this.comentario) {
       // Hacer la consulta a la API de usuarios
-      this.http.get<any>(`http://127.0.0.1:8000/api/users/${this.comentario.user_id}`).subscribe(
+      const token = this.cookieService.get('authToken');
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      this.http.get<any>(`http://127.0.0.1:8000/api/users/${this.comentario.user_id}`, {headers: headers}).subscribe(
         (userData: any) => {
           this.comentarioForm.patchValue({
             user_id: this.comentario.user_id,
@@ -90,7 +100,9 @@ export class EditComentarioComponent implements OnInit {
         comment: this.comentarioForm.value.comment
       };
       console.log(userData);
-      this.http.put(endpoint, userData).subscribe(
+      const token = this.cookieService.get('authToken');
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      this.http.put(endpoint, userData, {headers: headers}).subscribe(
         (response: any) => {
           console.log('Comentario actualizado:', response);
           this.mensaje = 'Comentario actualizado correctamente.';

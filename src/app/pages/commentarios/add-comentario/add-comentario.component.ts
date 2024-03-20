@@ -4,8 +4,9 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { routes } from '../../../app.routes';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-add-comentario',
@@ -22,7 +23,8 @@ export class AddComentarioComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private cookieService: CookieService
   ) {
     this.comentarioForm = this.formBuilder.group({
       comment: ['', Validators.required],
@@ -33,7 +35,9 @@ export class AddComentarioComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.http.get<any>('http://127.0.0.1:8000/api/users').subscribe(
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    this.http.get<any>('http://127.0.0.1:8000/api/users', {headers: headers}).subscribe(
       (data: any) => {
         this.allUsers = data;
       },
@@ -42,7 +46,7 @@ export class AddComentarioComponent implements OnInit {
       }
     );
 
-    this.http.get<any>('http://127.0.0.1:8000/api/products').subscribe(
+    this.http.get<any>('http://127.0.0.1:8000/api/products', {headers: headers}).subscribe(
       (data: any) => {
         this.allProducts = data;
       },
@@ -54,6 +58,8 @@ export class AddComentarioComponent implements OnInit {
 
   onSubmit(): void {
     if (this.comentarioForm.valid) {
+      const token = this.cookieService.get('authToken');
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
       const endpoint = `http://127.0.0.1:8000/api/comments/create`;
       const comentarioData = {
         comment: this.comentarioForm.value.comment,
@@ -62,7 +68,7 @@ export class AddComentarioComponent implements OnInit {
         rating: this.comentarioForm.value.rating
       };
       console.log(comentarioData);
-      this.http.post(endpoint, comentarioData).subscribe(
+      this.http.post(endpoint, comentarioData, {headers: headers}).subscribe(
         (response: any) => {
           console.log('Comentario creado:', response);
           const userName = this.allUsers.find(user => user.id === comentarioData.user_id)?.name;
