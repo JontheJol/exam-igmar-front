@@ -7,7 +7,8 @@ import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { Route } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-edit-envios',
@@ -27,7 +28,8 @@ export class EditEnviosComponent {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private cookieService: CookieService
   ) {
     this.envioForm = this.formBuilder.group({
       state: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(25)]],
@@ -45,7 +47,9 @@ export class EditEnviosComponent {
       this.obtenerEnvio(productId);
     });
 
-    this.http.get<any>('http://127.0.0.1:8000/api/users').subscribe(
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    this.http.get<any>('http://127.0.0.1:8000/api/users', {headers: headers}).subscribe(
       (data: any) => {
         this.allUsers = data;
       },
@@ -54,7 +58,7 @@ export class EditEnviosComponent {
       }
     );
 
-    this.http.get<any>('http://127.0.0.1:8000/api/products').subscribe(
+    this.http.get<any>('http://127.0.0.1:8000/api/products', {headers: headers}).subscribe(
       (data: any) => {
         this.allProducts = data;
       },
@@ -65,8 +69,10 @@ export class EditEnviosComponent {
   }
 
   obtenerEnvio(shipmentId: number): void {
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const endpoint = `http://127.0.0.1:8000/api/shipments/${shipmentId}`;
-    this.http.get<any>(endpoint).subscribe(
+    this.http.get<any>(endpoint, {headers: headers}).subscribe(
       (data: any) => {
         this.envio = data;
         this.initializeForm();
@@ -98,7 +104,9 @@ export class EditEnviosComponent {
       const endpoint = `http://127.0.0.1:8000/api/shipments/${shipmentId}/update`;
       const userData = this.envioForm.value; // Usar los valores del formulario
       console.log(userData);
-      this.http.put(endpoint, userData).subscribe(
+      const token = this.cookieService.get('authToken');
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      this.http.put(endpoint, userData, {headers: headers}).subscribe(
         (response: any) => {
           console.log('Producto actualizado:', response);
           const userNames = this.allUsers.find(user => user.id === userData.user_id)?.name;

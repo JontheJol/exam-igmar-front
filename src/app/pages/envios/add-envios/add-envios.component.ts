@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavbarDashComponent } from '../../../navbar-dash/navbar-dash.component';
 import { RouterModule } from '@angular/router';
-
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-add-envios',
@@ -24,7 +24,8 @@ export class AddEnviosComponent {
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private cookieService: CookieService
   ) {
     this.envioForm = this.formBuilder.group({
       state: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(25)]],
@@ -37,7 +38,9 @@ export class AddEnviosComponent {
   }
 
   ngOnInit(): void {
-    this.http.get<any>('http://127.0.0.1:8000/api/users').subscribe(
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    this.http.get<any>('http://127.0.0.1:8000/api/users', {headers: headers}).subscribe(
       (data: any) => {
         this.allUsers = data;
       },
@@ -46,7 +49,7 @@ export class AddEnviosComponent {
       }
     );
 
-    this.http.get<any>('http://127.0.0.1:8000/api/products').subscribe(
+    this.http.get<any>('http://127.0.0.1:8000/api/products', {headers: headers}).subscribe(
       (data: any) => {
         this.allProducts = data;
       },
@@ -59,6 +62,8 @@ export class AddEnviosComponent {
   onSubmit(): void {
     if (this.envioForm.valid) {
       const endpoint = `http://127.0.0.1:8000/api/shipments/create`;
+      const token = this.cookieService.get('authToken');
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
       const userData = {
         state: this.envioForm.value.state,
         city: this.envioForm.value.city,
@@ -68,7 +73,7 @@ export class AddEnviosComponent {
         postal_code: this.envioForm.value.postal_code
       };
       console.log(userData);
-      this.http.post(endpoint, userData).subscribe(
+      this.http.post(endpoint, userData, {headers: headers}).subscribe(
         (response: any) => {
           console.log('Envio creado:', response);
           const categoryNames = this.allUsers.find(user => user.id === userData.user_id)?.name;
