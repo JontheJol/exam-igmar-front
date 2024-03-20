@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavbarDashComponent } from '../../../navbar-dash/navbar-dash.component';
 import { RouterModule } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+
 
 @Component({
   selector: 'app-add-compras',
@@ -23,7 +25,8 @@ export class AddComprasComponent {
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private cookieService: CookieService
   ) {
     this.compraForm = this.formBuilder.group({
       quantity: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(10)]],
@@ -35,7 +38,9 @@ export class AddComprasComponent {
   }
 
   ngOnInit(): void {
-    this.http.get<any>('http://127.0.0.1:8000/api/users').subscribe(
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    this.http.get<any>('http://127.0.0.1:8000/api/users', {headers: headers}).subscribe(
       (data: any) => {
         this.allUsers = data;
       },
@@ -44,7 +49,7 @@ export class AddComprasComponent {
       }
     );
 
-    this.http.get<any>('http://127.0.0.1:8000/api/products').subscribe(
+    this.http.get<any>('http://127.0.0.1:8000/api/products', {headers: headers}).subscribe(
       (data: any) => {
         this.allProducts = data;
       },
@@ -56,6 +61,8 @@ export class AddComprasComponent {
 
   onSubmit(): void {
     if (this.compraForm.valid) {
+      const token = this.cookieService.get('authToken');
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
       const endpoint = `http://127.0.0.1:8000/api/purchases/create`;
       const userData = {
         quantity: this.compraForm.value.quantity,
@@ -65,7 +72,7 @@ export class AddComprasComponent {
         product_id: this.compraForm.value.product_id
       };
       console.log(userData);
-      this.http.post(endpoint, userData).subscribe(
+      this.http.post(endpoint, userData, {headers: headers}).subscribe(
         (response: any) => {
           console.log('Envio creado:', response);
           const categoryNames = this.allUsers.find(user => user.id === userData.user_id)?.name;
