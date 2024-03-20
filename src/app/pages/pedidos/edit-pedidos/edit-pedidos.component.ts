@@ -7,7 +7,8 @@ import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { Route } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-edit-pedidos',
@@ -27,7 +28,8 @@ export class EditPedidosComponent {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private cookieService: CookieService
   ) {
     this.compraForm = this.formBuilder.group({
       date: ['', [Validators.required]],
@@ -37,12 +39,10 @@ export class EditPedidosComponent {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      const purchaseId = params['id'];
-      this.obtenerPedido(purchaseId);
-    });
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    this.http.get<any>('http://127.0.0.1:8000/api/users').subscribe(
+    this.http.get<any>('http://127.0.0.1:8000/api/users', {headers: headers}).subscribe(
       (data: any) => {
         this.allUsers = data;
       },
@@ -51,7 +51,7 @@ export class EditPedidosComponent {
       }
     );
 
-    this.http.get<any>('http://127.0.0.1:8000/api/products').subscribe(
+    this.http.get<any>('http://127.0.0.1:8000/api/products', {headers: headers}).subscribe(
       (data: any) => {
         this.allProducts = data;
       },
@@ -59,11 +59,18 @@ export class EditPedidosComponent {
         console.error('Error al obtener los productos:', error);
       }
     );
+
+    this.route.params.subscribe(params => {
+      const purchaseId = params['id'];
+      this.obtenerPedido(purchaseId);
+    });
   }
 
   obtenerPedido(orderId: number): void {
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const endpoint = `http://127.0.0.1:8000/api/purchases/${orderId}`;
-    this.http.get<any>(endpoint).subscribe(
+    this.http.get<any>(endpoint, {headers: headers}).subscribe(
       (data: any) => {
         this.compra = data;
         this.initializeForm();
@@ -92,7 +99,9 @@ export class EditPedidosComponent {
       const endpoint = `http://127.0.0.1:8000/api/orders/${orderId}/update`;
       const userData = this.compraForm.value; // Usar los valores del formulario
       console.log(userData);
-      this.http.put(endpoint, userData).subscribe(
+      const token = this.cookieService.get('authToken');
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      this.http.put(endpoint, userData, {headers: headers}).subscribe(
         (response: any) => {
           console.log('Producto actualizado:', response);
           const userNames = this.allUsers.find(user => user.id === userData.user_id)?.name;

@@ -36,24 +36,29 @@ export class AddPedidosComponent {
   }
 
   ngOnInit(): void {
-    this.http.get<any>('http://127.0.0.1:8000/api/users').subscribe(
-      (data: any) => {
-        this.allUsers = data;
-      },
-      error => {
-        console.error('Error al obtener los usuarios:', error);
-      }
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    // Solicitud para obtener usuarios
+    this.http.get<any>('http://127.0.0.1:8000/api/users', { headers: headers }).subscribe(
+        (data: any) => {
+            this.allUsers = data;
+        },
+        error => {
+            console.error('Error al obtener los usuarios:', error);
+        }
     );
 
-    this.http.get<any>('http://127.0.0.1:8000/api/products').subscribe(
-      (data: any) => {
-        this.allProducts = data;
-      },
-      error => {
-        console.error('Error al obtener los usuarios:', error);
-      }
+    // Solicitud para obtener productos
+    this.http.get<any>('http://127.0.0.1:8000/api/products', { headers: headers }).subscribe(
+        (data: any) => {
+            this.allProducts = data;
+        },
+        error => {
+            console.error('Error al obtener los productos:', error);
+        }
     );
-  }
+}
 
   onSubmit(): void {
     if (this.compraForm.valid) {
