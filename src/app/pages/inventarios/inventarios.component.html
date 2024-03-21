@@ -1,6 +1,40 @@
 <app-navbar-dash></app-navbar-dash>
 <!-- boton para agregar -->
-<button (click)="agregarInventario()">Agregar Inventario</button>
+
+<div class="text-center mt-3">
+    <button class="btn" id="openModalButton" (click)="open(content)">Agregar +</button>
+</div>
+
+<!-- Modal -->
+
+<ng-template #content let-modal (shown)="onModalShown()">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel" style="color: black;">Nuevo Inventario</h5>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Aquí puedes poner tu formulario -->
+          <form>
+            <div class="mb-3">
+              <label for="inventoryName" class="form-label" style="color: black;">Nombre</label>
+              <select [(ngModel)]="selectedId" (change)="updateSelectedId(selectedId)" name="producto" class="form-control" id="inventoryName" style="color: black !important;">
+                <option *ngFor="let producto of productosName" [value]="producto.id">{{producto.name}}</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label" style="color: black;">Cantidad</label>
+              <input type="number" [(ngModel)]="cantity" name="cantity" class="form-control" id="cantity" style="color: black !important;">           </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Close click')">Cerrar</button>
+          <button type="button" class="btn btn-primary" (click)="modal.dismiss('Save click')">Guardar</button>
+        </div>
+      </div>
+
+  </ng-template>
 
 <div class="d-flex justify-content-center table-container">
     <app-dynamic-table class="mt-3" [campos]="campos" [datos]="datos" [botonesAccion]="botonesAccion"></app-dynamic-table>

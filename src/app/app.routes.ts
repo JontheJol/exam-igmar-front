@@ -58,6 +58,8 @@ export const routes: Routes = [
     {path: 'dashboard/categorias/categorias', component: CategoriasComponent},
     {path: 'dashboard/categorias/edit/:id', component: EditCategoriaComponent},
     {path: 'dashboard/categorias/create', component: AddCategoriaComponent},
+    // Inventarios
+    {path: 'dashboard/inventarios', component: InventariosComponent},
     // Plataformas
     {path: 'dashboard/plataformas/plataformas', component: PlataformasComponent},
     {path: 'dashboard/plataformas/edit/:id', component: EditPlataformaComponent},

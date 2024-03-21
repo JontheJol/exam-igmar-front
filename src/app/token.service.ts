@@ -19,15 +19,13 @@ export class TokenService {
     this.isRegisteringSubject.next(value);
   }
 
-  sendRequestWithToken(url: string): void { //para insertar 
+  sendRequestWithToken(url: string, data: object) { //para insertar 
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    console.log(token);
+    // console.log(token);
     // console.log(headers);
-    this.http.post(url, {}, { headers: headers }).subscribe(response => {
-      console.log(response);
-      return this.http.post(url, {}, { headers: headers });
-    });
+  
+      return this.http.post(url, data, { headers: headers });
   }
 
 
