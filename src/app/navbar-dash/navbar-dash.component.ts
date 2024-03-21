@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ButtonComponent } from '../buttons/button/button.component';
 import { RouterOutlet, RouterLink, RouterLinkActive, RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @Component({
@@ -14,8 +15,10 @@ import { CommonModule } from '@angular/common';
 export class NavbarDashComponent{
   $authService = true;
 
-  constructor() { }
-
-
-
+  constructor(private cookieService: CookieService) { }
+  
+  salir() {
+    this.cookieService.deleteAll();
+    console.log('Saliendo...');
+  }
 }
