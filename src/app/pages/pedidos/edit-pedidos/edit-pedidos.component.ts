@@ -69,7 +69,7 @@ export class EditPedidosComponent {
   obtenerPedido(orderId: number): void {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = `http://127.0.0.1:8000/api/purchases/${orderId}`;
+    const endpoint = `http://127.0.0.1:8000/api/orders/${orderId}`;
     this.http.get<any>(endpoint, {headers: headers}).subscribe(
       (data: any) => {
         this.compra = data;
