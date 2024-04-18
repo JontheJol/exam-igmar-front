@@ -47,6 +47,7 @@ import { authGuard } from './guards/auth.guard';
 
 import { GameComponent } from './pages/game/game.component';
 import { LandingComponent } from './pages/landing/landing.component';
+import { PruebaComponent } from './prueba/prueba.component';
 export const routes: Routes = [
     {path: 'registro', component: SignupComponent},
     {path: 'ingreso', component: LoginComponent},
@@ -56,6 +57,9 @@ export const routes: Routes = [
 
     {path: 'landing', component: LandingComponent},
     {path: 'game',component: GameComponent},
+
+    //WebSocket
+    {path: 'prueba', component: PruebaComponent},
 
     // Productos
     {path: 'dashboard/productos/productos', component: ProductosComponent},
