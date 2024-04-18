@@ -28,7 +28,7 @@ export class LandingComponent {
   logs!: any[];//para probar que se esten trayendo los logs
   appaer: boolean = false
 
-  constructor(private single: TokenService) {
+  constructor(private single: TokenService, private router: Router) {
 
 
     Pusher.logToConsole = true;
@@ -66,10 +66,10 @@ export class LandingComponent {
     this.single.getRequestWithToken("api/index").subscribe((data :any )  => {
       console.log(data);
       this.gigaerror = data.prueba as String;
-  
+
       // Limpiar la lista de juegos antes de agregar los nuevos juegos
       this.games = [];
-  
+
       for (let i = 0; i <( data.partidas.length as number); i++) {
         this.juego = new Game(data.partidas[i].id, data.partidas[i].player1);
         this.games.push(this.juego);
@@ -95,7 +95,6 @@ console.log("exitus")
 
   viewScores()
   {
-
   }
 
 }

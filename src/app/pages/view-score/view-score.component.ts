@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
 import { TokenService } from '../../token.service';
-
+import { CommonModule } from '@angular/common';
+import { NgFor } from '@angular/common';
+import { ButtonComponent } from '../../buttons/button/button.component';
+import { Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-view-score',
   standalone: true,
-  imports: [],
+  imports: [NgFor, CommonModule,RouterLink, ButtonComponent],
   templateUrl: './view-score.component.html',
   styleUrl: './view-score.component.css'
 })
@@ -40,7 +44,7 @@ export class ViewScoreComponent {
     this.perdidos = 0;
 
     for (const resultado of this.resultados) {
-      if (resultado.resultado === 'Ganado') {
+      if (resultado.resultado === 'ganado') {
         this.ganados++;
       } else {
         this.perdidos++;
