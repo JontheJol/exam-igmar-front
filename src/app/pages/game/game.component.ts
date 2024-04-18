@@ -24,7 +24,7 @@ import Pusher from 'pusher-js';
 })
 export class GameComponent implements OnInit {
 
-  
+
   enemyTiles: string[][] = Array(5).fill(Array(8).fill('/src/assets/emptytile.jpeg'));
   playerTiles: string[][] = Array(5).fill(Array(3).fill('/src/assets/emptytile.jpeg'));
   appaer: boolean = false
@@ -60,7 +60,7 @@ export class GameComponent implements OnInit {
     for (let coord of data) {
       let rowIndex = this.getIndexFromLetter(coord.charAt(0));
       let colIndex = Number(coord.charAt(1)) - 1;
-  
+
       // Actualizar la casilla en las coordenadas dadas para mostrar un barco
       this.playerTiles[rowIndex][colIndex] = '/src/assets/boattile.jpeg';
       console.log(this.playerTiles);
@@ -86,7 +86,7 @@ export class GameComponent implements OnInit {
 
   ngOnInit() {
     this.initializeOponentBoard();
-    this.initializeButtonStates();
+    // this.initializeButtonStates();
 
   }
 
@@ -118,27 +118,33 @@ export class GameComponent implements OnInit {
 
 
   // Coordinates guide
-  getLetterFromIndex(index: number): string {
-    return String.fromCharCode(65 + index);
-  }
-   // Método para determinar si un botón debería estar deshabilitado
-   initializeButtonStates() {
-    for (let i = 0; i < this.tiles.length; i++) {
-      this.buttonStates[i] = Array(this.tiles[i].length).fill(true);
-    }
-  }
-
-  // Método para manejar el clic en el botón
+  // getLetterFromIndex(index: number): string {
+  //   return String.fromCharCode(65 + index);
+  // }
+  //  // Método para determinar si un botón debería estar deshabilitado
+  //  initializeButtonStates() {
+  //   for (let i = 0; i < this.tiles.length; i++) {
+  //     this.buttonStates[i] = Array(this.tiles[i].length).fill(true);
+  //   }
+  // }
+ a = ""
+ b = ""
+ dig = ["A","B","C","D","E"]
+ comp = []
+   // Método para manejar el clic en el botón
   handleClick(rowIndex: number, colIndex: number) {
     // Deshabilitar el botón una vez que se hace clic en él
-    this.buttonStates[rowIndex][colIndex] = false;
-  }
-
-  handleClick2() {
-    console.log("rellenando");
-    this.updatePlayerTiles(['A1', 'A2']);
-    this.playerTiles[0][0] = '/src/assets/boattile.jpeg'; // Cambia la primera posición
+    this.a = this.dig[rowIndex] ;
+    this.b = colIndex.toString();
+    console.log(this.a + this.b)
 
   }
+
+  // handleClick2() {
+  //   console.log("rellenando");
+  //   this.updatePlayerTiles(['A1', 'A2']);
+  //   this.playerTiles[0][0] = '/src/assets/boattile.jpeg'; // Cambia la primera posición
+
+  // });
 
   }

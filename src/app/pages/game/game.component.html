@@ -78,11 +78,11 @@
   <div class="row" *ngFor="let row of tiles; let rowIndex=index">
       <!-- Vertical guide with letters (A, B, C, etc.) -->
       <div  class="col guide-col">
-          {{ getLetterFromIndex(rowIndex) }}
+          <!-- {{ getLetterFromIndex(rowIndex) }} -->
       </div>
       <!-- Iterate through columns -->
       <div  class="col" *ngFor="let tile of row">
-        <img class="img-fluid pixelated" [src]="tile" alt="Barco">      
+        <img class="img-fluid pixelated" [src]="tile" alt="Barco">
       </div>
   </div> <br>
 
@@ -97,7 +97,7 @@
 <div>
   <div style="margin: 10px;" class="row row-guides" *ngFor="let row of enemyTiles; let rowIndex=index">
     <div class="col guide-col">
-      {{ getLetterFromIndex(rowIndex) }}
+      <!-- {{ getLetterFromIndex(rowIndex) }} -->
     </div>
     <div style="margin: 6px;" class="col" *ngFor="let tile of row; let colIndex=index">
       <button mat-button (click)="handleClick(rowIndex, colIndex)">
@@ -109,7 +109,7 @@
 </div>
 <br>
 </div>
-<button mat-button (click)="handleClick2()">
+<button mat-button >
   <!-- Use an image of an empty tile instead of a ship -->
   <img class="img-fluid pixelated" src="assets/images/oceantile.jpeg" alt="Casillero vacío">
 </button>
