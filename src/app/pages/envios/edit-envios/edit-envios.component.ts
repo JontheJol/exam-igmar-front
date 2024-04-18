@@ -49,7 +49,7 @@ export class EditEnviosComponent {
 
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    this.http.get<any>('http://192.168.26.65:8000/api/users', {headers: headers}).subscribe(
+    this.http.get<any>('https://ed28-187-190-56-49.ngrok-free.app/api/users', {headers: headers}).subscribe(
       (data: any) => {
         this.allUsers = data;
       },
@@ -58,7 +58,7 @@ export class EditEnviosComponent {
       }
     );
 
-    this.http.get<any>('http://192.168.26.65:8000/api/products', {headers: headers}).subscribe(
+    this.http.get<any>('https://ed28-187-190-56-49.ngrok-free.app/api/products', {headers: headers}).subscribe(
       (data: any) => {
         this.allProducts = data;
       },
@@ -71,7 +71,7 @@ export class EditEnviosComponent {
   obtenerEnvio(shipmentId: number): void {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = `http://192.168.26.65:8000/api/shipments/${shipmentId}`;
+    const endpoint = `https://ed28-187-190-56-49.ngrok-free.app/api/shipments/${shipmentId}`;
     this.http.get<any>(endpoint, {headers: headers}).subscribe(
       (data: any) => {
         this.envio = data;
@@ -101,7 +101,7 @@ export class EditEnviosComponent {
   onSubmit(): void {
     if (this.envioForm.valid) {
       const shipmentId = this.envio.id;
-      const endpoint = `http://192.168.26.65:8000/api/shipments/${shipmentId}/update`;
+      const endpoint = `https://ed28-187-190-56-49.ngrok-free.app/api/shipments/${shipmentId}/update`;
       const userData = this.envioForm.value; // Usar los valores del formulario
       console.log(userData);
       const token = this.cookieService.get('authToken');

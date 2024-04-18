@@ -24,7 +24,7 @@ export class ComentariosComponent {
   obtenerComentarios() {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = 'http://192.168.26.65:8000/api/comments';
+    const endpoint = 'https://ed28-187-190-56-49.ngrok-free.app/api/comments';
     this.http.get<any[]>(endpoint, {headers: headers}).subscribe(
       (data: any[]) => {
         this.commentaries = data;
@@ -69,7 +69,7 @@ export class ComentariosComponent {
   eliminarComentario(comment: any) {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = `http://192.168.26.65:8000/api/comments/${comment.id}/deactivate`;
+    const endpoint = `https://ed28-187-190-56-49.ngrok-free.app/api/comments/${comment.id}/deactivate`;
     this.http.put(endpoint, {}, {headers: headers}).subscribe(
       () => {
         //console.log('Usuario desactivado correctamente');

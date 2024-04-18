@@ -47,7 +47,7 @@ export class EditUsuarioComponent implements OnInit {
   obtenerUsuario(userId: number): void {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = `http://192.168.26.65:8000/api/users/${userId}`;
+    const endpoint = `https://ed28-187-190-56-49.ngrok-free.app/api/users/${userId}`;
     this.http.get<any>(endpoint, {headers: headers}).subscribe(
       (data: any) => {
         this.usuario = data;
@@ -73,7 +73,7 @@ export class EditUsuarioComponent implements OnInit {
   onSubmit(): void {
     if (this.usuarioForm.valid) {
       const userId = this.usuario.id;
-      const endpoint = `http://192.168.26.65:8000/api/users/${userId}/update`;
+      const endpoint = `https://ed28-187-190-56-49.ngrok-free.app/api/users/${userId}/update`;
       const userData = {
         name: this.usuarioForm.value.name,
         phone: this.usuarioForm.value.phone,

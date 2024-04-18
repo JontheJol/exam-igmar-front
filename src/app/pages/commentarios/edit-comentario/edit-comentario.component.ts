@@ -43,7 +43,7 @@ export class EditComentarioComponent implements OnInit {
 
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    this.http.get<any>('http://192.168.26.65:8000/api/users/', {headers: headers}).subscribe(
+    this.http.get<any>('https://ed28-187-190-56-49.ngrok-free.app/api/users/', {headers: headers}).subscribe(
       (data: any) => {
         this.user_name = data;
       },
@@ -56,7 +56,7 @@ export class EditComentarioComponent implements OnInit {
   obtenerComentario(comentarioId: number): void {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = `http://192.168.26.65:8000/api/comments/${comentarioId}`;
+    const endpoint = `https://ed28-187-190-56-49.ngrok-free.app/api/comments/${comentarioId}`;
     this.http.get<any>(endpoint, {headers: headers}).subscribe(
       (data: any) => {
         this.comentario = data;
@@ -74,7 +74,7 @@ export class EditComentarioComponent implements OnInit {
       // Hacer la consulta a la API de usuarios
       const token = this.cookieService.get('authToken');
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-      this.http.get<any>(`http://192.168.26.65:8000/api/users/${this.comentario.user_id}`, {headers: headers}).subscribe(
+      this.http.get<any>(`https://ed28-187-190-56-49.ngrok-free.app/api/users/${this.comentario.user_id}`, {headers: headers}).subscribe(
         (userData: any) => {
           this.comentarioForm.patchValue({
             user_id: this.comentario.user_id,
@@ -92,7 +92,7 @@ export class EditComentarioComponent implements OnInit {
   onSubmit(): void {
     if (this.comentarioForm.valid && this.comentario && this.comentario.product_id) {
       const comentarioId = this.comentario.id;
-      const endpoint = `http://192.168.26.65:8000/api/comments/${comentarioId}/update`;
+      const endpoint = `https://ed28-187-190-56-49.ngrok-free.app/api/comments/${comentarioId}/update`;
       const userData = {
         user_id: this.comentarioForm.value.user_id,
         product_id: this.comentario.product_id,

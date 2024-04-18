@@ -45,7 +45,7 @@ export class EditCategoriaComponent implements OnInit {
   obtenerCategoria(categoriaId: number): void {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = `http://192.168.26.65:8000/api/categories/${categoriaId}`;
+    const endpoint = `https://ed28-187-190-56-49.ngrok-free.app/api/categories/${categoriaId}`;
     this.http.get<any>(endpoint,{ headers: headers }).subscribe(
       (data: any) => {
         this.categoria = data;
@@ -69,7 +69,7 @@ export class EditCategoriaComponent implements OnInit {
   onSubmit(): void {
     if (this.categoriaForm.valid) {
       const categoryId = this.categoria.id;
-      const endpoint = `http://192.168.26.65:8000/api/categories/${categoryId}/update`;
+      const endpoint = `https://ed28-187-190-56-49.ngrok-free.app/api/categories/${categoryId}/update`;
       const userData = {
         name: this.categoriaForm.value.name,
       };

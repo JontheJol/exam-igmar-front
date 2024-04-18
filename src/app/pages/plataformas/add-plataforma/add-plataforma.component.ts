@@ -33,7 +33,7 @@ export class AddPlataformaComponent {
 
   onSubmit(): void {
     if (this.categoriaForm.valid) {
-      const endpoint = `http://192.168.26.65:8000/api/platforms/create`;
+      const endpoint = `https://ed28-187-190-56-49.ngrok-free.app/api/platforms/create`;
       const token = this.cookieService.get('authToken');
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
       const categoryData = {

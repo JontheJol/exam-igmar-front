@@ -23,7 +23,7 @@ export class ComprasComponent {
   obtenerCompras() {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = 'http://192.168.26.65:8000/api/purchases';
+    const endpoint = 'https://ed28-187-190-56-49.ngrok-free.app/api/purchases';
     this.http.get<any[]>(endpoint, {headers: headers}).subscribe(
       (data: any[]) => {
         this.purchases = data;
@@ -68,7 +68,7 @@ export class ComprasComponent {
   eliminarCompra(purchase: any) {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = `http://192.168.26.65:8000/api/purchases/${purchase.id}/deactivate`;
+    const endpoint = `https://ed28-187-190-56-49.ngrok-free.app/api/purchases/${purchase.id}/deactivate`;
     this.http.put(endpoint, {}, {headers: headers}).subscribe(
       () => {
         //console.log('Usuario desactivado correctamente');

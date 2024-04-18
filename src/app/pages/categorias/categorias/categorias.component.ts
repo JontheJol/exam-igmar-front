@@ -20,7 +20,7 @@ export class CategoriasComponent {
   botonesAccion: any[] = []; // Define botonesAccion como un array vacío
 
   obtenerCategorias() {
-    const endpoint = 'http://192.168.26.65:8000/api/categories';
+    const endpoint = 'https://ed28-187-190-56-49.ngrok-free.app/api/categories';
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     this.http.get<any[]>(endpoint, { headers: headers }).subscribe(
@@ -66,7 +66,7 @@ export class CategoriasComponent {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    const endpoint = `http://192.168.26.65:8000/api/categories/${categorie.id}/deactivate`;
+    const endpoint = `https://ed28-187-190-56-49.ngrok-free.app/api/categories/${categorie.id}/deactivate`;
     this.http.put(endpoint, {}, { headers: headers } ).subscribe(
       () => {
         //console.log('Usuario desactivado correctamente');
