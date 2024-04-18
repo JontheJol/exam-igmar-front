@@ -20,7 +20,7 @@ export class CarritosComponent {
   botonesAccion: any[] = []; // Define botonesAccion como un array vacío
 
   obtenerCarritos() {
-    const endpoint = 'https://ed28-187-190-56-49.ngrok-free.app/api/carts';
+    const endpoint = 'https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/carts';
     this.http.get<any[]>(endpoint).subscribe(
       (data: any[]) => {
         this.carts = data;
@@ -64,7 +64,7 @@ export class CarritosComponent {
   }
 
   eliminarCarrito(cart: any) {
-    const endpoint = `https://ed28-187-190-56-49.ngrok-free.app/api/carts/${cart.id}/deactivate`;
+    const endpoint = `https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/carts/${cart.id}/deactivate`;
     this.http.put(endpoint, {}).subscribe(
       () => {
         //console.log('Usuario desactivado correctamente');

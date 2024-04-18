@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-
+import { RouterOutlet, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
+import {game}
 @Component({
   selector: 'app-landing',
   standalone: true,
@@ -9,7 +10,7 @@ import { Component } from '@angular/core';
 })
 export class LandingComponent {
 
-  games = []
+  games : [String]
 
 
 }

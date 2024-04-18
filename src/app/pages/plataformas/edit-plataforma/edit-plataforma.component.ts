@@ -48,7 +48,7 @@ export class EditPlataformaComponent {
   obtenerPlataforma(plataformaId: number): void {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = `https://ed28-187-190-56-49.ngrok-free.app/api/platforms/${plataformaId}`;
+    const endpoint = `https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/platforms/${plataformaId}`;
     this.http.get<any>(endpoint, { headers: headers }).subscribe(
       (data: any) => {
         this.plataforma = data;
@@ -72,7 +72,7 @@ export class EditPlataformaComponent {
   onSubmit(): void {
     if (this.plataformaForm.valid) {
       const platformId = this.plataforma.id;
-      const endpoint = `https://ed28-187-190-56-49.ngrok-free.app/api/platforms/${platformId}/update`;
+      const endpoint = `https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/platforms/${platformId}/update`;
       const userData = {
         name: this.plataformaForm.value.name,
       };

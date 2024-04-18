@@ -41,7 +41,7 @@ export class AddProductoComponent implements OnInit {
 
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    this.http.get<any>('https://ed28-187-190-56-49.ngrok-free.app/api/categories',{ headers: headers }).subscribe(
+    this.http.get<any>('https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/categories',{ headers: headers }).subscribe(
       (data: any) => {
         this.allCategories = data;
       },
@@ -50,7 +50,7 @@ export class AddProductoComponent implements OnInit {
       }
     );
 
-    this.http.get<any>('https://ed28-187-190-56-49.ngrok-free.app/api/platforms',{ headers: headers }).subscribe(
+    this.http.get<any>('https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/platforms',{ headers: headers }).subscribe(
       (data: any) => {
         this.allPlatforms = data;
       },
@@ -62,7 +62,7 @@ export class AddProductoComponent implements OnInit {
 
   onSubmit(): void {
     if (this.productoForm.valid) {
-      const endpoint = `https://ed28-187-190-56-49.ngrok-free.app/api/products/create`;
+      const endpoint = `https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/products/create`;
       const userData = {
         name: this.productoForm.value.name,
         description: this.productoForm.value.description,
