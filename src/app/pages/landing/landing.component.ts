@@ -87,7 +87,8 @@ export class LandingComponent {
   }
 
   joinGame(gameId: number) {
-this.single.sendRequestWithToken("api/joinGame", {gameId: gameId}).subscribe((data: any) => {
+    console.log(gameId)
+this.single.sendRequestWithToken("api/joinGame", {"id":gameId}).subscribe((data: any) => {
 console.log("exitus")
   });
 }
