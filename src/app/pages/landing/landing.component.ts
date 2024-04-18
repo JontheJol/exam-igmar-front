@@ -16,6 +16,7 @@ import { ButtonComponent } from '../../buttons/button/button.component';
 export class LandingComponent {
 
   games: Game[] = [];
+  juego:Game = new Game(0, "");
   gigaerror: any;
 
   logs!: any[];//para probar que se esten trayendo los logs
@@ -24,15 +25,15 @@ export class LandingComponent {
   }
 
   ngOnInit() {
-    this.single.getRequestWithToken("index").subscribe((data :any )  => {
-      for (let i = 0; i < data.partidas.length; i++) {
-        this.games.push(new Game(data.partidas[i].id, data.partidas[i].player1));
-      }
+    this.single.getRequestWithToken("api/index").subscribe((data :any )  => {
+      console.log(data);
 
-    },
-    error => {
+      // for (let i = 0; i <( data.partidas.length as number); i++) {
+      //   this.juego = new Game(data.partidas[i].id, data.partidas[i].player1);
+      //   this.games.push(this.juego);
+      //   this.gigaerror = data.partidas[i].player1 as String;
+      // }
 
-      console.log(error);
     });
   }
 
