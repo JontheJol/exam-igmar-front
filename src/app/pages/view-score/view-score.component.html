@@ -1,20 +1,13 @@
-<div class="container">
-  <h1>Resultados</h1>
+<table>
+  <tr>
+    <th>Resultado</th>
+    <th>Contra</th>
+  </tr>
+  <tr *ngFor="let resultado of resultados">
+    <td>{{ resultado.resultado }}</td>
+    <td>{{ resultado.contra }}</td>
+  </tr>
+</table>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Resultado</th>
-        <th>Contra</th>
-        <th>Cantidad</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let resultado of resultados">
-        <td>{{ resultado.resultado }}</td>
-        <td>{{ resultado.contra }}</td>
-        <td>{{ resultado.cantidad }}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+<p>Ganados: {{ ganados }}</p>
+<p>Perdidos: {{ perdidos }}</p>
