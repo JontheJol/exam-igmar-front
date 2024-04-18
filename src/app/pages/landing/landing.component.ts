@@ -16,7 +16,6 @@ export class LandingComponent {
 
   games: Game[] = [];
   gigaerror: any;
-  gamedata : {id:number,player1:string}[];
 
   logs!: any[];//para probar que se esten trayendo los logs
   constructor(private single: TokenService) {
@@ -24,13 +23,11 @@ export class LandingComponent {
   }
 
   ngOnInit() {
-    this.single.getRequestWithToken("index").subscribe(data   => {
-      data.partidas;
+    this.single.getRequestWithToken("index").subscribe((data :any )  => {
       for (let i = 0; i < data.partidas.length; i++) {
-
+        this.
       }
 
-     this.games.id = data.partidas;
     },
     error => {
 
