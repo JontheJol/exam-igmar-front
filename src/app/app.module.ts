@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router'; 
+import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
 import { HttpClientModule } from '@angular/common/http';
@@ -17,7 +17,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule
   ],
   providers: [],
-  bootstrap: [] 
+  bootstrap: []
 })
 export class AppModule {
   constructor(private router: Router){}

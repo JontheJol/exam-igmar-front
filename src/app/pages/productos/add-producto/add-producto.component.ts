@@ -38,10 +38,10 @@ export class AddProductoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    this.http.get<any>('http://127.0.0.1:8000/api/categories',{ headers: headers }).subscribe(
+    this.http.get<any>('http://192.168.26.65:8000/api/categories',{ headers: headers }).subscribe(
       (data: any) => {
         this.allCategories = data;
       },
@@ -50,7 +50,7 @@ export class AddProductoComponent implements OnInit {
       }
     );
 
-    this.http.get<any>('http://127.0.0.1:8000/api/platforms',{ headers: headers }).subscribe(
+    this.http.get<any>('http://192.168.26.65:8000/api/platforms',{ headers: headers }).subscribe(
       (data: any) => {
         this.allPlatforms = data;
       },
@@ -62,7 +62,7 @@ export class AddProductoComponent implements OnInit {
 
   onSubmit(): void {
     if (this.productoForm.valid) {
-      const endpoint = `http://127.0.0.1:8000/api/products/create`;
+      const endpoint = `http://192.168.26.65:8000/api/products/create`;
       const userData = {
         name: this.productoForm.value.name,
         description: this.productoForm.value.description,
@@ -71,7 +71,7 @@ export class AddProductoComponent implements OnInit {
         platform_id: this.productoForm.value.platform_id
       };
       console.log(userData);
-      
+
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
       this.http.post(endpoint, userData,{ headers: headers }).subscribe(

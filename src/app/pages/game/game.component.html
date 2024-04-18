@@ -1,0 +1,103 @@
+<style>
+  .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .row {
+      display: flex;
+      flex-direction: row;
+      padding: 0;
+      outline: solid 1px;
+
+  }
+
+  .col {
+      margin: 2px;
+      padding: 0;
+      width: 64px;
+      flex: none;
+      padding: 4px;
+       outline: solid 1px;
+
+  }
+
+  .guide-col {
+      color: white;
+
+  }
+
+  .escalable {
+  width: 50%;
+  padding-top: 56.25%; /* Relación de aspecto 16:9 */
+  position: relative;
+}
+
+.escalable::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+}
+
+
+
+</style>
+<section style="background-color: rgba(0, 255, 255, 0.377); ">
+
+<p>
+  <mat-toolbar style="background-color: blueviolet;">
+    <span style="color: greenyellow;">        <h1> Battleship</h1>
+    </span>
+  </mat-toolbar>
+</p>
+<div class="container">
+  <div style="display: flex;" class="titulo">
+      <h2>Jugador 1</h2>
+      <h1 style="color: blueviolet; text-underline-offset: 23;"> VS </h1>
+      <h2>Jugador 2</h2>
+  </div>
+  <div class="texto">
+      <h2>Tu tablero</h2>
+  </div>
+  <div class="row row-guides">
+      <!-- Empty div for the top-left corner -->
+      <div class="col"></div>
+      <!-- Horizontal guides (1 to 8) -->
+      <div class="col guide-col" *ngFor="let col of [0, 1, 2, 3, 4, 5, 6, 7]">
+          {{ col + 1 }}
+      </div>
+  </div>
+  <!-- Iterate through rows with letters (A, B, C, etc.) -->
+  <div class="row" *ngFor="let row of tiles; let rowIndex=index">
+      <!-- Vertical guide with letters (A, B, C, etc.) -->
+      <div  class="col guide-col">
+          {{ getLetterFromIndex(rowIndex) }}
+      </div>
+      <!-- Iterate through columns -->
+      <div  class="col" *ngFor="let tile of row">
+          <img class="img-fluid pixelated" src="/src/assets/oceantile.jpeg" alt="Barco" >
+      </div>
+  </div> <br>
+<div class="texto"> <h2> Tablero contrario </h2> </div>
+<div class="texto"> <h3> Presiona donde deseas atacar </h3> </div><br>
+<div><!-- para poder escalar despues el grid-->
+  <div>
+<div style="margin: 10px;"  class="row row-guides" *ngFor="let row of tiles; let rowIndex=index">
+  <div class="col guide-col">
+      {{ getLetterFromIndex(rowIndex) }}
+  </div>
+  <div  style="margin: 6px;" class="col" *ngFor="let tile of row; let colIndex=index">
+      <button mat-button (click)="handleClick(rowIndex, colIndex)" [disabled]="!buttonStates[rowIndex][colIndex]">
+          <img class="img-fluid pixelated" [src]="tile" alt="Barco">
+      </button>
+  </div>
+</div>
+</div>
+</div><br>
+</div>
+</section>

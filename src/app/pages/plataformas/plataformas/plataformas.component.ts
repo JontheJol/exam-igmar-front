@@ -21,7 +21,7 @@ export class PlataformasComponent {
   botonesAccion: any[] = []; // Define botonesAccion como un array vacío
 
   obtenerPlataformas() {
-    const endpoint = 'http://127.0.0.1:8000/api/platforms';
+    const endpoint = 'http://192.168.26.65:8000/api/platforms';
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     this.http.get<any[]>(endpoint, { headers: headers }).subscribe(
@@ -38,25 +38,25 @@ export class PlataformasComponent {
   ngOnInit(): void {
     this.obtenerPlataformas();
   }
-  
+
   configurarBotonesAccion() {
     // Limpiar el array antes de agregar nuevos botones
     this.botonesAccion = [];
-  
+
     // Agregar botones de Editar y Eliminar una vez
     const editarButton = {
       nombre: 'Editar',
       accion: (platform: any) => this.editarPlataforma(platform),
     };
-  
+
     const eliminarButton = {
       nombre: 'Eliminar',
       accion: (platform: any) => this.eliminarPlataforma(platform),
       clase: 'btn-eliminar'
     };
-  
+
     this.botonesAccion.push(editarButton, eliminarButton);
-  
+
     // Asignar botones a cada usuario
     this.platforms.forEach(platform => {
       platform.botonesAccion = this.botonesAccion;
@@ -66,7 +66,7 @@ export class PlataformasComponent {
   eliminarPlataforma(platform: any) {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = `http://127.0.0.1:8000/api/platforms/${platform.id}/deactivate`;
+    const endpoint = `http://192.168.26.65:8000/api/platforms/${platform.id}/deactivate`;
     this.http.put(endpoint, {}, { headers: headers }).subscribe(
       () => {
         //console.log('Usuario desactivado correctamente');

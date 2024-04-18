@@ -23,7 +23,7 @@ export class ComprasComponent {
   obtenerCompras() {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = 'http://127.0.0.1:8000/api/purchases';
+    const endpoint = 'http://192.168.26.65:8000/api/purchases';
     this.http.get<any[]>(endpoint, {headers: headers}).subscribe(
       (data: any[]) => {
         this.purchases = data;
@@ -38,25 +38,25 @@ export class ComprasComponent {
   ngOnInit(): void {
     this.obtenerCompras();
   }
-  
+
   configurarBotonesAccion() {
     // Limpiar el array antes de agregar nuevos botones
     this.botonesAccion = [];
-  
+
     // Agregar botones de Editar y Eliminar una vez
     const editarButton = {
       nombre: 'Editar',
       accion: (purchase: any) => this.editarCompra(purchase),
     };
-  
+
     const eliminarButton = {
       nombre: 'Eliminar',
       accion: (purchase: any) => this.eliminarCompra(purchase),
       clase: 'btn-eliminar'
     };
-  
+
     this.botonesAccion.push(editarButton, eliminarButton);
-  
+
     // Asignar botones a cada usuario
     this.purchases.forEach(categorie => {
       categorie.botonesAccion = this.botonesAccion;
@@ -68,7 +68,7 @@ export class ComprasComponent {
   eliminarCompra(purchase: any) {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = `http://127.0.0.1:8000/api/purchases/${purchase.id}/deactivate`;
+    const endpoint = `http://192.168.26.65:8000/api/purchases/${purchase.id}/deactivate`;
     this.http.put(endpoint, {}, {headers: headers}).subscribe(
       () => {
         //console.log('Usuario desactivado correctamente');

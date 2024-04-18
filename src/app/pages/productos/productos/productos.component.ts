@@ -21,11 +21,11 @@ export class ProductosComponent {
   notificacion: string = '';
   botonesAccion: any[] = []; // Define botonesAccion como un array vacío
 
-  
+
   obtenerProductos() {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = 'http://127.0.0.1:8000/api/products';
+    const endpoint = 'http://192.168.26.65:8000/api/products';
     this.http.get<any[]>(endpoint, { headers: headers }).subscribe(
       (data: any[]) => {
         this.products = data;
@@ -40,25 +40,25 @@ export class ProductosComponent {
   ngOnInit(): void {
     this.obtenerProductos();
   }
-  
+
   configurarBotonesAccion() {
     // Limpiar el array antes de agregar nuevos botones
     this.botonesAccion = [];
-  
+
     // Agregar botones de Editar y Eliminar una vez
     const editarButton = {
       nombre: 'Editar',
       accion: (product: any) => this.editarProducto(product),
     };
-  
+
     const eliminarButton = {
       nombre: 'Eliminar',
       accion: (product: any) => this.eliminarProducto(product),
       clase: 'btn-eliminar'
     };
-  
+
     this.botonesAccion.push(editarButton, eliminarButton);
-  
+
     // Asignar botones a cada usuario
     this.products.forEach(product => {
       product.botonesAccion = this.botonesAccion;
@@ -70,7 +70,7 @@ export class ProductosComponent {
   eliminarProducto(product: any) {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = `http://127.0.0.1:8000/api/products/${product.id}/deactivate`;
+    const endpoint = `http://192.168.26.65:8000/api/products/${product.id}/deactivate`;
     this.http.put(endpoint, {}, { headers: headers }).subscribe(
       () => {
         //console.log('Usuario desactivado correctamente');

@@ -42,7 +42,7 @@ export class EditPedidosComponent {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    this.http.get<any>('http://127.0.0.1:8000/api/users', {headers: headers}).subscribe(
+    this.http.get<any>('http://192.168.26.65:8000/api/users', {headers: headers}).subscribe(
       (data: any) => {
         this.allUsers = data;
       },
@@ -51,7 +51,7 @@ export class EditPedidosComponent {
       }
     );
 
-    this.http.get<any>('http://127.0.0.1:8000/api/products', {headers: headers}).subscribe(
+    this.http.get<any>('http://192.168.26.65:8000/api/products', {headers: headers}).subscribe(
       (data: any) => {
         this.allProducts = data;
       },
@@ -69,7 +69,7 @@ export class EditPedidosComponent {
   obtenerPedido(orderId: number): void {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = `http://127.0.0.1:8000/api/orders/${orderId}`;
+    const endpoint = `http://192.168.26.65:8000/api/orders/${orderId}`;
     this.http.get<any>(endpoint, {headers: headers}).subscribe(
       (data: any) => {
         this.compra = data;
@@ -88,7 +88,7 @@ export class EditPedidosComponent {
       this.compraForm.patchValue({
         date: this.compra.date,
         total: this.compra.total,
-        user_id: this.compra.user_id 
+        user_id: this.compra.user_id
       });
     }
   }
@@ -96,7 +96,7 @@ export class EditPedidosComponent {
   onSubmit(): void {
     if (this.compraForm.valid) {
       const orderId = this.compra.id;
-      const endpoint = `http://127.0.0.1:8000/api/orders/${orderId}/update`;
+      const endpoint = `http://192.168.26.65:8000/api/orders/${orderId}/update`;
       const userData = this.compraForm.value; // Usar los valores del formulario
       console.log(userData);
       const token = this.cookieService.get('authToken');

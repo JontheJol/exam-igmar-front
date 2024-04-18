@@ -1,0 +1,9 @@
+<div class="container">
+  <button class="btn btn-primary mb-3" (click)="createGame()">Create Game</button>
+  <ul class="list-group">
+    <li *ngFor="let game of games" class="list-group-item">
+      {{ game.name }}
+      <button class="btn btn-success float-right" (click)="joinGame(game.id)">Join</button>
+    </li>
+  </ul>
+</div>

@@ -37,7 +37,7 @@ export class AddComentarioComponent implements OnInit {
   ngOnInit(): void {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    this.http.get<any>('http://127.0.0.1:8000/api/users', {headers: headers}).subscribe(
+    this.http.get<any>('http://192.168.26.65:8000/api/users', {headers: headers}).subscribe(
       (data: any) => {
         this.allUsers = data;
       },
@@ -46,7 +46,7 @@ export class AddComentarioComponent implements OnInit {
       }
     );
 
-    this.http.get<any>('http://127.0.0.1:8000/api/products', {headers: headers}).subscribe(
+    this.http.get<any>('http://192.168.26.65:8000/api/products', {headers: headers}).subscribe(
       (data: any) => {
         this.allProducts = data;
       },
@@ -60,7 +60,7 @@ export class AddComentarioComponent implements OnInit {
     if (this.comentarioForm.valid) {
       const token = this.cookieService.get('authToken');
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-      const endpoint = `http://127.0.0.1:8000/api/comments/create`;
+      const endpoint = `http://192.168.26.65:8000/api/comments/create`;
       const comentarioData = {
         comment: this.comentarioForm.value.comment,
         user_id: this.comentarioForm.value.user_id,

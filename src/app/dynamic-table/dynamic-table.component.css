@@ -2,13 +2,13 @@
 .tr{
     color: white !important;
     border: solid 1px #536c7e !important;
-    background-color: #121f33 !important;
+    background-color: #0D98BA !important;
 }
 
 table.table-custom{
     width: 100%;
     color: white !important;
-    background-color: #121f33 !important;
+    background-color: #0D98BA !important;
     border-collapse: collapse;
     border-spacing: 0;
 }

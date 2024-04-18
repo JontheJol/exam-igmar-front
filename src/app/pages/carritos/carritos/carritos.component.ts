@@ -20,7 +20,7 @@ export class CarritosComponent {
   botonesAccion: any[] = []; // Define botonesAccion como un array vacío
 
   obtenerCarritos() {
-    const endpoint = 'http://127.0.0.1:8000/api/carts';
+    const endpoint = 'http://192.168.26.65:8000/api/carts';
     this.http.get<any[]>(endpoint).subscribe(
       (data: any[]) => {
         this.carts = data;
@@ -36,25 +36,25 @@ export class CarritosComponent {
   ngOnInit(): void {
     this.obtenerCarritos();
   }
-  
+
   configurarBotonesAccion() {
     // Limpiar el array antes de agregar nuevos botones
     this.botonesAccion = [];
-  
+
     // Agregar botones de Editar y Eliminar una vez
     const editarButton = {
       nombre: 'Editar',
       accion: (cart: any) => this.editarCarrito(cart),
     };
-  
+
     const eliminarButton = {
       nombre: 'Eliminar',
       accion: (cart: any) => this.eliminarCarrito(cart),
       clase: 'btn-eliminar'
     };
-  
+
     this.botonesAccion.push(editarButton, eliminarButton);
-  
+
     this.carts.forEach(cart => {
       cart.botonesAccion = this.botonesAccion;
       cart.product = cart.product.name; // Cambiar objeto de categoría por nombre de categoría
@@ -64,7 +64,7 @@ export class CarritosComponent {
   }
 
   eliminarCarrito(cart: any) {
-    const endpoint = `http://127.0.0.1:8000/api/carts/${cart.id}/deactivate`;
+    const endpoint = `http://192.168.26.65:8000/api/carts/${cart.id}/deactivate`;
     this.http.put(endpoint, {}).subscribe(
       () => {
         //console.log('Usuario desactivado correctamente');

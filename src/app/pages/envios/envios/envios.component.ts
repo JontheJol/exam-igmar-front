@@ -22,7 +22,7 @@ export class EnviosComponent {
   obtenerEnvios() {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = 'http://127.0.0.1:8000/api/shipments';
+    const endpoint = 'http://192.168.26.65:8000/api/shipments';
     this.http.get<any[]>(endpoint, {headers: headers}).subscribe(
       (data: any[]) => {
         this.shipments = data;
@@ -37,25 +37,25 @@ export class EnviosComponent {
   ngOnInit(): void {
     this.obtenerEnvios();
   }
-  
+
   configurarBotonesAccion() {
     // Limpiar el array antes de agregar nuevos botones
     this.botonesAccion = [];
-  
+
     // Agregar botones de Editar y Eliminar una vez
     const editarButton = {
       nombre: 'Editar',
       accion: (categorie: any) => this.editarCategoria(categorie),
     };
-  
+
     const eliminarButton = {
       nombre: 'Eliminar',
       accion: (categorie: any) => this.eliminarEnvio(categorie),
       clase: 'btn-eliminar'
     };
-  
+
     this.botonesAccion.push(editarButton, eliminarButton);
-  
+
     // Asignar botones a cada usuario
     this.shipments.forEach(categorie => {
       categorie.botonesAccion = this.botonesAccion;
@@ -67,7 +67,7 @@ export class EnviosComponent {
   eliminarEnvio(shipment: any) {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = `http://127.0.0.1:8000/api/shipments/${shipment.id}/deactivate`;
+    const endpoint = `http://192.168.26.65:8000/api/shipments/${shipment.id}/deactivate`;
     this.http.put(endpoint, {}, {headers: headers}).subscribe(
       () => {
         //console.log('Usuario desactivado correctamente');

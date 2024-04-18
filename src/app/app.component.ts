@@ -11,5 +11,5 @@ import { ButtonComponent } from './buttons/button/button.component';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'GameShock';
+  title = 'balistic side eye';
 }

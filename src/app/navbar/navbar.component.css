@@ -1,5 +1,5 @@
 nav{
-    background-color: #121f33;
+    background-color: #0D98BA;
     color: white;
     width: 100% !important;
     border-bottom: solid 1px #536c7e;
@@ -21,4 +21,17 @@ nav{
 
 .space-evenly-important{
     justify-content: space-evenly;
+}
+.container-custom {
+  display: grid;
+  grid-template-areas:
+    "left right";
+}
+
+[grid-area="left"] {
+  order: 1; /* Place the left side first */
+}
+
+[grid-area="right"] {
+  order: 2; /* Place the right side second */
 }

@@ -10,6 +10,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Injectable } from '@angular/core';
 import {  ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
+import { GameComponent } from '../../pages/game/game.component';
 
 
 
@@ -19,7 +20,7 @@ import { Observable } from 'rxjs';
   imports: [ReactiveFormsModule, CommonModule, RouterOutlet, RouterLink, RouterLinkActive, RouterModule, ButtonComponent],
   templateUrl: './user-form.component.html',
   styleUrl: './user-form.component.css'
-  
+
 })
 
 export class UserFormComponent implements OnInit {
@@ -34,7 +35,7 @@ export class UserFormComponent implements OnInit {
 
 
   constructor(private formBuilder: FormBuilder, private loginService: LoginService, private http: HttpClient, private cookieService: CookieService, private router: Router ) { }
-//el constructor es 
+//el constructor es
   ngOnInit(): void {
     this.initializeForm();
     this.loginService.isRegistering$.subscribe((value) => {
@@ -42,7 +43,7 @@ export class UserFormComponent implements OnInit {
     });
   }
 
-  
+
 // , Validators.pattern("^[0-9]{10}$")]
   initializeForm(): void {
     this.userForm = this.formBuilder.group({
@@ -75,7 +76,7 @@ export class UserFormComponent implements OnInit {
       this.userForm.addControl('password_confirmation', this.formBuilder.control('', Validators.required));
             this.userForm.removeControl('code');
             this.isRegistering = true;
-      this.endpoint = 'http://127.0.0.1:8000/api/register'; // Endpoint para el registro
+      this.endpoint = 'http://192.168.26.65:8000/api/register'; // Endpoint para el registro
     } else {
       this.userForm.removeControl('name');
       this.userForm.removeControl('phone');
@@ -83,7 +84,7 @@ export class UserFormComponent implements OnInit {
       this.userForm.removeControl('code');
       this.isRegistering = false;
 
-      this.endpoint = 'http://127.0.0.1:8000/api/login'; // Endpoint para el inicio de sesion
+      this.endpoint = 'http://192.168.26.65:8000/api/login'; // Endpoint para el inicio de sesion
 
     }
   }
@@ -96,13 +97,13 @@ if (this.userForm.enabled){
       this.serverError = '';
       this.serverSuccess = '';
       this.userForm.disable();
-      this.isLoading = true; 
+      this.isLoading = true;
       // this.http.post(this.endpoint, this.userForm.value)
       this.http.post(this.endpoint, this.userForm.value, { observe: 'response' })
-      .subscribe((response: any) => 
+      .subscribe((response: any) =>
       {
         console.log(response);
-        if (response.status === 200) { // Si el servidor responde con un status 200, osea que llego pero es un error 
+        if (response.status === 200) { // Si el servidor responde con un status 200, osea que llego pero es un error
           if (response.body.mensaje.original) {
             for (const key in response.body.mensaje.original) {
               if (Array.isArray(response.body.mensaje.original[key])) {
@@ -112,11 +113,11 @@ if (this.userForm.enabled){
           }
           else if (response.body.mensaje) {
             this.serverError += response.body.mensaje;
-            
+
           }
-          
+
         }
-        else if (response.status === 202)  
+        else if (response.status === 202)
         {
           console.log(response.body);
           // if (!Array.isArray(response.body.mensaje)) { //para el login
@@ -126,8 +127,8 @@ if (this.userForm.enabled){
             // this.cookieService.set('token', response.body.token);
             document.cookie = `authToken=${response.body.token}`;
 
-            this.router.navigate(['/dashboard']);
-            
+            this.router.navigate(['/game']);
+
           }
           else if (Array.isArray(response.body.mensaje) && this.isRegistering == true)
           { //para el registro
@@ -136,7 +137,7 @@ if (this.userForm.enabled){
               this.serverSuccess += ` ${response.body.data.original[key]} <hr>`;
             }
           }
-          
+
         }
         else if (!Array.isArray(response.body.mensaje) )
         {
@@ -150,13 +151,13 @@ if (this.userForm.enabled){
             // this.userForm.addControl('codigoVerificacion', this.formBuilder.control('', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]));
             this.userForm.addControl('code', this.formBuilder.control('', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]));
             this.isLoading = false;
-            this.endpoint = 'http://127.0.0.1:8000/api/auth';
+            this.endpoint = 'http://192.168.26.65:8000/api/auth';
           }, 2000);
         }
         }
-          
+
         }
-      }, (error) => { 
+      }, (error) => {
         console.log(error.response);
         this.serverError = 'Error al enviar la solicitud, intente mas tarde';
         this.userForm.enable();

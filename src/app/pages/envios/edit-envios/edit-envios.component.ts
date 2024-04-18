@@ -49,7 +49,7 @@ export class EditEnviosComponent {
 
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    this.http.get<any>('http://127.0.0.1:8000/api/users', {headers: headers}).subscribe(
+    this.http.get<any>('http://192.168.26.65:8000/api/users', {headers: headers}).subscribe(
       (data: any) => {
         this.allUsers = data;
       },
@@ -58,7 +58,7 @@ export class EditEnviosComponent {
       }
     );
 
-    this.http.get<any>('http://127.0.0.1:8000/api/products', {headers: headers}).subscribe(
+    this.http.get<any>('http://192.168.26.65:8000/api/products', {headers: headers}).subscribe(
       (data: any) => {
         this.allProducts = data;
       },
@@ -71,7 +71,7 @@ export class EditEnviosComponent {
   obtenerEnvio(shipmentId: number): void {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = `http://127.0.0.1:8000/api/shipments/${shipmentId}`;
+    const endpoint = `http://192.168.26.65:8000/api/shipments/${shipmentId}`;
     this.http.get<any>(endpoint, {headers: headers}).subscribe(
       (data: any) => {
         this.envio = data;
@@ -91,7 +91,7 @@ export class EditEnviosComponent {
         state: this.envio.state,
         city: this.envio.city,
         address: this.envio.address,
-        user_id: this.envio.user_id, 
+        user_id: this.envio.user_id,
         product_id: this.envio.product_id,
         postal_code: this.envio.postal_code
       });
@@ -101,7 +101,7 @@ export class EditEnviosComponent {
   onSubmit(): void {
     if (this.envioForm.valid) {
       const shipmentId = this.envio.id;
-      const endpoint = `http://127.0.0.1:8000/api/shipments/${shipmentId}/update`;
+      const endpoint = `http://192.168.26.65:8000/api/shipments/${shipmentId}/update`;
       const userData = this.envioForm.value; // Usar los valores del formulario
       console.log(userData);
       const token = this.cookieService.get('authToken');

@@ -24,7 +24,7 @@ export class ComentariosComponent {
   obtenerComentarios() {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = 'http://127.0.0.1:8000/api/comments';
+    const endpoint = 'http://192.168.26.65:8000/api/comments';
     this.http.get<any[]>(endpoint, {headers: headers}).subscribe(
       (data: any[]) => {
         this.commentaries = data;
@@ -40,25 +40,25 @@ export class ComentariosComponent {
   ngOnInit(): void {
     this.obtenerComentarios();
   }
-  
+
   configurarBotonesAccion() {
     // Limpiar el array antes de agregar nuevos botones
     this.botonesAccion = [];
-  
+
     // Agregar botones de Editar y Eliminar una vez
     const editarButton = {
       nombre: 'Editar',
       accion: (commentary: any) => this.editarComentario(commentary),
     };
-  
+
     const eliminarButton = {
       nombre: 'Eliminar',
       accion: (commentary: any) => this.eliminarComentario(commentary),
       clase: 'btn-eliminar'
     };
-  
+
     this.botonesAccion.push(editarButton, eliminarButton);
-  
+
     this.commentaries.forEach(commentary => {
       commentary.botonesAccion = this.botonesAccion;
       commentary.product = commentary.product.name; // Cambiar objeto de categoría por nombre de categoría
@@ -69,7 +69,7 @@ export class ComentariosComponent {
   eliminarComentario(comment: any) {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = `http://127.0.0.1:8000/api/comments/${comment.id}/deactivate`;
+    const endpoint = `http://192.168.26.65:8000/api/comments/${comment.id}/deactivate`;
     this.http.put(endpoint, {}, {headers: headers}).subscribe(
       () => {
         //console.log('Usuario desactivado correctamente');

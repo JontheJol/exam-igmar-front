@@ -47,7 +47,7 @@ export class EditProductoComponent implements OnInit {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    this.http.get<any>('http://127.0.0.1:8000/api/categories', { headers: headers }).subscribe(
+    this.http.get<any>('http://192.168.26.65:8000/api/categories', { headers: headers }).subscribe(
       (data: any) => {
         this.allCategories = data;
       },
@@ -56,7 +56,7 @@ export class EditProductoComponent implements OnInit {
       }
     );
 
-    this.http.get<any>('http://127.0.0.1:8000/api/platforms', { headers: headers }).subscribe(
+    this.http.get<any>('http://192.168.26.65:8000/api/platforms', { headers: headers }).subscribe(
       (data: any) => {
         this.allPlatforms = data;
       },
@@ -69,7 +69,7 @@ export class EditProductoComponent implements OnInit {
   obtenerProducto(productId: number): void {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = `http://127.0.0.1:8000/api/products/${productId}`;
+    const endpoint = `http://192.168.26.65:8000/api/products/${productId}`;
     this.http.get<any>(endpoint, { headers: headers }).subscribe(
       (data: any) => {
         this.producto = data;
@@ -97,10 +97,10 @@ export class EditProductoComponent implements OnInit {
 
   onSubmit(): void {
     if (this.productoForm.valid) {
-      
+
 
       const productId = this.producto.id;
-      const endpoint = `http://127.0.0.1:8000/api/products/${productId}/update`;
+      const endpoint = `http://192.168.26.65:8000/api/products/${productId}/update`;
       const userData = {
         name: this.productoForm.value.name,
         description: this.productoForm.value.description,

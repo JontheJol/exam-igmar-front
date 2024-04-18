@@ -1,5 +1,5 @@
 .form-container{
-    border: 1px solid #536c7e;
+    border: 1px solid #f03464;
     padding: 20px;
     border-radius: 10%;
     margin-left: 21%;
@@ -10,7 +10,7 @@
 }
 
 i{
-    color: #536c7e;
+    color: #f03464;
 }
 
 .form-group{
@@ -20,12 +20,12 @@ i{
 }
 
 input{
-    color: white !important; 
+    color: white !important;
     border: none;
 }
 
 .btn{
-    background-color: #30455b !important;
+    background-color: #f03464 !important;
     color: white;
     border-radius: 10px !important;
 }

@@ -24,7 +24,7 @@ export class AddCategoriaComponent {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private router: Router, 
+    private router: Router,
     private cookieService: CookieService
   ) {
     this.categoriaForm = this.formBuilder.group({
@@ -34,7 +34,7 @@ export class AddCategoriaComponent {
 
   onSubmit(): void {
     if (this.categoriaForm.valid) {
-      const endpoint = `http://127.0.0.1:8000/api/categories/create`;
+      const endpoint = `http://192.168.26.65:8000/api/categories/create`;
       const token = this.cookieService.get('authToken');
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
       const categoryData = {

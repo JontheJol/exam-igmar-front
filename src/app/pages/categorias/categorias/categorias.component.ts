@@ -20,7 +20,7 @@ export class CategoriasComponent {
   botonesAccion: any[] = []; // Define botonesAccion como un array vacío
 
   obtenerCategorias() {
-    const endpoint = 'http://127.0.0.1:8000/api/categories';
+    const endpoint = 'http://192.168.26.65:8000/api/categories';
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     this.http.get<any[]>(endpoint, { headers: headers }).subscribe(
@@ -37,25 +37,25 @@ export class CategoriasComponent {
   ngOnInit(): void {
     this.obtenerCategorias();
   }
-  
+
   configurarBotonesAccion() {
     // Limpiar el array antes de agregar nuevos botones
     this.botonesAccion = [];
-  
+
     // Agregar botones de Editar y Eliminar una vez
     const editarButton = {
       nombre: 'Editar',
       accion: (categorie: any) => this.editarCategoria(categorie),
     };
-  
+
     const eliminarButton = {
       nombre: 'Eliminar',
       accion: (categorie: any) => this.eliminarCategoria(categorie),
       clase: 'btn-eliminar'
     };
-  
+
     this.botonesAccion.push(editarButton, eliminarButton);
-  
+
     // Asignar botones a cada usuario
     this.categories.forEach(categorie => {
       categorie.botonesAccion = this.botonesAccion;
@@ -65,8 +65,8 @@ export class CategoriasComponent {
   eliminarCategoria(categorie: any) {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    
-    const endpoint = `http://127.0.0.1:8000/api/categories/${categorie.id}/deactivate`;
+
+    const endpoint = `http://192.168.26.65:8000/api/categories/${categorie.id}/deactivate`;
     this.http.put(endpoint, {}, { headers: headers } ).subscribe(
       () => {
         //console.log('Usuario desactivado correctamente');

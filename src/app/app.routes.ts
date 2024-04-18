@@ -43,13 +43,18 @@ import { AddComprasComponent } from './pages/compras/add-compras/add-compras.com
 import { PedidosComponent } from './pages/pedidos/pedidos/pedidos.component';
 import { EditPedidosComponent } from './pages/pedidos/edit-pedidos/edit-pedidos.component';
 import { AddPedidosComponent } from './pages/pedidos/add-pedidos/add-pedidos.component';
+import { authGuard } from './guards/auth.guard';
+
+import { GameComponent } from './pages/game/game.component';
 
 export const routes: Routes = [
     {path: 'registro', component: SignupComponent},
     {path: 'ingreso', component: LoginComponent},
-    {path: 'dashboard', component: DashboardComponent}, // TODO: no se que otra validacion necesitemos para acceder al dashboard
+    {path: 'dashboard', component: DashboardComponent,canActivate:[authGuard]}, // TODO: no se que otra validacion necesitemos para acceder al dashboard
     {path: 'dashboard/usuarios', component: UsuariosComponent},
     {path: 'dashboard/usuarios/edit/:id', component: EditUsuarioComponent },
+
+    {path: 'game',component: GameComponent},
     // Productos
     {path: 'dashboard/productos/productos', component: ProductosComponent},
     {path: 'dashboard/productos/edit/:id', component: EditProductoComponent},

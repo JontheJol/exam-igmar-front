@@ -7,7 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-verificar-codigo',
-  standalone: true, 
+  standalone: true,
   templateUrl: './verificar-codigo.component.html',
   imports: [ReactiveFormsModule],
   styleUrls: ['./verificar-codigo.component.css']
@@ -29,7 +29,7 @@ export class VerificarCodigoComponent implements OnInit {
   ngOnInit() {
     const state = this.location.getState() as { email?: string, contrasena?: string };
     console.log("en verificar codigo")
-  
+
     if (state) {
       this.email = state.email ?? '';
       this.contrasena = state.contrasena ?? '';
@@ -41,7 +41,7 @@ export class VerificarCodigoComponent implements OnInit {
       codigoVerificacion: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]]
     });
   }
-  
+
 
   onSubmit() {
 
@@ -51,9 +51,9 @@ export class VerificarCodigoComponent implements OnInit {
        contrasena: this.contrasena
     };
     console.log(data);
-  
-    this.http.post( 'http://127.0.0.1:8000/api/auth', data, { observe: 'response' })
-    .subscribe((response: any) => 
+
+    this.http.post( 'http://192.168.26.65:8000/api/auth', data, { observe: 'response' })
+    .subscribe((response: any) =>
     {
       console.log(response);
 
@@ -65,5 +65,5 @@ export class VerificarCodigoComponent implements OnInit {
 
 
   }
-  
+
 }
