@@ -40,7 +40,7 @@ export class AddEnviosComponent {
   ngOnInit(): void {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    this.http.get<any>('https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/users', {headers: headers}).subscribe(
+    this.http.get<any>('https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/users', {headers: headers}).subscribe(
       (data: any) => {
         this.allUsers = data;
       },
@@ -49,7 +49,7 @@ export class AddEnviosComponent {
       }
     );
 
-    this.http.get<any>('https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/products', {headers: headers}).subscribe(
+    this.http.get<any>('https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/products', {headers: headers}).subscribe(
       (data: any) => {
         this.allProducts = data;
       },
@@ -61,7 +61,7 @@ export class AddEnviosComponent {
 
   onSubmit(): void {
     if (this.envioForm.valid) {
-      const endpoint = `https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/shipments/create`;
+      const endpoint = `https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/shipments/create`;
       const token = this.cookieService.get('authToken');
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
       const userData = {

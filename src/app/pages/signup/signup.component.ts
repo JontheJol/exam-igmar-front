@@ -13,7 +13,7 @@ import { LoginService } from '../../login.service';
 })
   export class SignupComponent implements OnInit {
     buttonText: string = 'Registrarse';
-    endpoint: string = 'https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/register'; // Endpoint de registro
+    endpoint: string = 'https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/register'; // Endpoint de registro
 
     constructor(private loginService: LoginService) {}
 

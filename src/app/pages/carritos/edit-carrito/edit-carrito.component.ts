@@ -41,7 +41,7 @@ export class EditCarritoComponent implements OnInit {
       this.obtenerCarrito(carritoId);
     });
 
-    this.http.get<any>('https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/users/').subscribe(
+    this.http.get<any>('https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/users/').subscribe(
       (data: any) => {
         this.allUsers = data;
       },
@@ -50,7 +50,7 @@ export class EditCarritoComponent implements OnInit {
       }
     );
 
-    this.http.get<any>('https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/products/').subscribe(
+    this.http.get<any>('https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/products/').subscribe(
       (data: any) => {
         this.allProducts = data;
       },
@@ -61,7 +61,7 @@ export class EditCarritoComponent implements OnInit {
   }
 
   obtenerCarrito(carritoId: number): void {
-    const endpoint = `https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/carts/${carritoId}`;
+    const endpoint = `https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/carts/${carritoId}`;
     this.http.get<any>(endpoint).subscribe(
       (data: any) => {
         this.carrito = data;
@@ -88,7 +88,7 @@ export class EditCarritoComponent implements OnInit {
   onSubmit(): void {
     if (this.carritoForm.valid && this.carrito && this.carrito.product_id) {
       const comentarioId = this.carrito.id;
-      const endpoint = `https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/carts/${comentarioId}/update`;
+      const endpoint = `https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/carts/${comentarioId}/update`;
       const userData = {
         user_id: this.carritoForm.value.user_id,
         product_id: this.carrito.product_id,

@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
+import { RouterOutlet, RouterLink, RouterLinkActive, RouterModule, Router } from '@angular/router';
 import { TokenService } from '../../token.service';
 import { Game } from '../../models/Game.model';
 import { CommonModule } from '@angular/common';
 import { NgFor } from '@angular/common';
 import { ButtonComponent } from '../../buttons/button/button.component';
+import { routes } from '../../app.routes';
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [NgFor,CommonModule, RouterModule, ButtonComponent],
+  imports: [NgFor,CommonModule, RouterModule,RouterLink, ButtonComponent],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.css'
 })
@@ -27,24 +28,31 @@ export class LandingComponent {
   ngOnInit() {
     this.single.getRequestWithToken("api/index").subscribe((data :any )  => {
       console.log(data);
+      this.gigaerror = data.prueba as String;
 
-      // for (let i = 0; i <( data.partidas.length as number); i++) {
-      //   this.juego = new Game(data.partidas[i].id, data.partidas[i].player1);
-      //   this.games.push(this.juego);
-      //   this.gigaerror = data.partidas[i].player1 as String;
-      // }
+       for (let i = 0; i <( data.partidas.length as number); i++) {
+         this.juego = new Game(data.partidas[i].id, data.partidas[i].player1);
+         this.games.push(this.juego);
+       }
 
     });
   }
 
   createGame() {
-    this.single.sendRequestWithToken("create", {}).subscribe((data: any) => {
+
+    this.single.sendRequestWithToken("api/createGame", {}).subscribe((data: any) => {
+      console.log("lop")
+
     });
+
   }
 
   joinGame(gameId: number) {
-    // Implement logic for joining an existing game
-  }
+this.single.sendRequestWithToken("api/joinGame", {gameId: gameId}).subscribe((data: any) => {
+console.log("exitus")
+  });
+}
+
   viewScores()
   {
 

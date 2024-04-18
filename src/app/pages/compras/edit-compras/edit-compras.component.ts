@@ -49,7 +49,7 @@ export class EditComprasComponent {
       this.obtenerCompra(purchaseId);
     });
 
-    this.http.get<any>('https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/users', {headers: headers}).subscribe(
+    this.http.get<any>('https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/users', {headers: headers}).subscribe(
       (data: any) => {
         this.allUsers = data;
       },
@@ -58,7 +58,7 @@ export class EditComprasComponent {
       }
     );
 
-    this.http.get<any>('https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/products', {headers: headers}).subscribe(
+    this.http.get<any>('https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/products', {headers: headers}).subscribe(
       (data: any) => {
         this.allProducts = data;
       },
@@ -71,7 +71,7 @@ export class EditComprasComponent {
   obtenerCompra(purchaseId: number): void {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = `https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/purchases/${purchaseId}`;
+    const endpoint = `https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/purchases/${purchaseId}`;
     this.http.get<any>(endpoint, {headers: headers}).subscribe(
       (data: any) => {
         this.compra = data;
@@ -100,7 +100,7 @@ export class EditComprasComponent {
   onSubmit(): void {
     if (this.compraForm.valid) {
       const shipmentId = this.compra.id;
-      const endpoint = `https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/purchases/${shipmentId}/update`;
+      const endpoint = `https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/purchases/${shipmentId}/update`;
       const userData = this.compraForm.value; // Usar los valores del formulario
       console.log(userData);
       const token = this.cookieService.get('authToken');

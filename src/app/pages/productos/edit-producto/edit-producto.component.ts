@@ -47,7 +47,7 @@ export class EditProductoComponent implements OnInit {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    this.http.get<any>('https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/categories', { headers: headers }).subscribe(
+    this.http.get<any>('https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/categories', { headers: headers }).subscribe(
       (data: any) => {
         this.allCategories = data;
       },
@@ -56,7 +56,7 @@ export class EditProductoComponent implements OnInit {
       }
     );
 
-    this.http.get<any>('https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/platforms', { headers: headers }).subscribe(
+    this.http.get<any>('https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/platforms', { headers: headers }).subscribe(
       (data: any) => {
         this.allPlatforms = data;
       },
@@ -69,7 +69,7 @@ export class EditProductoComponent implements OnInit {
   obtenerProducto(productId: number): void {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = `https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/products/${productId}`;
+    const endpoint = `https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/products/${productId}`;
     this.http.get<any>(endpoint, { headers: headers }).subscribe(
       (data: any) => {
         this.producto = data;
@@ -100,7 +100,7 @@ export class EditProductoComponent implements OnInit {
 
 
       const productId = this.producto.id;
-      const endpoint = `https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/products/${productId}/update`;
+      const endpoint = `https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/products/${productId}/update`;
       const userData = {
         name: this.productoForm.value.name,
         description: this.productoForm.value.description,
