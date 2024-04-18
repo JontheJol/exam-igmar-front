@@ -46,7 +46,7 @@ import { AddPedidosComponent } from './pages/pedidos/add-pedidos/add-pedidos.com
 import { authGuard } from './guards/auth.guard';
 
 import { GameComponent } from './pages/game/game.component';
-
+import { LandingComponent } from './pages/landing/landing.component';
 export const routes: Routes = [
     {path: 'registro', component: SignupComponent},
     {path: 'ingreso', component: LoginComponent},
@@ -54,7 +54,9 @@ export const routes: Routes = [
     {path: 'dashboard/usuarios', component: UsuariosComponent},
     {path: 'dashboard/usuarios/edit/:id', component: EditUsuarioComponent },
 
+    {path: 'landing', component: LandingComponent},
     {path: 'game',component: GameComponent},
+
     // Productos
     {path: 'dashboard/productos/productos', component: ProductosComponent},
     {path: 'dashboard/productos/edit/:id', component: EditProductoComponent},

@@ -127,7 +127,7 @@ if (this.userForm.enabled){
             // this.cookieService.set('token', response.body.token);
             document.cookie = `authToken=${response.body.token}`;
 
-            this.router.navigate(['/game']);
+            this.router.navigate(['/landing']);
 
           }
           else if (Array.isArray(response.body.mensaje) && this.isRegistering == true)
