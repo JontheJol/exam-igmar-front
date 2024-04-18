@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { TokenService } from '../token.service';
 import { CommonModule } from '@angular/common';
 import { NavbarDashComponent } from '../navbar-dash/navbar-dash.component';
-
+import { authGuard } from '../guards/auth.guard';
 @Component({
   selector: 'app-log-list',
   templateUrl: './log-list.component.html',
   styleUrls: ['./log-list.component.css'],
-  imports: [CommonModule, NavbarDashComponent],
+  imports: [CommonModule, NavbarDashComponent,
+
+  ],
   // providers: [TokenService],
   standalone  : true
 })

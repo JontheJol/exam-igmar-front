@@ -1,8 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ButtonComponent } from './buttons/button/button.component';
-
+import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-root',
   standalone: true,

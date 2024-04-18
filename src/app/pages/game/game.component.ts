@@ -11,8 +11,15 @@ import {MatInputModule} from '@angular/material/input';
 import {FormControl, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatDividerModule} from '@angular/material/divider';
 import { HttpClient } from '@angular/common/http';
-
+import {MatSnackBar} from '@angular/material/snack-bar';
+import { AuthService } from '../../auth.service';
+import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { OnDestroy } from '@angular/core';
 import Pusher from 'pusher-js';
+import { TokenService } from '../../token.service';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-game',
   standalone: true,
@@ -22,19 +29,22 @@ import Pusher from 'pusher-js';
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss'
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit ,OnDestroy {
 
-  
+
   enemyTiles: string[][] = Array(5).fill(Array(8).fill('/src/assets/emptytile.jpeg'));
   playerTiles: string[][] = Array(5).fill(Array(3).fill('/src/assets/emptytile.jpeg'));
   appaer: boolean = false
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient ,private authService: AuthService,private servi:TokenService, protected router:Router) {
+
+
     this.getShipCoordinates();
     Pusher.logToConsole = true;
     var pusher = new Pusher('b5bcbb60477b643ab290', {
       cluster: 'us2'
     });
+
 
 
     let self = this;
@@ -44,6 +54,13 @@ export class GameComponent implements OnInit {
       console.log("Prueba");
       self.getShipCoordinates();
     });
+  }
+  ngOnDestroy(): void {
+    this.servi.sendRequestWithToken('api/partidaFinalizada',{"id":1,"winner":1}).subscribe((data: any) => {
+      console.log(data);
+    })
+    this.router.navigate(['api/landing']);
+
   }
 
   getShipCoordinates() {
@@ -60,7 +77,7 @@ export class GameComponent implements OnInit {
     for (let coord of data) {
       let rowIndex = this.getIndexFromLetter(coord.charAt(0));
       let colIndex = Number(coord.charAt(1)) - 1;
-  
+
       // Actualizar la casilla en las coordenadas dadas para mostrar un barco
       this.playerTiles[rowIndex][colIndex] = '/src/assets/boattile.jpeg';
       console.log(this.playerTiles);
