@@ -10,8 +10,9 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {FormControl, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatDividerModule} from '@angular/material/divider';
+import { HttpClient } from '@angular/common/http';
 
-
+import Pusher from 'pusher-js';
 @Component({
   selector: 'app-game',
   standalone: true,
@@ -23,10 +24,55 @@ import {MatDividerModule} from '@angular/material/divider';
 })
 export class GameComponent implements OnInit {
 
+  
+  enemyTiles: string[][] = Array(5).fill(Array(8).fill('/src/assets/emptytile.jpeg'));
+  playerTiles: string[][] = Array(5).fill(Array(3).fill('/src/assets/emptytile.jpeg'));
+  appaer: boolean = false
+
+  constructor(private http: HttpClient) {
+    this.getShipCoordinates();
+    Pusher.logToConsole = true;
+    var pusher = new Pusher('b5bcbb60477b643ab290', {
+      cluster: 'us2'
+    });
+
+
+    let self = this;
+    var channel = pusher.subscribe('my-channel');
+    channel.bind('my-event2', function(data:any) {
+      self.appaer = true;
+      console.log("Prueba");
+      self.getShipCoordinates();
+    });
+  }
+
+  getShipCoordinates() {
+    this.http.get('http://127.0.0.1:8000/api/consultarCordenadas').subscribe((data: any) => {
+      // Process the data and update playerTiles
+      console.log(data);
+      this.updatePlayerTiles([]);
+    });
+  }
+
+
+  updatePlayerTiles(data: any) {
+    // Convertir las coordenadas de la API a índices para playerTiles
+    for (let coord of data) {
+      let rowIndex = this.getIndexFromLetter(coord.charAt(0));
+      let colIndex = Number(coord.charAt(1)) - 1;
+  
+      // Actualizar la casilla en las coordenadas dadas para mostrar un barco
+      this.playerTiles[rowIndex][colIndex] = '/src/assets/boattile.jpeg';
+      console.log(this.playerTiles);
+    }
+  }
+
+  getIndexFromLetter(letter: string): number {
+    return letter.charCodeAt(0) - 'A'.charCodeAt(0);
+  }
 
   // SPRITES REFERENCES
   waterTiles: string[] = [
-    'assets/images/boat.jpeg',
     'assets/images/oceantile.jpeg',
   ];
 
@@ -46,7 +92,7 @@ export class GameComponent implements OnInit {
 
   initializeOponentBoard() {
     this.drawOponentBoard();
-    this.getOponnentBoatsPositions();
+    // this.getOponnentBoatsPositions();
     //console.log(this.tiles);
   }
 
@@ -59,12 +105,17 @@ export class GameComponent implements OnInit {
   drawOponentBoard() {
     for (let i = 0; i < 5; i++) {
       this.tiles[i] = [];
+
       for (let j = 0; j < 8; j++) {
         const randomIndex = Math.floor(Math.random() * this.waterTiles.length);
         this.tiles[i][j] = this.waterTiles[randomIndex];
       }
     }
+
+
+
   }
+
 
   // Coordinates guide
   getLetterFromIndex(index: number): string {
@@ -82,4 +133,12 @@ export class GameComponent implements OnInit {
     // Deshabilitar el botón una vez que se hace clic en él
     this.buttonStates[rowIndex][colIndex] = false;
   }
+
+  handleClick2() {
+    console.log("rellenando");
+    this.updatePlayerTiles(['A1', 'A2']);
+    this.playerTiles[0][0] = '/src/assets/boattile.jpeg'; // Cambia la primera posición
+
+  }
+
   }

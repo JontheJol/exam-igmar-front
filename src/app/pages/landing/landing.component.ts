@@ -28,7 +28,7 @@ export class LandingComponent {
   logs!: any[];//para probar que se esten trayendo los logs
   appaer: boolean = false
 
-  constructor(private single: TokenService, private router: Router) {
+  constructor(private single: TokenService, private router: Router){
 
 
     Pusher.logToConsole = true;
@@ -48,6 +48,8 @@ export class LandingComponent {
     });
 
   }
+
+  
 
   ngOnInit() {
     this.loadTableData()
@@ -78,21 +80,37 @@ export class LandingComponent {
   }
 
   createGame() {
+    console.log("aquiii")
+    this.single.sendRequestWithToken("api/createGame", {}).subscribe(
+      (data: any) => {
+        // Navega a la ruta '/game' solo si la creación del juego es exitosa
+        console.log("exitus")
+        this.router.navigate(['/game']);
+      },
+      (error: any) => {
+        // Maneja el error aquí...
+        alert('¡Error en el juego intenta de nuevo!');
 
-    this.single.sendRequestWithToken("api/createGame", {}).subscribe((data: any) => {
-      console.log("lop")
-
-    });
-
+        console.error('Hubo un error al crear el juego:', error);
+      }
+    );
   }
 
-  joinGame(gameId: number) {
-    console.log(gameId)
-this.single.sendRequestWithToken("api/joinGame", {"id":gameId}).subscribe((data: any) => {
-console.log("exitus")
-  });
-}
+  joinGame(gameId: string) {
+    this.single.sendRequestWithToken('api/joinGame/',{"id": gameId}).subscribe(
+      (data: any) => {
+        // Guarda el ID del juego y los barcos en el localStorage
+        localStorage.setItem('gameId', gameId);
+        localStorage.setItem('boats', JSON.stringify(data.boats));
 
+        // Navega a la página de posicionamiento de barcos
+        this.router.navigate(['/game']);
+      },
+      (error: any) => {
+        console.error('Hubo un error al unirse al juego:', error);
+      }
+    );
+  }
   viewScores()
   {
   }
