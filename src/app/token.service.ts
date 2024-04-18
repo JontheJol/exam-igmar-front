@@ -23,7 +23,8 @@ private readonly baseUrl = "https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ng
 
   sendRequestWithToken(url: string, data: object) { //para insertar
     const token = this.cookieService.get('authToken');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
+    .set('Accept', 'application/json');  // Add the Accept header
     // console.log(token);
     // console.log(headers);
 
@@ -39,7 +40,7 @@ private readonly baseUrl = "https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ng
 
   updateRequestWithToken(url: string, data: object) {
     const token = this.cookieService.get('authToken');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token},`);
 // console.log(data, url, headers);
     return this.http.put(this.baseUrl + url, data, { headers: headers });
   }

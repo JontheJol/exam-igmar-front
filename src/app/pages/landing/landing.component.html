@@ -1,7 +1,19 @@
 <div class="container">
-  <button class="btn btn-primary mb-3" (click)="createGame()">Create Game</button>
+  <div class="container">
+    <div class="row">
+      <div class="col-6 float-left">
+        <button class="btn btn-primary mb-3" (click)="createGame()">Crear juego</button>
+      </div>
+      <div class="col-6 float-right">
+        <button class="btn2 btn-primary mb-3" (click)="viewScores()">Ver puntuaciones</button>
+      </div>
+    </div>
+  </div>
+
   <ul class="list-group">
-    @if () {}
-<h2>{{logs}}</h2>
+    <li *ngFor="let game of games" class="list-group-item">
+      {{ game.player1 }}
+      <button class="btn btn-success float-right" (click)="joinGame(game.id)">Join</button>
+    </li>
   </ul>
 </div>

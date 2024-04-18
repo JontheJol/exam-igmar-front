@@ -6,17 +6,21 @@ import { routes } from './app.routes';
 import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-
+import { LandingComponent } from './pages/landing/landing.component';
 @NgModule({
-  declarations: [],
+  declarations: [
+    AppComponent,
+    LandingComponent
+  ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
     AppComponent,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+
   ],
-  providers: [],
+  providers: [LandingComponent],
   bootstrap: []
 })
 export class AppModule {
