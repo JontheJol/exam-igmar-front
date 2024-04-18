@@ -9,7 +9,7 @@ import { CookieService } from 'ngx-cookie-service';
 export class TokenService {
   private isRegisteringSubject = new BehaviorSubject<boolean>(true);
   isRegistering$ = this.isRegisteringSubject.asObservable();
-private readonly baseUrl = "https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/"
+private readonly baseUrl = "https://2d3b-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/"
   constructor(
     private http: HttpClient,
     private cookieService: CookieService
@@ -34,7 +34,8 @@ private readonly baseUrl = "https://570e-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ng
 
   getRequestWithToken(url: string) {
     const token = this.cookieService.get('authToken');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
+    .set('ngrok-skip-browser-warning', 'true'); // Add the ngrok-skip-browser-warning header
     return this.http.get(this.baseUrl + url, { headers: headers });
   }
 
