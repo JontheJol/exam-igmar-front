@@ -3,11 +3,12 @@ import { RouterOutlet, RouterLink, RouterLinkActive, RouterModule } from '@angul
 import { TokenService } from '../../token.service';
 import { Game } from '../../models/Game.model';
 import { CommonModule } from '@angular/common';
+import { NgFor } from '@angular/common';
 import { ButtonComponent } from '../../buttons/button/button.component';
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [],
+  imports: [NgFor,CommonModule, RouterModule, ButtonComponent],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.css'
 })
@@ -25,7 +26,7 @@ export class LandingComponent {
   ngOnInit() {
     this.single.getRequestWithToken("index").subscribe((data :any )  => {
       for (let i = 0; i < data.partidas.length; i++) {
-        this.
+        this.games.push(new Game(data.partidas[i].id, data.partidas[i].player1));
       }
 
     },
