@@ -37,7 +37,8 @@ export class LandingComponent {
   }
 
   createGame() {
-    // Implement logic for creating a new game (optional)
+    this.single.sendRequestWithToken("create", {}).subscribe((data: any) => {
+    });
   }
 
   joinGame(gameId: number) {
