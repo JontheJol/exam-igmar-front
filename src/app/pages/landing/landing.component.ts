@@ -16,7 +16,7 @@ export class LandingComponent {
 
   games: Game[] = [];
   gigaerror: any;
-  gamedata : [{id:number,player1:string}];
+  gamedata : {id:number,player1:string}[];
 
   logs!: any[];//para probar que se esten trayendo los logs
   constructor(private single: TokenService) {
