@@ -34,7 +34,7 @@ export class AddCategoriaComponent {
 
   onSubmit(): void {
     if (this.categoriaForm.valid) {
-      const endpoint = `https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/categories/create`;
+      const endpoint = `http://127.0.0.1:8000/api/categories/create`;
       const token = this.cookieService.get('authToken');
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
       const categoryData = {

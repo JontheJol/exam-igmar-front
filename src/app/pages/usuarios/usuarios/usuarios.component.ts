@@ -21,7 +21,7 @@ export class UsuariosComponent {
   botonesAccion: any[] = []; // Define botonesAccion como un array vacío
 
   obtenerUsuarios() {
-    const endpoint = 'https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/users';
+    const endpoint = 'http://127.0.0.1:8000/api/users';
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     this.http.get<any[]>(endpoint, {headers: headers}).subscribe(
@@ -67,7 +67,7 @@ export class UsuariosComponent {
   eliminarUsuario(usuario: any) {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = `https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/users/${usuario.id}/deactivate`;
+    const endpoint = `http://127.0.0.1:8000/api/users/${usuario.id}/deactivate`;
     this.http.put(endpoint, {}, {headers: headers}).subscribe(
       () => {
         console.log('Usuario desactivado correctamente');

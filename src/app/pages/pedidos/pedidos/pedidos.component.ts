@@ -23,7 +23,7 @@ export class PedidosComponent {
   obtenerPedidos() {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = 'https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/orders';
+    const endpoint = 'http://127.0.0.1:8000/api/orders';
 
     this.http.get<any[]>(endpoint, {headers: headers}).subscribe(
       (data: any[]) => {
@@ -68,7 +68,7 @@ export class PedidosComponent {
   eliminarPedido(order: any) {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = `https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/orders/${order.id}/deactivate`;
+    const endpoint = `http://127.0.0.1:8000/api/orders/${order.id}/deactivate`;
     this.http.put(endpoint, {}, {headers: headers}).subscribe(
       () => {
         this.notificacion = 'Pedido eliminado correctamente';

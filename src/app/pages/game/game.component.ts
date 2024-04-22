@@ -10,9 +10,13 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {FormControl, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatDividerModule} from '@angular/material/divider';
-import { HttpClient } from '@angular/common/http';
-
+import { HttpClient,HttpHeaders} from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
+import { OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import Pusher from 'pusher-js';
+import { TokenService } from '../../token.service';
+
 @Component({
   selector: 'app-game',
   standalone: true,
@@ -22,48 +26,88 @@ import Pusher from 'pusher-js';
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss'
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit,OnDestroy {
 
-  
-  enemyTiles: string[][] = Array(5).fill(Array(8).fill('/src/assets/emptytile.jpeg'));
-  playerTiles: string[][] = Array(5).fill(Array(3).fill('/src/assets/emptytile.jpeg'));
+  usuario = ""
+  id_partida = ""
+  coordenada = ""
+  // enemyTiles: string[][] = Array(5).fill(Array(8).fill('/src/assets/emptytile.jpeg'));
+  // playerTiles: string[][] = Array(5).fill(Array(3).fill('/src/assets/emptytile.jpeg'));
+  enemyTiles: string[][] = Array.from({length: 5}, () => Array(8).fill('/src/assets/emptytile.jpeg'));
+playerTiles: string[][] = Array.from({length: 5}, () => Array(3).fill('/src/assets/emptytile.jpeg'));
   appaer: boolean = false
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,    private cookieService: CookieService ,private servi: TokenService, protected router: Router) {
+
     this.getShipCoordinates();
-    Pusher.logToConsole = true;
-    var pusher = new Pusher('b5bcbb60477b643ab290', {
-      cluster: 'us2'
-    });
+    
 
+  }
+  ngOnDestroy(): void {
+    this.servi.sendRequestWithToken('api/partidaFinalizada',{"id":this.id_partida,"winner":-1}).subscribe((data: any) => {
+      console.log(data);
+    })
+    this.router.navigate(['api/landing']);
 
-    let self = this;
-    var channel = pusher.subscribe('my-channel');
-    channel.bind('my-event2', function(data:any) {
-      self.appaer = true;
-      console.log("Prueba");
-      self.getShipCoordinates();
-    });
+  }
+  a=""
+  b=""
+  dig=["A","B","C","D","E"]
+  comp = []
+  //metodo para manejar el clic en el boton
+  handleClick(rowIndex: number, colIndex: number) {
+console.log(this.usuario)
+    //inicia el guest 
+    if (this.usuario == "guest") {
+    this.a = this.dig[rowIndex]
+    this.b = (colIndex+1).toString()
+    console.log(this.a+this.b)
+    this.coordenada = this.a+this.b
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
+    this.http.post("http://127.0.0.1:8000/api/movimiento", {"coordinate":this.coordenada},{ headers: headers } ).subscribe((data: any) => {
+      console.log(data);
+      console.log(data.data);
+      console.log(data.data.coordinate);
+      console.log(data.coordinate);
+      this.usuario = data.data.posicion;
+      console.log(this.usuario);
+      this.updatePlayerTiles(data.data.coordinate);
+    })
+  }
+  else {//enable los botones
+    this.buttonStates[rowIndex][colIndex] = false;
+  }
+
+    //enviamos por medio de post la coordenada
   }
 
   getShipCoordinates() {
-    this.http.get('http://127.0.0.1:8000/api/consultarCordenadas').subscribe((data: any) => {
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
+    this.http.get('http://127.0.0.1:8000/api/consultarCordenadas',{ headers: headers }).subscribe((data: any) => {
       // Process the data and update playerTiles
       console.log(data);
-      this.updatePlayerTiles([]);
+      console.log(data.data);
+      console.log(data.data.coordinate);
+      console.log(data.coordinate);
+      this.usuario = data.posicion;
+      // console.log(data.coordinates[0]);
+      this.updatePlayerTiles(data.data.coordinate);
     });
   }
 
 
-  updatePlayerTiles(data: any) {
-    // Convertir las coordenadas de la API a índices para playerTiles
+
+  updatePlayerTiles(data: Array<string>) {
+//quiero recibir un array y que por cada coordenada que reciba, me cambia la primer letra a numero y despues 
     for (let coord of data) {
-      let rowIndex = this.getIndexFromLetter(coord.charAt(0));
-      let colIndex = Number(coord.charAt(1)) - 1;
-  
-      // Actualizar la casilla en las coordenadas dadas para mostrar un barco
-      this.playerTiles[rowIndex][colIndex] = '/src/assets/boattile.jpeg';
-      console.log(this.playerTiles);
+
+      let row = this.getNumberFromLetter(coord[0]);
+      let col = parseInt(coord.slice(1)) - 1;
+      console.log(row, col);
+
+      this.tiles[row-1][col] = 'assets/images/boat.jpeg'; 
     }
   }
 
@@ -87,6 +131,8 @@ export class GameComponent implements OnInit {
   ngOnInit() {
     this.initializeOponentBoard();
     this.initializeButtonStates();
+    // this.number = history.state.number;
+
 
   }
 
@@ -111,9 +157,6 @@ export class GameComponent implements OnInit {
         this.tiles[i][j] = this.waterTiles[randomIndex];
       }
     }
-
-
-
   }
 
 
@@ -129,16 +172,22 @@ export class GameComponent implements OnInit {
   }
 
   // Método para manejar el clic en el botón
-  handleClick(rowIndex: number, colIndex: number) {
-    // Deshabilitar el botón una vez que se hace clic en él
-    this.buttonStates[rowIndex][colIndex] = false;
-  }
+  // handleClick(rowIndex: number, colIndex: number) {
+  //   // Deshabilitar el botón una vez que se hace clic en él
+  //   this.buttonStates[rowIndex][colIndex] = false;
+  // }
 
-  handleClick2() {
-    console.log("rellenando");
-    this.updatePlayerTiles(['A1', 'A2']);
-    this.playerTiles[0][0] = '/src/assets/boattile.jpeg'; // Cambia la primera posición
+  // handleClick2() {
+  //   this.getShipCoordinates();
 
+  //   // console.log("rellenando");
+  //   // this.updatePlayerTiles(['A1', 'A2','A3','A4','A5','A6','A7','A8','B1','B2','B3','B4','B5','B6','B7','B8','C1','C2','C3','C4','C5','C6','C7','C8','D1','D2','D3','D4','D5','D6','D7','D8','E1','E2','E3','E4','E5','E6','E7','E8']);
+  //   // this.playerTiles[0][0] = '/src/assets/boattile.jpeg'; // Cambia la primera posición
+
+  //   // this.tiles[0][0] =  'assets/images/boat.jpeg'; // Cambia la primera posición
+  // }
+  getNumberFromLetter(letter: string): number {
+    return letter.charCodeAt(0) - 64;
   }
 
   }

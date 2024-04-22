@@ -32,7 +32,6 @@ export class LandingComponent {
 
 
     Pusher.logToConsole = true;
-
     var pusher = new Pusher('b5bcbb60477b643ab290', {
       cluster: 'us2'
     });
@@ -42,7 +41,7 @@ export class LandingComponent {
     var channel = pusher.subscribe('my-channel');
     channel.bind('my-event', function(data:any) {
       self.appaer = true;
-      console.log("Prueba");
+      console.log("Prueba_landing");
 //quiero que se actualice la tabla de juegos
       self.loadTableData();
     });
@@ -104,6 +103,7 @@ export class LandingComponent {
         localStorage.setItem('boats', JSON.stringify(data.boats));
 
         // Navega a la página de posicionamiento de barcos
+        // this.router.navigate(['/game']);
         this.router.navigate(['/game']);
       },
       (error: any) => {
@@ -111,8 +111,6 @@ export class LandingComponent {
       }
     );
   }
-  viewScores()
-  {
-  }
+
 
 }

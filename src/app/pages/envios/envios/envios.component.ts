@@ -22,7 +22,7 @@ export class EnviosComponent {
   obtenerEnvios() {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = 'https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/shipments';
+    const endpoint = 'http://127.0.0.1:8000/api/shipments';
     this.http.get<any[]>(endpoint, {headers: headers}).subscribe(
       (data: any[]) => {
         this.shipments = data;
@@ -67,7 +67,7 @@ export class EnviosComponent {
   eliminarEnvio(shipment: any) {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = `https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/shipments/${shipment.id}/deactivate`;
+    const endpoint = `http://127.0.0.1:8000/api/shipments/${shipment.id}/deactivate`;
     this.http.put(endpoint, {}, {headers: headers}).subscribe(
       () => {
         //console.log('Usuario desactivado correctamente');

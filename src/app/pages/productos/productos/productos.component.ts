@@ -25,7 +25,7 @@ export class ProductosComponent {
   obtenerProductos() {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = 'https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/products';
+    const endpoint = 'http://127.0.0.1:8000/api/products';
     this.http.get<any[]>(endpoint, { headers: headers }).subscribe(
       (data: any[]) => {
         this.products = data;
@@ -70,7 +70,7 @@ export class ProductosComponent {
   eliminarProducto(product: any) {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = `https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/products/${product.id}/deactivate`;
+    const endpoint = `http://127.0.0.1:8000/api/products/${product.id}/deactivate`;
     this.http.put(endpoint, {}, { headers: headers }).subscribe(
       () => {
         //console.log('Usuario desactivado correctamente');

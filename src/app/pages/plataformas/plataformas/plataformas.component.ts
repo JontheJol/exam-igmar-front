@@ -21,7 +21,7 @@ export class PlataformasComponent {
   botonesAccion: any[] = []; // Define botonesAccion como un array vacío
 
   obtenerPlataformas() {
-    const endpoint = 'https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/platforms';
+    const endpoint = 'http://127.0.0.1:8000/api/platforms';
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     this.http.get<any[]>(endpoint, { headers: headers }).subscribe(
@@ -66,7 +66,7 @@ export class PlataformasComponent {
   eliminarPlataforma(platform: any) {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = `https://6f6f-2806-101e-d-a299-c169-f1b5-8ce1-acf5.ngrok-free.app/api/platforms/${platform.id}/deactivate`;
+    const endpoint = `http://127.0.0.1:8000/api/platforms/${platform.id}/deactivate`;
     this.http.put(endpoint, {}, { headers: headers }).subscribe(
       () => {
         //console.log('Usuario desactivado correctamente');
