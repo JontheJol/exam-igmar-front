@@ -13,7 +13,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import { HttpClient,HttpHeaders} from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
 import Pusher from 'pusher-js';
 import { TokenService } from '../../token.service';
 
@@ -37,17 +37,26 @@ export class GameComponent implements OnInit,OnDestroy {
 playerTiles: string[][] = Array.from({length: 5}, () => Array(3).fill('/src/assets/emptytile.jpeg'));
   appaer: boolean = false
 
-  constructor(private http: HttpClient,    private cookieService: CookieService ,private servi: TokenService, protected router: Router) {
+  pusher: any;
+  channel: any;
 
-    this.getShipCoordinates();
-    
+  constructor(private http: HttpClient,private cookieService: CookieService ,private servi: TokenService, protected router: Router,private route: ActivatedRoute) {
+
+    // this.getShipCoordinates();
+    this.pusher = new Pusher('yourPusherAppKey', {
+      cluster: 'yourPusherAppCluster',
+      enabledTransports: ['ws', 'wss'],
+      disableStats: true,
+    });
+
+    this.channel = this.pusher.subscribe('game.' + this.id_partida);
 
   }
   ngOnDestroy(): void {
-    this.servi.sendRequestWithToken('api/partidaFinalizada',{"id":this.id_partida,"winner":-1}).subscribe((data: any) => {
-      console.log(data);
+    this.servi.sendRequestWithToken('api/partidaCancelada',{}).subscribe((data: any) => {
+      console.log("esto es cuando se cancela"+data);
     })
-    this.router.navigate(['api/landing']);
+    this.router.navigate(['/landing']);
 
   }
   a=""
@@ -129,6 +138,8 @@ console.log(this.usuario)
   buttonStates: boolean[][] = [];
 
   ngOnInit() {
+    this.id_partida = history.state.partida;
+    console.log(this.id_partida);
     this.initializeOponentBoard();
     this.initializeButtonStates();
     // this.number = history.state.number;

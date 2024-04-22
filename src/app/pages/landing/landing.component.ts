@@ -99,12 +99,12 @@ export class LandingComponent {
     this.single.sendRequestWithToken('api/joinGame/',{"id": gameId}).subscribe(
       (data: any) => {
         // Guarda el ID del juego y los barcos en el localStorage
-        localStorage.setItem('gameId', gameId);
-        localStorage.setItem('boats', JSON.stringify(data.boats));
+        // localStorage.setItem('gameId', gameId);
+        // localStorage.setItem('boats', JSON.stringify(data.boats));
 
         // Navega a la página de posicionamiento de barcos
         // this.router.navigate(['/game']);
-        this.router.navigate(['/game']);
+        this.router.navigate(['/game'], { state: { partida: gameId } });
       },
       (error: any) => {
         console.error('Hubo un error al unirse al juego:', error);
