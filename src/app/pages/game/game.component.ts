@@ -143,7 +143,7 @@ console.log(this.usuario)
         this.hit = 1
         timeout(1000)
         this.hit = -1
-      }else if (data.data.mensaje == "miss"){
+      }else if (data.data.mensaje == "no hit"){
         this.hit = 0
         timeout(1000)
         this.hit = -1
