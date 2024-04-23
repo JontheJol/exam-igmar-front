@@ -23,7 +23,6 @@ export const routes: Routes = [
     {path: 'dashboard', component: DashboardComponent,canActivate:[authGuard]}, // TODO: no se que otra validacion necesitemos para acceder al dashboard
     {path: 'dashboard/usuarios', component: UsuariosComponent},
     {path: 'dashboard/usuarios/edit/:id', component: EditUsuarioComponent },
-    {path: '**', redirectTo: 'ingreso', pathMatch: 'full' }, // TODO: no se que otra validacion necesitemos para acceder al dashboard
 
     {path: 'landing', component: LandingComponent},
     {path: 'game',component: GameComponent},
@@ -33,6 +32,6 @@ export const routes: Routes = [
 //logs
     {path: 'dashboard/logs', component: LogListComponent},
 
-    // {path: '', redirectTo: '/ingreso', pathMatch: 'full' },
-    // {path: '**', component: PageNotFoundComponent },
+     {path: '', redirectTo: '/ingreso', pathMatch: 'full' },
+    {path: '**', component: PageNotFoundComponent },
     ];
