@@ -17,6 +17,7 @@ import { Router,ActivatedRoute } from '@angular/router';
 import Pusher from 'pusher-js';
 import { TokenService } from '../../token.service';
 import { DataService } from '../../data.service';
+import { timeout } from 'rxjs';
 
 @Component({
   selector: 'app-game',
@@ -65,7 +66,7 @@ playerTiles: string[][] = Array.from({length: 5}, () => Array(3).fill('/src/asse
     this.channel = 'join' + this.id_partida;
 
     console.log("canaaaal:"+this.channel);
-    var channel = pusher.subscribe(this.channel);   
+    var channel = pusher.subscribe(this.channel);
     channel.bind('my-event', function(data:any) {
       // self.appaer = true;
       // alert(JSON.stringify(data));
@@ -130,6 +131,24 @@ console.log(this.usuario)
       this.usuario = data.posicion;
       // console.log(data.coordinates[0]);
       this.updatePlayerTiles(data.data);
+      if  (data.data.ganador){
+        if (data.data.ganador == this.usuario){
+          this.win = 1
+        }
+        else{
+        this.win = 0
+        }
+      }
+      if (data.data.mensaje == "hit"){
+        this.hit = 1
+        timeout(1000)
+        this.hit = -1
+      }else if (data.data.mensaje == "miss"){
+        this.hit = 0
+        timeout(1000)
+        this.hit = -1
+      }
+
     });
   }
 
@@ -165,7 +184,7 @@ console.log(this.usuario)
   buttonStates: boolean[][] = [];
 
   ngOnInit() {
-   
+
     this.id_partida = this.dataService.getDato1();
     // this.id_partida = "68";
     this.channel = 'join' + this.id_partida;
