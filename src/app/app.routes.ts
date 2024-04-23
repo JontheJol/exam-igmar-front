@@ -16,7 +16,7 @@ export const routes: Routes = [
     // {path: 'dashboard/usuarios', component: UsuariosComponent},
     // {path: 'dashboard/usuarios/edit/:id', component: EditUsuarioComponent },
 
-    {path: 'landing', component: LandingComponent,canActivate:[authGuard]},
+    {path: 'landing', component: LandingComponent},
     {path: 'game',component: GameComponent,canActivate:[authGuard]},
     {path: 'view-score', component: ViewScoreComponent,canActivate:[authGuard]},
 

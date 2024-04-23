@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { NgFor } from '@angular/common';
 import { ButtonComponent } from '../../buttons/button/button.component';
 import { routes } from '../../app.routes';
-
+import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
 import Pusher from 'pusher-js';
 import { GameComponent } from '../game/game.component'
@@ -32,7 +32,7 @@ export class LandingComponent {
   logs!: any[];//para probar que se esten trayendo los logs
   appaer: boolean = false
 
-  constructor(private single: TokenService, private router: Router,private game: GameComponent, private dataService: DataService){
+  constructor(private single: TokenService, private router: Router,private game: GameComponent, private dataService: DataService, public cookieService: CookieService) {
 
 
     Pusher.logToConsole = true;
@@ -66,6 +66,12 @@ export class LandingComponent {
     //    }
 
     // });
+  }
+  logout()
+  {
+    //aqui solo le quita el token al usuario de las cookies
+    this.cookieService.delete('authToken');
+    this.router.navigate(['/registro']);
   }
   loadTableData() {
     this.single.getRequestWithToken("api/index").subscribe((data :any )  => {

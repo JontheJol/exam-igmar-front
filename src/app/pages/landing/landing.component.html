@@ -1,11 +1,14 @@
 <div class="container">
   <div class="container">
     <div class="row">
-      <div class="col-6 float-left">
+      <div class="col-4 float-left">
         <button class="btn btn-primary mb-3" (click)="createGame()" >Crear juego</button>
       </div>
-      <div class="col-6 float-right">
+      <div class="col-4">
         <button class="btn2 btn-primary mb-3" routerLink="/view-score">Ver puntuaciones</button>
+      </div>
+      <div class="col-4 float-right">
+        <button class="btn3 btn-primary mb-3" (click)="logout()">Cerrar sesión</button>
       </div>
     </div>
   </div>
@@ -21,4 +24,3 @@
     </li>
   </ul>
 </div>
-
