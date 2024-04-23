@@ -129,7 +129,7 @@ console.log(this.usuario)
       console.log(data.coordinate);
       this.usuario = data.posicion;
       // console.log(data.coordinates[0]);
-      this.updatePlayerTiles(data.data.coordinate);
+      this.updatePlayerTiles(data.data);
     });
   }
 
