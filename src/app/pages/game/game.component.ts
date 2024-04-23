@@ -17,13 +17,14 @@ import { Router,ActivatedRoute } from '@angular/router';
 import Pusher from 'pusher-js';
 import { TokenService } from '../../token.service';
 import { DataService } from '../../data.service';
-import { scheduled, timeout } from 'rxjs';
+import { scheduled, timeInterval, timeout } from 'rxjs';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-game',
   standalone: true,
   imports: [CommonModule,
-    MatSlideToggle, MatToolbarModule, MatButtonToggleModule, MatCardModule,
+    MatSlideToggle, MatToolbarModule, MatButtonToggleModule, MatCardModule,RouterLink,
     MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatIconModule, MatDividerModule, MatButtonModule],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss'
@@ -47,7 +48,7 @@ hit = -1
   enemyTiles: string[][] = Array.from({length: 5}, () => Array(8).fill('/src/assets/emptytile.jpeg'));
 playerTiles: string[][] = Array.from({length: 5}, () => Array(3).fill('/src/assets/emptytile.jpeg'));
   appaer: boolean = false
-self = this
+
   // pusher: any;
   // channel: any;
 
@@ -55,7 +56,9 @@ self = this
     if (this.dataService.getDato2() == 2){
       this.getShipCoordinates();
     }
-
+    this.hit = 1
+    timeout(1000)
+    this.hit = -1
     console.log("dato1: "+this.dataService.getDato1());
     console.log("dato2: "+this.dataService.getDato2());
     console.log("dato3: "+this.dataService.getDato3());
@@ -91,11 +94,9 @@ console.log("canaaaal2:"+this.channel2);
     var channel = pusher.subscribe(this.channel2);
     channel.bind('my-event', function(data:any) {
       // self.appaer = true;
-
-      alert(JSON.stringify("te dieron, es tu turno"));
       self.hit = 1
-      timeout(1000)
-      self.hit = -1
+
+      //alert(JSON.stringify("te dieron, es tu turno"));
       self.usuario = "guest"
 
       console.log("funcionaaaaaaa22");
@@ -110,10 +111,8 @@ console.log("canaaaal2:"+this.channel2);
     var channel = pusher.subscribe(this.channel3);
     channel.bind('my-event', function(data:any) {
       // self.appaer = true;
-      alert(JSON.stringify("no te dieron,es tu turno"));
       self.hit = 0
-      timeout(1000)
-      self.hit = -1
+      //alert(JSON.stringify("no te dieron,es tu turno"));
 
       self.usuario = "guest"
 
@@ -129,10 +128,11 @@ console.log("canaaaal2:"+this.channel2);
     var channel = pusher.subscribe(this.channel4);
     channel.bind('my-event', function(data:any) {
       // self.appaer = true;
-      alert(JSON.stringify("has perdido "));
-      // self.usuario = "guest"
       if (self.id_usuario == data.id_usuario){  self.win = 1}
       else{self.win = 0}
+     // alert(JSON.stringify("has perdido "));
+      // self.usuario = "guest"
+
       console.log("funcionaaaaaaa22");
       console.log(data);
       console.log(self.id_partida);
@@ -140,6 +140,11 @@ console.log("canaaaal2:"+this.channel2);
       // self.getShipCoordinates();
     });
 
+  }
+
+
+  hit2(){
+    this.hit = 1
   }
 
 
@@ -184,6 +189,7 @@ console.log("canaaaal2:"+this.channel2);
 console.log(this.usuario)
     //inicia el guest
     if (this.usuario == "guest") {
+      this.hit = -1
     this.a = this.dig[rowIndex]
     this.b = (colIndex+1).toString()
     console.log(this.a+this.b)
@@ -198,6 +204,9 @@ console.log(this.usuario)
       // this.usuario = data.data.posicion;
       // console.log(this.usuario);
       // this.updatePlayerTiles(data.data.coordinate);
+      if (data.data.mensaje == "gano"){
+        this.win =1
+      }
     })
   }
   else {//enable los botones
@@ -291,6 +300,11 @@ console.log(this.usuario)
 
   getNumberFromLetter(letter: string): number {
     return letter.charCodeAt(0) - 64;
+  }
+
+  changeColor()
+  {
+
   }
 
   }
