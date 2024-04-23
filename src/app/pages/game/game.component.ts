@@ -11,8 +11,15 @@ import {MatInputModule} from '@angular/material/input';
 import {FormControl, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatDividerModule} from '@angular/material/divider';
 import { HttpClient } from '@angular/common/http';
-
+import {MatSnackBar} from '@angular/material/snack-bar';
+import { AuthService } from '../../auth.service';
+import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { OnDestroy } from '@angular/core';
 import Pusher from 'pusher-js';
+import { TokenService } from '../../token.service';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-game',
   standalone: true,
@@ -22,19 +29,22 @@ import Pusher from 'pusher-js';
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss'
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit ,OnDestroy {
 
 
   enemyTiles: string[][] = Array(5).fill(Array(8).fill('/src/assets/emptytile.jpeg'));
   playerTiles: string[][] = Array(5).fill(Array(3).fill('/src/assets/emptytile.jpeg'));
   appaer: boolean = false
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient ,private authService: AuthService,private servi:TokenService, protected router:Router) {
+
+
     this.getShipCoordinates();
     Pusher.logToConsole = true;
     var pusher = new Pusher('b5bcbb60477b643ab290', {
       cluster: 'us2'
     });
+
 
 
     let self = this;
@@ -44,6 +54,13 @@ export class GameComponent implements OnInit {
       console.log("Prueba");
       self.getShipCoordinates();
     });
+  }
+  ngOnDestroy(): void {
+    this.servi.sendRequestWithToken('api/partidaFinalizada',{"id":1,"winner":-1}).subscribe((data: any) => {
+      console.log(data);
+    })
+    this.router.navigate(['api/landing']);
+
   }
 
   getShipCoordinates() {
@@ -86,7 +103,7 @@ export class GameComponent implements OnInit {
 
   ngOnInit() {
     this.initializeOponentBoard();
-    // this.initializeButtonStates();
+    this.initializeButtonStates();
 
   }
 
@@ -118,33 +135,27 @@ export class GameComponent implements OnInit {
 
 
   // Coordinates guide
-  // getLetterFromIndex(index: number): string {
-  //   return String.fromCharCode(65 + index);
-  // }
-  //  // Método para determinar si un botón debería estar deshabilitado
-  //  initializeButtonStates() {
-  //   for (let i = 0; i < this.tiles.length; i++) {
-  //     this.buttonStates[i] = Array(this.tiles[i].length).fill(true);
-  //   }
-  // }
- a = ""
- b = ""
- dig = ["A","B","C","D","E"]
- comp = []
-   // Método para manejar el clic en el botón
-  handleClick(rowIndex: number, colIndex: number) {
-    // Deshabilitar el botón una vez que se hace clic en él
-    this.a = this.dig[rowIndex] ;
-    this.b = colIndex.toString();
-    console.log(this.a + this.b)
-
+  getLetterFromIndex(index: number): string {
+    return String.fromCharCode(65 + index);
+  }
+   // Método para determinar si un botón debería estar deshabilitado
+   initializeButtonStates() {
+    for (let i = 0; i < this.tiles.length; i++) {
+      this.buttonStates[i] = Array(this.tiles[i].length).fill(true);
+    }
   }
 
-  // handleClick2() {
-  //   console.log("rellenando");
-  //   this.updatePlayerTiles(['A1', 'A2']);
-  //   this.playerTiles[0][0] = '/src/assets/boattile.jpeg'; // Cambia la primera posición
+  // Método para manejar el clic en el botón
+  handleClick(rowIndex: number, colIndex: number) {
+    // Deshabilitar el botón una vez que se hace clic en él
+    this.buttonStates[rowIndex][colIndex] = false;
+  }
 
-  // });
+  handleClick2() {
+    console.log("rellenando");
+    this.updatePlayerTiles(['A1', 'A2']);
+    this.playerTiles[0][0] = '/src/assets/boattile.jpeg'; // Cambia la primera posición
+
+  }
 
   }
