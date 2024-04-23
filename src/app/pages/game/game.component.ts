@@ -17,7 +17,7 @@ import { Router,ActivatedRoute } from '@angular/router';
 import Pusher from 'pusher-js';
 import { TokenService } from '../../token.service';
 import { DataService } from '../../data.service';
-import { timeout } from 'rxjs';
+import { scheduled, timeout } from 'rxjs';
 
 @Component({
   selector: 'app-game',
@@ -47,7 +47,7 @@ hit = -1
   enemyTiles: string[][] = Array.from({length: 5}, () => Array(8).fill('/src/assets/emptytile.jpeg'));
 playerTiles: string[][] = Array.from({length: 5}, () => Array(3).fill('/src/assets/emptytile.jpeg'));
   appaer: boolean = false
-
+self = this
   // pusher: any;
   // channel: any;
 
@@ -88,10 +88,14 @@ playerTiles: string[][] = Array.from({length: 5}, () => Array(3).fill('/src/asse
     //para el turno del jugador
     this.channel2 = 'hit' + this.id_usuario;
 console.log("canaaaal2:"+this.channel2);
-    var channel = pusher.subscribe(this.channel2);   
+    var channel = pusher.subscribe(this.channel2);
     channel.bind('my-event', function(data:any) {
       // self.appaer = true;
+
       alert(JSON.stringify("te dieron, es tu turno"));
+      self.hit = 1
+      timeout(1000)
+      self.hit = -1
       self.usuario = "guest"
 
       console.log("funcionaaaaaaa22");
@@ -103,10 +107,14 @@ console.log("canaaaal2:"+this.channel2);
 
     this.channel3 = 'nohit' + this.id_usuario;
     console.log("canaaaal3:"+this.channel3);
-    var channel = pusher.subscribe(this.channel3);   
+    var channel = pusher.subscribe(this.channel3);
     channel.bind('my-event', function(data:any) {
       // self.appaer = true;
       alert(JSON.stringify("no te dieron,es tu turno"));
+      self.hit = 0
+      timeout(1000)
+      self.hit = -1
+
       self.usuario = "guest"
 
       console.log("funcionaaaaaaa22");
@@ -118,12 +126,13 @@ console.log("canaaaal2:"+this.channel2);
 
     this.channel4 = 'win' + this.id_usuario;
     console.log("canaaaal3:"+this.channel4);
-    var channel = pusher.subscribe(this.channel4);   
+    var channel = pusher.subscribe(this.channel4);
     channel.bind('my-event', function(data:any) {
       // self.appaer = true;
       alert(JSON.stringify("has perdido "));
       // self.usuario = "guest"
-
+      if (self.id_usuario == data.id_usuario){  self.win = 1}
+      else{self.win = 0}
       console.log("funcionaaaaaaa22");
       console.log(data);
       console.log(self.id_partida);
