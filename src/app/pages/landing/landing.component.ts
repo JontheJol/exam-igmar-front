@@ -90,7 +90,7 @@ export class LandingComponent {
         console.log(data)
         console.log(data.data.id)
         var dato = data.data.id;
-        this.dataService.setDato(dato);
+        this.dataService.setDato1(dato);
         this.dataService.setDato2(1);
 
         this.router.navigate(['/game']);
@@ -107,7 +107,7 @@ export class LandingComponent {
     this.single.sendRequestWithToken('api/joinGame/',{"id": gameId}).subscribe(
       (data: any) => {
         this.game.id_partida = gameId;
-        this.dataService.setDato(gameId);
+        this.dataService.setDato1(gameId);
         this.dataService.setDato2(2);
         this.router.navigate(['/game']);
 

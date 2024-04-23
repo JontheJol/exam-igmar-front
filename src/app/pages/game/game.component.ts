@@ -47,10 +47,12 @@ playerTiles: string[][] = Array.from({length: 5}, () => Array(3).fill('/src/asse
   // channel: any;
 
   constructor(private http: HttpClient,private cookieService: CookieService ,private servi: TokenService, protected router: Router,private route: ActivatedRoute ,private dataService: DataService) {
-    if (this.dataService.getDato() == 2){
+    if (this.dataService.getDato2() == 2){
       this.getShipCoordinates();
-
     }
+
+    console.log("dato1: "+this.dataService.getDato1());
+    console.log("dato2: "+this.dataService.getDato2());
     // this.getShipCoordinates();
     Pusher.logToConsole = true;
      var pusher = new Pusher('b5bcbb60477b643ab290', {
@@ -58,7 +60,7 @@ playerTiles: string[][] = Array.from({length: 5}, () => Array(3).fill('/src/asse
     });
 
     let self = this;
-    this.id_partida = this.dataService.getDato();
+    this.id_partida = this.dataService.getDato1();
     // this.id_partida = "68";
     this.channel = 'join' + this.id_partida;
 
@@ -68,7 +70,7 @@ playerTiles: string[][] = Array.from({length: 5}, () => Array(3).fill('/src/asse
       // self.appaer = true;
       // alert(JSON.stringify(data));
 
-      // console.log("funcionaaaaaaa");
+      console.log("funcionaaaaaaa");
       console.log(data);
       console.log(self.id_partida);
       // self.router.navigate(['/registro']);
@@ -164,7 +166,7 @@ console.log(this.usuario)
 
   ngOnInit() {
    
-    this.id_partida = this.dataService.getDato();
+    this.id_partida = this.dataService.getDato1();
     // this.id_partida = "68";
     this.channel = 'join' + this.id_partida;
     // console.log("canaaaal:"+this.channel);
