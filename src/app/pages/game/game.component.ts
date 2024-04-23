@@ -30,7 +30,8 @@ import { TokenService } from '../../token.service';
   providedIn: 'root'
 })
 export class GameComponent implements OnInit,OnDestroy {
-
+win = -1
+hit = -1
   usuario = ""
   id_partida = ""
   coordenada = ""
@@ -74,7 +75,7 @@ playerTiles: string[][] = Array.from({length: 5}, () => Array(3).fill('/src/asse
   //metodo para manejar el clic en el boton
   handleClick(rowIndex: number, colIndex: number) {
 console.log(this.usuario)
-    //inicia el guest 
+    //inicia el guest
     if (this.usuario == "guest") {
     this.a = this.dig[rowIndex]
     this.b = (colIndex+1).toString()
@@ -117,14 +118,14 @@ console.log(this.usuario)
 
 
   updatePlayerTiles(data: Array<string>) {
-//quiero recibir un array y que por cada coordenada que reciba, me cambia la primer letra a numero y despues 
+//quiero recibir un array y que por cada coordenada que reciba, me cambia la primer letra a numero y despues
     for (let coord of data) {
 
       let row = this.getNumberFromLetter(coord[0]);
       let col = parseInt(coord.slice(1)) - 1;
       console.log(row, col);
 
-      this.tiles[row-1][col] = 'assets/images/boat.jpeg'; 
+      this.tiles[row-1][col] = 'assets/images/boat.jpeg';
     }
   }
 
