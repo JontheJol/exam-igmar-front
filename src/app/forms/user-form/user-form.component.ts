@@ -76,7 +76,7 @@ export class UserFormComponent implements OnInit {
       this.userForm.addControl('password_confirmation', this.formBuilder.control('', Validators.required));
             this.userForm.removeControl('code');
             this.isRegistering = true;
-      this.endpoint = 'http://127.0.0.1:8000/api/register'; // Endpoint para el registro
+      this.endpoint = 'http://192.168.116.105:8000/api/register'; // Endpoint para el registro
     } else {
       this.userForm.removeControl('name');
       this.userForm.removeControl('phone');
@@ -84,7 +84,7 @@ export class UserFormComponent implements OnInit {
       this.userForm.removeControl('code');
       this.isRegistering = false;
 
-      this.endpoint = 'http://127.0.0.1:8000/api/login'; // Endpoint para el inicio de sesion
+      this.endpoint = 'http://192.168.116.105:8000/api/login'; // Endpoint para el inicio de sesion
 
     }
   }
@@ -151,7 +151,7 @@ if (this.userForm.enabled){
             // this.userForm.addControl('codigoVerificacion', this.formBuilder.control('', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]));
             this.userForm.addControl('code', this.formBuilder.control('', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]));
             this.isLoading = false;
-            this.endpoint = 'http://127.0.0.1:8000/api/auth';
+            this.endpoint = 'http://192.168.116.105:8000/api/auth';
           }, 2000);
         }
         }

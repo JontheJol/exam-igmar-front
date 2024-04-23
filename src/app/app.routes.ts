@@ -9,7 +9,7 @@ import { UsuariosComponent } from './pages/usuarios/usuarios/usuarios.component'
 import { EditUsuarioComponent } from './pages/usuarios/edit-usuario/edit-usuario.component';
 
 import { VerificarCodigoComponent } from './pages/verificar-codigo/verificar-codigo.component';
-
+import { ViewScoreComponent } from './view-score/view-score.component';
 import { LogListComponent } from './log-list/log-list.component';
 import { authGuard } from './guards/auth.guard';
 
@@ -26,6 +26,7 @@ export const routes: Routes = [
 
     {path: 'landing', component: LandingComponent},
     {path: 'game',component: GameComponent},
+    {path: 'view-score', component: ViewScoreComponent},
 
     //WebSocket
     // {path: 'prueba', component: PruebaComponent},

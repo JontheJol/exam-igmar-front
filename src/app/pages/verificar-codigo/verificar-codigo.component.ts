@@ -52,7 +52,7 @@ export class VerificarCodigoComponent implements OnInit {
     };
     console.log(data);
 
-    this.http.post( 'http://127.0.0.1:8000/api/auth', data, { observe: 'response' })
+    this.http.post( 'http://192.168.116.105:8000/api/auth', data, { observe: 'response' })
     .subscribe((response: any) =>
     {
       console.log(response);

@@ -26,6 +26,7 @@ export class LandingComponent {
   juego:Game = new Game(0, "");
   gigaerror: any;
   id_partida = ""
+  id_usuario = ""
 
 
   logs!: any[];//para probar que se esten trayendo los logs
@@ -90,8 +91,10 @@ export class LandingComponent {
         console.log(data)
         console.log(data.data.id)
         var dato = data.data.id;
+        var id_usuario = data.data.userid;
         this.dataService.setDato1(dato);
         this.dataService.setDato2(1);
+        this.dataService.setDato3(id_usuario);
 
         this.router.navigate(['/game']);
       },
@@ -106,9 +109,13 @@ export class LandingComponent {
   joinGame(gameId: string) {
     this.single.sendRequestWithToken('api/joinGame/',{"id": gameId}).subscribe(
       (data: any) => {
+        console.log(data);
         this.game.id_partida = gameId;
+        var id_usuario = data.userid;
         this.dataService.setDato1(gameId);
         this.dataService.setDato2(2);
+        this.dataService.setDato3(id_usuario);
+
         this.router.navigate(['/game']);
 
       },

@@ -21,7 +21,7 @@ export class UsuariosComponent {
   botonesAccion: any[] = []; // Define botonesAccion como un array vacío
 
   obtenerUsuarios() {
-    const endpoint = 'http://127.0.0.1:8000/api/users';
+    const endpoint = 'http://192.168.116.105:8000/api/users';
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     this.http.get<any[]>(endpoint, {headers: headers}).subscribe(
@@ -67,7 +67,7 @@ export class UsuariosComponent {
   eliminarUsuario(usuario: any) {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = `http://127.0.0.1:8000/api/users/${usuario.id}/deactivate`;
+    const endpoint = `http://192.168.116.105:8000/api/users/${usuario.id}/deactivate`;
     this.http.put(endpoint, {}, {headers: headers}).subscribe(
       () => {
         console.log('Usuario desactivado correctamente');

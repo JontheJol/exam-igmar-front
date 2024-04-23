@@ -35,9 +35,13 @@ export class GameComponent implements OnInit,OnDestroy {
 win = -1
 hit = -1
   usuario = ""
+  id_usuario = ""
   id_partida = ""
   coordenada = ""
   channel: string = ""
+  channel2: string = ""
+  channel3: string = ""
+  channel4: string = ""
   // enemyTiles: string[][] = Array(5).fill(Array(8).fill('/src/assets/emptytile.jpeg'));
   // playerTiles: string[][] = Array(5).fill(Array(3).fill('/src/assets/emptytile.jpeg'));
   enemyTiles: string[][] = Array.from({length: 5}, () => Array(8).fill('/src/assets/emptytile.jpeg'));
@@ -54,6 +58,9 @@ playerTiles: string[][] = Array.from({length: 5}, () => Array(3).fill('/src/asse
 
     console.log("dato1: "+this.dataService.getDato1());
     console.log("dato2: "+this.dataService.getDato2());
+    console.log("dato3: "+this.dataService.getDato3());
+
+    this.id_usuario = this.dataService.getDato3();
     // this.getShipCoordinates();
     Pusher.logToConsole = true;
      var pusher = new Pusher('b5bcbb60477b643ab290', {
@@ -76,10 +83,82 @@ playerTiles: string[][] = Array.from({length: 5}, () => Array(3).fill('/src/asse
       console.log(self.id_partida);
       // self.router.navigate(['/registro']);
       self.getShipCoordinates();
+    });
 
+    //para el turno del jugador
+    this.channel2 = 'hit' + this.id_usuario;
+console.log("canaaaal2:"+this.channel2);
+    var channel = pusher.subscribe(this.channel2);   
+    channel.bind('my-event', function(data:any) {
+      // self.appaer = true;
+      alert(JSON.stringify("te dieron, es tu turno"));
+      self.usuario = "guest"
+
+      console.log("funcionaaaaaaa22");
+      console.log(data);
+      console.log(self.id_partida);
+      // self.router.navigate(['/registro']);
+      // self.getShipCoordinates();
+    });
+
+    this.channel3 = 'nohit' + this.id_usuario;
+    console.log("canaaaal3:"+this.channel3);
+    var channel = pusher.subscribe(this.channel3);   
+    channel.bind('my-event', function(data:any) {
+      // self.appaer = true;
+      alert(JSON.stringify("no te dieron,es tu turno"));
+      self.usuario = "guest"
+
+      console.log("funcionaaaaaaa22");
+      console.log(data);
+      console.log(self.id_partida);
+      // self.router.navigate(['/registro']);
+      // self.getShipCoordinates();
+    });
+
+    this.channel4 = 'win' + this.id_usuario;
+    console.log("canaaaal3:"+this.channel4);
+    var channel = pusher.subscribe(this.channel4);   
+    channel.bind('my-event', function(data:any) {
+      // self.appaer = true;
+      alert(JSON.stringify("has perdido "));
+      // self.usuario = "guest"
+
+      console.log("funcionaaaaaaa22");
+      console.log(data);
+      console.log(self.id_partida);
+      // self.router.navigate(['/registro']);
+      // self.getShipCoordinates();
     });
 
   }
+
+
+  getShipCoordinates() {
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
+    this.http.get('http://192.168.116.105:8000/api/consultarCordenadas',{ headers: headers }).subscribe((data: any) => {
+      // Process the data and update playerTiles
+      console.log(data);
+      console.log(data.data);
+      console.log(data.data.coordinate);
+      console.log(data.coordinate);
+      this.usuario = data.posicion;
+      this.id_usuario = data.id_usuario;
+      console.log("useeeeeerrr"+this.usuario);
+      // console.log(data.coordinates[0]);
+      this.updatePlayerTiles(data.data);
+    });
+  }
+
+
+
+
+
+
+
+
+
   ngOnDestroy(): void {
     this.servi.sendRequestWithToken('api/partidaCancelada',{}).subscribe((data: any) => {
       console.log("esto es cuando se cancela"+data);
@@ -102,14 +181,14 @@ console.log(this.usuario)
     this.coordenada = this.a+this.b
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
-    this.http.post("http://127.0.0.1:8000/api/movimiento", {"coordinate":this.coordenada},{ headers: headers } ).subscribe((data: any) => {
+    this.http.post("http://192.168.116.105:8000/api/movimiento", {"coordinate":this.coordenada},{ headers: headers } ).subscribe((data: any) => {
       console.log(data);
-      console.log(data.data);
-      console.log(data.data.coordinate);
-      console.log(data.coordinate);
-      this.usuario = data.data.posicion;
-      console.log(this.usuario);
-      this.updatePlayerTiles(data.data.coordinate);
+      // console.log(data.data);
+      // console.log(data.data.coordinate);
+      // console.log(data.coordinate);
+      // this.usuario = data.data.posicion;
+      // console.log(this.usuario);
+      // this.updatePlayerTiles(data.data.coordinate);
     })
   }
   else {//enable los botones
@@ -119,38 +198,7 @@ console.log(this.usuario)
     //enviamos por medio de post la coordenada
   }
 
-  getShipCoordinates() {
-    const token = this.cookieService.get('authToken');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
-    this.http.get('http://127.0.0.1:8000/api/consultarCordenadas',{ headers: headers }).subscribe((data: any) => {
-      // Process the data and update playerTiles
-      console.log(data);
-      console.log(data.data);
-      console.log(data.data.coordinate);
-      console.log(data.coordinate);
-      this.usuario = data.posicion;
-      // console.log(data.coordinates[0]);
-      this.updatePlayerTiles(data.data);
-      if  (data.data.ganador){
-        if (data.data.ganador == this.usuario){
-          this.win = 1
-        }
-        else{
-        this.win = 0
-        }
-      }
-      if (data.data.mensaje == "hit"){
-        this.hit = 1
-        timeout(1000)
-        this.hit = -1
-      }else if (data.data.mensaje == "no hit"){
-        this.hit = 0
-        timeout(1000)
-        this.hit = -1
-      }
 
-    });
-  }
 
 
 

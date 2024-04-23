@@ -14,7 +14,7 @@ export class AuthService {
   }
 
   private initAuth(): void {
-    this.tokenService.getRequestWithToken('http://127.0.0.1:8000/api/type').subscribe((response: any) => {
+    this.tokenService.getRequestWithToken('http://192.168.116.105:8000/api/type').subscribe((response: any) => {
       console.log(response)
       if (response === 'admin') {
         console.log( "aqu000")

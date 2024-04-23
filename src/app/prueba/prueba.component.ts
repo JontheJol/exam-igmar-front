@@ -33,7 +33,7 @@
 //   }
 
 //   pong() {
-//     this.http.post("http://127.0.0.1:8000/api/websocket", undefined).subscribe({
+//     this.http.post("http://192.168.116.105:8000/api/websocket", undefined).subscribe({
 //       next(value) {
 //           console.log("mandado")
 //       },

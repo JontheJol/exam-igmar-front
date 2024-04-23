@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class DataService {
   private datoCompartido: any;
   private datoCompartido2: any;
+  private datoCompartido3: any;
 
   constructor() {}
 
@@ -15,11 +16,17 @@ export class DataService {
   setDato2(dato: any) {
     this.datoCompartido2 = dato;
   }
+  setDato3(dato: any) {
+    this.datoCompartido3 = dato;
+  }
 
   getDato1() {
     return this.datoCompartido;
   }
   getDato2() {
     return this.datoCompartido2;
+  }
+  getDato3() {
+    return this.datoCompartido3;
   }
 }

@@ -1,0 +1,27 @@
+<div class="container-fluid">
+    <a [routerLink]="['/landing']">
+      <button class="btn btn-primary mb-3">Regresar</button>
+    </a>
+    <div class="d-flex justify-content-center">
+      <div class="w-75 bg-primary text-white contenedor-tabla-parrafos p-4 rounded">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Resultado</th>
+              <th>Contra</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let resultado of resultados" [ngClass]="{'table-success': resultado.resultado === 'Ganado', 'table-danger': resultado.resultado === 'Perdido'}">
+              <td>{{ resultado.resultado }}</td>
+              <td>{{ resultado.contra }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="mt-4">
+          <p class="text-white">Ganados: {{ ganados }}</p>
+          <p class="text-white">Perdidos: {{ perdidos }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
