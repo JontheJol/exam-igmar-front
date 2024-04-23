@@ -9,6 +9,7 @@ import { routes } from '../../app.routes';
 
 import { HttpClient } from '@angular/common/http';
 import Pusher from 'pusher-js';
+import { GameComponent } from '../game/game.component'
 
 
 @Component({
@@ -24,11 +25,13 @@ export class LandingComponent {
   games: Game[] = [];
   juego:Game = new Game(0, "");
   gigaerror: any;
+  id_partida = ""
+
 
   logs!: any[];//para probar que se esten trayendo los logs
   appaer: boolean = false
 
-  constructor(private single: TokenService, private router: Router){
+  constructor(private single: TokenService, private router: Router,private game: GameComponent){
 
 
     Pusher.logToConsole = true;
@@ -104,7 +107,9 @@ export class LandingComponent {
 
         // Navega a la página de posicionamiento de barcos
         // this.router.navigate(['/game']);
-        this.router.navigate(['/game'], { state: { partida: gameId } });
+        this.game.id_partida = gameId;
+        this.router.navigate(['/game']);
+        
       },
       (error: any) => {
         console.error('Hubo un error al unirse al juego:', error);

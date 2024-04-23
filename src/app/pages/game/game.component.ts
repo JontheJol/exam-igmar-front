@@ -12,7 +12,7 @@ import {FormControl, Validators, FormsModule, ReactiveFormsModule} from '@angula
 import {MatDividerModule} from '@angular/material/divider';
 import { HttpClient,HttpHeaders} from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
-import { OnDestroy } from '@angular/core';
+import { OnDestroy,Injectable } from '@angular/core';
 import { Router,ActivatedRoute } from '@angular/router';
 import Pusher from 'pusher-js';
 import { TokenService } from '../../token.service';
@@ -26,6 +26,9 @@ import { TokenService } from '../../token.service';
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss'
 })
+@Injectable({
+  providedIn: 'root'
+})
 export class GameComponent implements OnInit,OnDestroy {
 
   usuario = ""
@@ -37,19 +40,24 @@ export class GameComponent implements OnInit,OnDestroy {
 playerTiles: string[][] = Array.from({length: 5}, () => Array(3).fill('/src/assets/emptytile.jpeg'));
   appaer: boolean = false
 
-  pusher: any;
-  channel: any;
+  // pusher: any;
+  // channel: any;
 
   constructor(private http: HttpClient,private cookieService: CookieService ,private servi: TokenService, protected router: Router,private route: ActivatedRoute) {
 
     // this.getShipCoordinates();
-    this.pusher = new Pusher('yourPusherAppKey', {
-      cluster: 'yourPusherAppCluster',
+     var pusher = new Pusher('b5bcbb60477b643ab290', {
+      cluster: 'us2',
       enabledTransports: ['ws', 'wss'],
       disableStats: true,
     });
 
-    this.channel = this.pusher.subscribe('game.' + this.id_partida);
+    var channel = pusher.subscribe('game.' + this.id_partida);
+    channel.bind('user.joined', (data: any) => {
+      // self.appaer = true;
+      console.log("Prueba_landing");
+      this.getShipCoordinates();
+    });
 
   }
   ngOnDestroy(): void {
@@ -138,8 +146,13 @@ console.log(this.usuario)
   buttonStates: boolean[][] = [];
 
   ngOnInit() {
-    this.id_partida = history.state.partida;
-    console.log(this.id_partida);
+    this.route.queryParams.subscribe(params => {
+      console.log(params);
+      this.id_partida = params['partida'];
+      console.log("este es el id de la partida1: "+this.id_partida);
+    });
+    // this.id_partida = history.state.partida;
+    console.log("este es el id de la partida2: "+this.id_partida);
     this.initializeOponentBoard();
     this.initializeButtonStates();
     // this.number = history.state.number;
