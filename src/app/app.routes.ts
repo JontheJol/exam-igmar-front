@@ -19,9 +19,11 @@ import { LandingComponent } from './pages/landing/landing.component';
 export const routes: Routes = [
     {path: 'registro', component: SignupComponent},
     {path: 'ingreso', component: LoginComponent},
+
     {path: 'dashboard', component: DashboardComponent,canActivate:[authGuard]}, // TODO: no se que otra validacion necesitemos para acceder al dashboard
     {path: 'dashboard/usuarios', component: UsuariosComponent},
     {path: 'dashboard/usuarios/edit/:id', component: EditUsuarioComponent },
+    {path: '**', redirectTo: 'ingreso', pathMatch: 'full' }, // TODO: no se que otra validacion necesitemos para acceder al dashboard
 
     {path: 'landing', component: LandingComponent},
     {path: 'game',component: GameComponent},
