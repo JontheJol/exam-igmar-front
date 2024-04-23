@@ -16,6 +16,7 @@ import { OnDestroy,Injectable } from '@angular/core';
 import { Router,ActivatedRoute } from '@angular/router';
 import Pusher from 'pusher-js';
 import { TokenService } from '../../token.service';
+import { DataService } from '../../data.service';
 
 @Component({
   selector: 'app-game',
@@ -35,6 +36,7 @@ hit = -1
   usuario = ""
   id_partida = ""
   coordenada = ""
+  channel: string = ""
   // enemyTiles: string[][] = Array(5).fill(Array(8).fill('/src/assets/emptytile.jpeg'));
   // playerTiles: string[][] = Array(5).fill(Array(3).fill('/src/assets/emptytile.jpeg'));
   enemyTiles: string[][] = Array.from({length: 5}, () => Array(8).fill('/src/assets/emptytile.jpeg'));
@@ -44,20 +46,34 @@ playerTiles: string[][] = Array.from({length: 5}, () => Array(3).fill('/src/asse
   // pusher: any;
   // channel: any;
 
-  constructor(private http: HttpClient,private cookieService: CookieService ,private servi: TokenService, protected router: Router,private route: ActivatedRoute) {
+  constructor(private http: HttpClient,private cookieService: CookieService ,private servi: TokenService, protected router: Router,private route: ActivatedRoute ,private dataService: DataService) {
+    if (this.dataService.getDato() == 2){
+      this.getShipCoordinates();
 
+    }
     // this.getShipCoordinates();
+    Pusher.logToConsole = true;
      var pusher = new Pusher('b5bcbb60477b643ab290', {
       cluster: 'us2',
-      enabledTransports: ['ws', 'wss'],
-      disableStats: true,
     });
 
-    var channel = pusher.subscribe('game.' + this.id_partida);
-    channel.bind('user.joined', (data: any) => {
+    let self = this;
+    this.id_partida = this.dataService.getDato();
+    // this.id_partida = "68";
+    this.channel = 'join' + this.id_partida;
+
+    console.log("canaaaal:"+this.channel);
+    var channel = pusher.subscribe(this.channel);   
+    channel.bind('my-event', function(data:any) {
       // self.appaer = true;
-      console.log("Prueba_landing");
-      this.getShipCoordinates();
+      // alert(JSON.stringify(data));
+
+      // console.log("funcionaaaaaaa");
+      console.log(data);
+      console.log(self.id_partida);
+      // self.router.navigate(['/registro']);
+      self.getShipCoordinates();
+
     });
 
   }
@@ -147,12 +163,13 @@ console.log(this.usuario)
   buttonStates: boolean[][] = [];
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      console.log(params);
-      this.id_partida = params['partida'];
-      console.log("este es el id de la partida1: "+this.id_partida);
-    });
-    // this.id_partida = history.state.partida;
+   
+    this.id_partida = this.dataService.getDato();
+    // this.id_partida = "68";
+    this.channel = 'join' + this.id_partida;
+    // console.log("canaaaal:"+this.channel);
+    // this.channel = 'join81';
+    console.log("canaaaal:"+this.channel);
     console.log("este es el id de la partida2: "+this.id_partida);
     this.initializeOponentBoard();
     this.initializeButtonStates();
@@ -169,8 +186,6 @@ console.log(this.usuario)
 
   // Maybe this one goes in the game component
   getOponnentBoatsPositions() {
-    // Get the oponent boats trough websocket
-    // this.oponentBoatPositions = ... idk
   }
 
   drawOponentBoard() {
@@ -196,21 +211,6 @@ console.log(this.usuario)
     }
   }
 
-  // Método para manejar el clic en el botón
-  // handleClick(rowIndex: number, colIndex: number) {
-  //   // Deshabilitar el botón una vez que se hace clic en él
-  //   this.buttonStates[rowIndex][colIndex] = false;
-  // }
-
-  // handleClick2() {
-  //   this.getShipCoordinates();
-
-  //   // console.log("rellenando");
-  //   // this.updatePlayerTiles(['A1', 'A2','A3','A4','A5','A6','A7','A8','B1','B2','B3','B4','B5','B6','B7','B8','C1','C2','C3','C4','C5','C6','C7','C8','D1','D2','D3','D4','D5','D6','D7','D8','E1','E2','E3','E4','E5','E6','E7','E8']);
-  //   // this.playerTiles[0][0] = '/src/assets/boattile.jpeg'; // Cambia la primera posición
-
-  //   // this.tiles[0][0] =  'assets/images/boat.jpeg'; // Cambia la primera posición
-  // }
   getNumberFromLetter(letter: string): number {
     return letter.charCodeAt(0) - 64;
   }

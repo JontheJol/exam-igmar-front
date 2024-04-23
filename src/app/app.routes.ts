@@ -31,6 +31,6 @@ export const routes: Routes = [
 //logs
     {path: 'dashboard/logs', component: LogListComponent},
 
-    {path: '', redirectTo: '/ingreso', pathMatch: 'full' },
-    {path: '**', component: PageNotFoundComponent },
+    // {path: '', redirectTo: '/ingreso', pathMatch: 'full' },
+    // {path: '**', component: PageNotFoundComponent },
     ];

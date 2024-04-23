@@ -10,7 +10,7 @@ import { routes } from '../../app.routes';
 import { HttpClient } from '@angular/common/http';
 import Pusher from 'pusher-js';
 import { GameComponent } from '../game/game.component'
-
+import { DataService } from '../../data.service';
 
 @Component({
   selector: 'app-landing',
@@ -31,7 +31,7 @@ export class LandingComponent {
   logs!: any[];//para probar que se esten trayendo los logs
   appaer: boolean = false
 
-  constructor(private single: TokenService, private router: Router,private game: GameComponent){
+  constructor(private single: TokenService, private router: Router,private game: GameComponent, private dataService: DataService){
 
 
     Pusher.logToConsole = true;
@@ -87,10 +87,15 @@ export class LandingComponent {
       (data: any) => {
         // Navega a la ruta '/game' solo si la creación del juego es exitosa
         console.log("exitus")
+        console.log(data)
+        console.log(data.data.id)
+        var dato = data.data.id;
+        this.dataService.setDato(dato);
+        this.dataService.setDato2(1);
+
         this.router.navigate(['/game']);
       },
       (error: any) => {
-        // Maneja el error aquí...
         alert('¡Error en el juego intenta de nuevo!');
 
         console.error('Hubo un error al crear el juego:', error);
@@ -101,20 +106,17 @@ export class LandingComponent {
   joinGame(gameId: string) {
     this.single.sendRequestWithToken('api/joinGame/',{"id": gameId}).subscribe(
       (data: any) => {
-        // Guarda el ID del juego y los barcos en el localStorage
-        // localStorage.setItem('gameId', gameId);
-        // localStorage.setItem('boats', JSON.stringify(data.boats));
-
-        // Navega a la página de posicionamiento de barcos
-        // this.router.navigate(['/game']);
         this.game.id_partida = gameId;
+        this.dataService.setDato(gameId);
+        this.dataService.setDato2(2);
         this.router.navigate(['/game']);
-        
+
       },
       (error: any) => {
         console.error('Hubo un error al unirse al juego:', error);
       }
     );
+
   }
 
 
