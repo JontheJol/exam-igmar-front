@@ -1,51 +1,10 @@
-<style>
-  .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
 
-  .row {
-    display: flex;
-    flex-direction: row;
-    padding: 0;
-    outline: solid 1px;
-  }
-
-  .col {
-    margin: 2px;
-    padding: 0;
-    width: 64px;
-    flex: none;
-    padding: 4px;
-    outline: solid 1px;
-  }
-
-  .guide-col {
-    color: white;
-  }
-
-  .escalable {
-    width: 50%;
-    padding-top: 56.25%; /* Relación de aspecto 16:9 */
-    position: relative;
-  }
-
-  .escalable::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 0;
-    overflow: hidden;
-  }
-</style>
-<section
+<section class="gifback" style="background-image: url('/src/assets/images/water.gif')"
 
   [style.backgroundColor]="
-    win === 1 ? ' z-index: -9999999999' : hit === 1 ? 'red' : 'rgba(0, 255, 255, 0.377)'
+    win === 1 ? ' z-index: -9999999999' : hit === 1 ? 'red'  : 'rgba(0, 255, 255, 0.377)'
   "
+
 >
   <p>
     <mat-toolbar style="background-color: blueviolet">
@@ -103,7 +62,8 @@
           class="col"
           *ngFor="let tile of row; let colIndex = index"
         >
-          <button mat-button (click)="handleClick(rowIndex, colIndex)">
+
+          <button mat-button  (click)="handleClick(rowIndex, colIndex)">
             <img
               class="img-fluid pixelated"
               src="assets/images/oceantile.jpeg"
@@ -114,10 +74,10 @@
       </div>
     </div>
     <br />
-    <div *ngIf="hit === 1">
+    <div *ngIf="hit === 1 " [@showHideAnimation]="showDiv">
       <!-- <h1>Hit</h1>
 </div> -->
-      <div>
+      <div  [@showHideAnimation]="showDiv">
         <div
           class="card"
           style="
@@ -127,9 +87,9 @@
             transform: translate(-50%, -50%);
           "
         >
-          <div class="card-body">
+          <div class="card-body"  [@showHideAnimation]="showDiv">
             <blockquote class="blockquote mb-12" style="font-size: xx-large">
-              <p>Hit</p>
+              <p>Hit </p>
               <footer class="blockquote-footer">
                 <cite title="Source title">ce winner de un hito</cite>
               </footer>
@@ -138,7 +98,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="hit === 0">
+    <div *ngIf="hit === 0" [@showHideAnimation]="showDiv">
       <div
         class="card mb-12"
         style="
@@ -171,7 +131,7 @@
           <footer class="blockquote-footer">
             <cite class="m-8" title="Source title">ce winner de un hito</cite>
             <h1 class="m-2"></h1>
-            <button class=" m-2 btn btn-lg btn-success" routerLink="/view-score" >A la mason</button>
+            <button class=" m-2 btn btn-lg btn-success" routerLink="/view-score" [@buttonHover]="true">A la mason</button>
 
           </footer>
         </blockquote>
@@ -202,6 +162,33 @@
         </blockquote>
       </div>
     </div>
+
     </div>
+
+    <div *ngIf="turno === 0">
+
+      <div
+      class="card"
+      style="
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      "
+    >
+      <div class="card-body">
+        <blockquote class="blockquote mb-12" style="font-size: xx-large">
+          <p>No es tu turno </p>
+          <footer class="blockquote-footer">
+            <h1 class="m-2"></h1>
+            <cite class="m-8" title="Source title">espera tu turno </cite>
+          </footer>
+        </blockquote>
+      </div>
+    </div>
+
+    </div>
+
+
   </div>
 </section>

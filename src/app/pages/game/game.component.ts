@@ -19,6 +19,8 @@ import { TokenService } from '../../token.service';
 import { DataService } from '../../data.service';
 import { scheduled, timeInterval, timeout } from 'rxjs';
 import { RouterLink } from '@angular/router';
+import { trigger, transition, animate, style } from '@angular/animations';
+
 
 @Component({
   selector: 'app-game',
@@ -28,6 +30,7 @@ import { RouterLink } from '@angular/router';
     MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatIconModule, MatDividerModule, MatButtonModule],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss'
+
 })
 @Injectable({
   providedIn: 'root'
@@ -35,8 +38,11 @@ import { RouterLink } from '@angular/router';
 export class GameComponent implements OnInit,OnDestroy {
 win = -1
 hit = -1
+showDiv = false;
+turno =-1
   usuario = ""
   id_usuario = ""
+
   id_partida = ""
   coordenada = ""
   channel: string = ""
@@ -56,9 +62,7 @@ playerTiles: string[][] = Array.from({length: 5}, () => Array(3).fill('/src/asse
     if (this.dataService.getDato2() == 2){
       this.getShipCoordinates();
     }
-    this.hit = 1
-    timeout(1000)
-    this.hit = -1
+
     console.log("dato1: "+this.dataService.getDato1());
     console.log("dato2: "+this.dataService.getDato2());
     console.log("dato3: "+this.dataService.getDato3());
@@ -95,6 +99,12 @@ console.log("canaaaal2:"+this.channel2);
     channel.bind('my-event', function(data:any) {
       // self.appaer = true;
       self.hit = 1
+      self.showDiv = true;
+
+      setTimeout(() => {
+        self.showDiv = false;
+        self.hit = -1
+      }, 3000); // Hide after 3 seconds
 
       //alert(JSON.stringify("te dieron, es tu turno"));
       self.usuario = "guest"
@@ -112,6 +122,13 @@ console.log("canaaaal2:"+this.channel2);
     channel.bind('my-event', function(data:any) {
       // self.appaer = true;
       self.hit = 0
+      self.showDiv = true;
+
+      setTimeout(() => {
+        self.showDiv = false;
+        self.hit = -1
+      }, 3000); // Hide after 3 seconds
+
       //alert(JSON.stringify("no te dieron,es tu turno"));
 
       self.usuario = "guest"
@@ -128,6 +145,8 @@ console.log("canaaaal2:"+this.channel2);
     var channel = pusher.subscribe(this.channel4);
     channel.bind('my-event', function(data:any) {
       // self.appaer = true;
+
+
       if (self.id_usuario == data.id_usuario){  self.win = 1}
       else{self.win = 0}
      // alert(JSON.stringify("has perdido "));
@@ -206,6 +225,12 @@ console.log(this.usuario)
       // this.updatePlayerTiles(data.data.coordinate);
       if (data.data.mensaje == "gano"){
         this.win =1
+      }
+      if (data.data.mensaje == "perdio"){
+        this.win =0
+      }
+      if(data.data.mensaje == "no es tu turno"){
+        this.turno=0
       }
     })
   }
@@ -302,9 +327,23 @@ console.log(this.usuario)
     return letter.charCodeAt(0) - 64;
   }
 
-  changeColor()
-  {
 
+
+  // Animations
+  showHideAnimation = trigger('showHideAnimation', [
+    transition(':enter', animate('1s ease-in-out', style({ opacity: 1 }))), // Fade in
+    transition(':leave', animate('0.5s ease-in-out', style({ opacity: 0 }))), // Fade out
+
+  ]);
+  buttonHover = trigger('buttonHover', [
+    transition(':enter', animate('.2s ease-in-out', style({
+      backgroundColor: '#007bff', // Cambia el color de fondo al entrar en hover
+      transform: 'scale(1.1)', // Aumenta el tamaño del botón
+    }))),
+    transition(':leave', animate('.2s ease-in-out', style({
+      backgroundColor: '#fff', // Reestablece el color de fondo al salir del hover
+      transform: 'scale(1)', // Reestablece el tamaño del botón
+    })))
+  ]);
   }
 
-  }
