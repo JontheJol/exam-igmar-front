@@ -170,7 +170,9 @@ console.log("canaaaal2:"+this.channel2);
   getShipCoordinates() {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
-    this.http.get('http://192.168.116.105:8000/api/consultarCordenadas',{ headers: headers }).subscribe((data: any) => {
+    .set('ngrok-skip-browser-warning', 'true')
+
+    this.http.get('https://1d45-2806-101e-d-a299-8cdf-231a-3509-a0a7.ngrok-free.app/api/consultarCordenadas',{ headers: headers }).subscribe((data: any) => {
       // Process the data and update playerTiles
       console.log(data);
       console.log(data.data);
@@ -215,7 +217,7 @@ console.log(this.usuario)
     this.coordenada = this.a+this.b
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
-    this.http.post("http://192.168.116.105:8000/api/movimiento", {"coordinate":this.coordenada},{ headers: headers } ).subscribe((data: any) => {
+    this.http.post("https://1d45-2806-101e-d-a299-8cdf-231a-3509-a0a7.ngrok-free.app/api/movimiento", {"coordinate":this.coordenada},{ headers: headers } ).subscribe((data: any) => {
       console.log(data);
       // console.log(data.data);
       // console.log(data.data.coordinate);

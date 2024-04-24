@@ -33,7 +33,7 @@
 //   }
 
 //   pong() {
-//     this.http.post("http://192.168.116.105:8000/api/websocket", undefined).subscribe({
+//     this.http.post("https://1d45-2806-101e-d-a299-8cdf-231a-3509-a0a7.ngrok-free.app/api/websocket", undefined).subscribe({
 //       next(value) {
 //           console.log("mandado")
 //       },

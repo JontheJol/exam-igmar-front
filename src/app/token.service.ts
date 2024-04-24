@@ -9,7 +9,7 @@ import { CookieService } from 'ngx-cookie-service';
 export class TokenService {
   private isRegisteringSubject = new BehaviorSubject<boolean>(true);
   isRegistering$ = this.isRegisteringSubject.asObservable();
-private readonly baseUrl = "http://192.168.116.105:8000/"
+private readonly baseUrl = "https://1d45-2806-101e-d-a299-8cdf-231a-3509-a0a7.ngrok-free.app/"
   constructor(
     private http: HttpClient,
     private cookieService: CookieService

@@ -26,7 +26,7 @@ export class LogListComponent implements OnInit {
   }
 
   getLogData() {
-    this.logService.getRequestWithToken('http://192.168.116.105:8000/api/logs/index').subscribe(
+    this.logService.getRequestWithToken('https://1d45-2806-101e-d-a299-8cdf-231a-3509-a0a7.ngrok-free.app/api/logs/index').subscribe(
       data => {
         this.logs = data as [Object[]];
         // console.log(this.logs);
