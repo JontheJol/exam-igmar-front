@@ -76,7 +76,7 @@ export class UserFormComponent implements OnInit {
       this.userForm.addControl('password_confirmation', this.formBuilder.control('', Validators.required));
             this.userForm.removeControl('code');
             this.isRegistering = true;
-      this.endpoint = 'https://1d45-2806-101e-d-a299-8cdf-231a-3509-a0a7.ngrok-free.app/api/register'; // Endpoint para el registro
+      this.endpoint = 'https://180e-2806-101e-d-a299-40de-8601-87e3-8cf6.ngrok-free.app/api/register'; // Endpoint para el registro
     } else {
       this.userForm.removeControl('name');
       this.userForm.removeControl('phone');
@@ -84,7 +84,7 @@ export class UserFormComponent implements OnInit {
       this.userForm.removeControl('code');
       this.isRegistering = false;
 
-      this.endpoint = 'https://1d45-2806-101e-d-a299-8cdf-231a-3509-a0a7.ngrok-free.app/api/login'; // Endpoint para el inicio de sesion
+      this.endpoint = 'https://180e-2806-101e-d-a299-40de-8601-87e3-8cf6.ngrok-free.app/api/login'; // Endpoint para el inicio de sesion
 
     }
   }
@@ -151,7 +151,7 @@ if (this.userForm.enabled){
             // this.userForm.addControl('codigoVerificacion', this.formBuilder.control('', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]));
             this.userForm.addControl('code', this.formBuilder.control('', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]));
             this.isLoading = false;
-            this.endpoint = 'https://1d45-2806-101e-d-a299-8cdf-231a-3509-a0a7.ngrok-free.app/api/auth';
+            this.endpoint = 'https://180e-2806-101e-d-a299-40de-8601-87e3-8cf6.ngrok-free.app/api/auth';
           }, 2000);
         }
         }

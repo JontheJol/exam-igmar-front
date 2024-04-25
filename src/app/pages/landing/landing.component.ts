@@ -7,7 +7,7 @@ import { NgFor } from '@angular/common';
 import { OnInit } from '@angular/core';
 // import { ButtonComponent } from '../../buttons/button/button.component';
 import { routes } from '../../app.routes';
-
+import { HttpHeaders } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import Pusher from 'pusher-js';
 import { GameComponent } from '../game/game.component'
@@ -32,11 +32,11 @@ export class LandingComponent {
 
 
 
+
   logs!: any[];//para probar que se esten trayendo los logs
   appaer: boolean = false
 
-  constructor(private single: TokenService, private router: Router,private game: GameComponent, private dataService: DataService){
-
+  constructor(private http:HttpClient,private single: TokenService, private router: Router,private game: GameComponent, private dataService: DataService){
 
     Pusher.logToConsole = true;
     var pusher = new Pusher('b5bcbb60477b643ab290', {
@@ -56,6 +56,14 @@ export class LandingComponent {
   }
 
 
+  logout() {
+    this.http.post('/logout', null, {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer null'
+      })
+    }).subscribe(() => {
+      this.router.navigate(['/ingreso']);});
+  }
 
   ngOnInit() {
     this.loadTableData()

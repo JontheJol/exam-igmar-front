@@ -3,10 +3,11 @@
   <div class="container background-animation">
     <div class="row">
       <div class="col-6 float-left">
-        <button class="btn btn-primary mb-3" (click)="createGame()" (click)="soundOnClick()">Crear juego</button>
+        <button class="btn btn-primary mb-3" (click)="createGame()" >Crear juego</button>
       </div>
       <div class="col-6 float-right">
-        <button class="btn2 btn-primary mb-3" routerLink="/view-score">Ver puntuaciones</button>
+        <button class="btn btn-primary mb-3" routerLink="/view-score">Ver puntuaciones</button>
+     <!--   <button class="btn btn-primary mb-1" (click)="logout()">Cerrar session</button>-->
       </div>
     </div>
   </div>
@@ -18,7 +19,7 @@
   <ul class="list-group">
     <li *ngFor="let game of games" class="list-group-item">
       {{ game.player1 }}ink
-      <button class="btn btn-success float-right" (click)="soundOnClick()"(click)="joinGame(game.id.toString()) "
+      <button class="btn btn-success float-right" (click)="joinGame(game.id.toString()) "
       >Join</button>
 
     </li>

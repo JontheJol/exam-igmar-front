@@ -33,7 +33,7 @@
 //   }
 
 //   pong() {
-//     this.http.post("https://1d45-2806-101e-d-a299-8cdf-231a-3509-a0a7.ngrok-free.app/api/websocket", undefined).subscribe({
+//     this.http.post("https://180e-2806-101e-d-a299-40de-8601-87e3-8cf6.ngrok-free.app/api/websocket", undefined).subscribe({
 //       next(value) {
 //           console.log("mandado")
 //       },

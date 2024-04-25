@@ -14,7 +14,7 @@ export class AuthService {
   }
 
   private initAuth(): void {
-    this.tokenService.getRequestWithToken('https://1d45-2806-101e-d-a299-8cdf-231a-3509-a0a7.ngrok-free.app/api/type').subscribe((response: any) => {
+    this.tokenService.getRequestWithToken('https://180e-2806-101e-d-a299-40de-8601-87e3-8cf6.ngrok-free.app/api/type').subscribe((response: any) => {
       console.log(response)
       if (response === 'admin') {
         console.log( "aqu000")
