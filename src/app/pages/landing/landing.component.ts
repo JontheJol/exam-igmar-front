@@ -134,6 +134,8 @@ export class LandingComponent {
       },
       (error: any) => {
         console.error('Hubo un error al unirse al juego:', error);
+        alert(JSON.stringify("Hubo un error al unirse al juego:"));
+
       }
     );
 
