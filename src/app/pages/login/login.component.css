@@ -2,6 +2,7 @@
 .background-animation {
     top: 0;
     right: 0;
+    position: fixed;
     bottom: 0;
     left: 0;
     background: url('../../../assets/videos/barco.gif') center center fixed;
