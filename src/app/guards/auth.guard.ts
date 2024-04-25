@@ -10,11 +10,11 @@ const authService = inject(AuthService);
 const router = inject(Router);
 const cookieService = inject(CookieService);
 const http = inject(HttpClient);
-console.log("bucle")
+// console.log("bucle")  
 const token = cookieService.get('authToken');
 
 if (!token) {
-  const url = router.createUrlTree(['/landing']);
+  const url = router.createUrlTree(['/registro']);
   return url;
 }
 return true;

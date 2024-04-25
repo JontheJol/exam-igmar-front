@@ -4,12 +4,8 @@
   padding: 20px;
 }
 
-.btn2 {
-  margin-left: 10px; /* Agrega un espacio entre los botones */
-}
-
 .list-group-item {
-  margin-top: 10px; /* Espacio entre elementos de la lista */
+  margin-top: 10px;
 }
 
 /* Estilos para los botones */
@@ -36,14 +32,38 @@
   background-color: #218838;
   border-color: #218838;
 }
-/* Animation */
+
+.btn-info {
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+}
+
+.btn-info:hover {
+  background-color: #117a8b;
+  border-color: #117a8b;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-danger:hover {
+  background-color: #bd2130;
+  border-color: #bd2130;
+}
+
+/* Animación de fondo */
 .background-animation {
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  background: url('/src/assets/videos/barco2.gif') center center fixed !important ;
+  background: url('/src/assets/videos/barco2.gif') center center fixed;
   background-size: cover;
-;}
+}
 
-/* sound*/
+/* Centrado del contenido */
+.text-center {
+  text-align: center;
+}

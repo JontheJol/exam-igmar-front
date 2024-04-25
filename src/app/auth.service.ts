@@ -15,10 +15,10 @@ export class AuthService {
     private http: HttpClient
   ) {}
 
-  public isAuth(): Observable<string> {
-    const token = this.cookieService.get('authToken');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
+  // public isAuth(): Observable<string> {
+  //   const token = this.cookieService.get('authToken');
+  //   const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
 
-    return this.http.post<string>('http://192.168.124.201:8000/api/partida',{}, { headers: headers });
-  }
+  //   return this.http.post<string>('http://192.168.124.201:8000/api/partida',{}, { headers: headers });
+  // }
 }
