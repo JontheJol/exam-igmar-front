@@ -38,7 +38,7 @@ import { trigger, transition, animate, style } from '@angular/animations';
 export class GameComponent implements OnInit,OnDestroy {
 win = -1
 hit = -1
-showDiv = false;
+showDiv = false; //For disapiring divs
 turno =-1
   usuario = ""
   id_usuario = ""
@@ -104,7 +104,15 @@ console.log("canaaaal2:"+this.channel2);
       setTimeout(() => {
         self.showDiv = false;
         self.hit = -1
+        self.turno = 1
+        self.showDiv = true;
       }, 3000); // Hide after 3 seconds
+
+      setTimeout(() => {
+        self.showDiv = false;
+        self.turno = -1
+      }, 4000);
+
 
       //alert(JSON.stringify("te dieron, es tu turno"));
       self.usuario = "guest"
@@ -127,15 +135,24 @@ console.log("canaaaal2:"+this.channel2);
       setTimeout(() => {
         self.showDiv = false;
         self.hit = -1
+        self.turno = 1
+        self.showDiv = true;
       }, 3000); // Hide after 3 seconds
 
-      //alert(JSON.stringify("no te dieron,es tu turno"));
+
+      setTimeout(() => {
+        self.showDiv = false;
+        self.turno = -1
+      }, 4000);
+
+      //alert(JSON.stringify("zno te dieron,es tu turno"));
 
       self.usuario = "guest"
 
       console.log("funcionaaaaaaa22");
       console.log(data);
       console.log(self.id_partida);
+
       // self.router.navigate(['/registro']);
       // self.getShipCoordinates();
     });
@@ -183,6 +200,15 @@ console.log("canaaaal2:"+this.channel2);
       console.log("useeeeeerrr"+this.usuario);
       // console.log(data.coordinates[0]);
       this.updatePlayerTiles(data.data);
+      if (this.usuario == "guest"){
+        this.turno =1
+        this.showDiv = true;
+
+        setTimeout(() => {
+          this.showDiv = false;
+          this.turno = -1
+        }, 3000);
+      }
     });
   }
 
@@ -225,14 +251,35 @@ console.log(this.usuario)
       // this.usuario = data.data.posicion;
       // console.log(this.usuario);
       // this.updatePlayerTiles(data.data.coordinate);
-      if (data.data.mensaje == "gano"){
+
+      //validaciones para mensajes en humano
+      if (data.mensaje == "gano"){
         this.win =1
       }
-      if (data.data.mensaje == "perdio"){
+      if (data.mensaje == "perdio"){
         this.win =0
       }
-      if(data.data.mensaje == "no es tu turno"){
+      if(data.mensaje == "Espera a que un jugador termine su turno."){
         this.turno=0
+        setTimeout(() => {
+          this.showDiv = false;
+          this.turno = -1
+        }, 3000); // Hide after 3 seconds
+      }
+      if (data.mensaje == "hit"){
+        this.hit = 1
+        setTimeout(() => {
+          this.showDiv = false;
+          this.hit = -1
+        }, 3000); // Hide after 3 seconds
+
+      }
+      if(data.mensaje == "no hit"){
+        this.hit = 0
+        setTimeout(() => {
+          this.showDiv = false;
+          this.hit = -1
+        }, 3000); // Hide after 3 seconds
       }
     })
   }
