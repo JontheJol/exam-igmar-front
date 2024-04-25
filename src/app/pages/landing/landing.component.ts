@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive, RouterModule, Router } from '@angular/router';
 import { TokenService } from '../../token.service';
 import { Game } from '../../models/Game.model';
 import { CommonModule } from '@angular/common';
 import { NgFor } from '@angular/common';
+import { OnInit } from '@angular/core';
 // import { ButtonComponent } from '../../buttons/button/button.component';
 import { routes } from '../../app.routes';
 
@@ -27,6 +28,8 @@ export class LandingComponent {
   gigaerror: any;
   id_partida = ""
   id_usuario = ""
+  @ViewChild('audioElement')audioPlayer!: HTMLAudioElement;
+
 
 
   logs!: any[];//para probar que se esten trayendo los logs
@@ -52,7 +55,7 @@ export class LandingComponent {
 
   }
 
-  
+
 
   ngOnInit() {
     this.loadTableData()
@@ -64,7 +67,7 @@ export class LandingComponent {
     //      this.juego = new Game(data.partidas[i].id, data.partidas[i].player1);
     //      this.games.push(this.juego);
     //    }
-
+    this.soundOnClick()
     // });
   }
   loadTableData() {
@@ -105,7 +108,9 @@ export class LandingComponent {
       }
     );
   }
-
+  soundOnClick() {
+    this.audioPlayer.play();
+  }
   joinGame(gameId: string) {
     this.single.sendRequestWithToken('api/joinGame/',{"id": gameId}).subscribe(
       (data: any) => {

@@ -36,3 +36,15 @@
   background-color: #218838;
   border-color: #218838;
 }
+/* Animation */
+.background-animation {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: url('/src/assets/videos/barco2.gif') center center fixed !important ;
+  background-size: cover;
+;}
+
+/* sound*/

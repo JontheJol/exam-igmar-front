@@ -63,6 +63,7 @@ playerTiles: string[][] = Array.from({length: 5}, () => Array(3).fill('/src/asse
       this.getShipCoordinates();
     }
 
+
     console.log("dato1: "+this.dataService.getDato1());
     console.log("dato2: "+this.dataService.getDato2());
     console.log("dato3: "+this.dataService.getDato3());
