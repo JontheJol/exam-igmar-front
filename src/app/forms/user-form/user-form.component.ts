@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule ,AbstractControl } from '@angular/forms';
 import { RouterOutlet, RouterLink, RouterLinkActive, RouterModule, Router } from '@angular/router';
-import { ButtonComponent } from '../../buttons/button/button.component';
+// import { ButtonComponent } from '../../buttons/button/button.component';
 import { LoginService } from '../../login.service';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Validator } from '@angular/forms';
@@ -17,7 +17,7 @@ import { GameComponent } from '../../pages/game/game.component';
 @Component({
   selector: 'app-user-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterOutlet, RouterLink, RouterLinkActive, RouterModule, ButtonComponent],
+  imports: [ReactiveFormsModule, CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './user-form.component.html',
   styleUrl: './user-form.component.css'
 

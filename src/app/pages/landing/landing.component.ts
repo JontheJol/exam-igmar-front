@@ -4,7 +4,7 @@ import { TokenService } from '../../token.service';
 import { Game } from '../../models/Game.model';
 import { CommonModule } from '@angular/common';
 import { NgFor } from '@angular/common';
-import { ButtonComponent } from '../../buttons/button/button.component';
+// import { ButtonComponent } from '../../buttons/button/button.component';
 import { routes } from '../../app.routes';
 
 import { HttpClient } from '@angular/common/http';
@@ -15,7 +15,7 @@ import { DataService } from '../../data.service';
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [NgFor,CommonModule, RouterModule,RouterLink, ButtonComponent],
+  imports: [NgFor,CommonModule, RouterModule,RouterLink],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.css'
 })

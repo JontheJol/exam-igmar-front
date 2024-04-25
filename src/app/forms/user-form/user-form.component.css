@@ -15,14 +15,14 @@ i{
 
 .form-group{
   border-radius: 35px!important;
-  border: 1px solid white;
+  border: 5px solid white;
   padding: 10px;
   margin-bottom: 25px;
 
 }
 
 input{
-  color: white !important;
+  color: black !important;
   border: none;
 }
 

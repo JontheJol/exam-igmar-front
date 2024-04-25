@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { TokenService } from '../token.service';
 import { CommonModule } from '@angular/common';
 import { NgFor } from '@angular/common';
-import { ButtonComponent } from '../buttons/button/button.component';
+// import { ButtonComponent } from '../buttons/button/button.component';
 import { Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-view-score',
   standalone: true,
-  imports: [NgFor, CommonModule,RouterLink, ButtonComponent],
+  imports: [NgFor, CommonModule,RouterLink],
   templateUrl: './view-score.component.html',
   styleUrl: './view-score.component.css'
 })

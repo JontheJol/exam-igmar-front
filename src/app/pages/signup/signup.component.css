@@ -1,0 +1,15 @@
+
+.background-animation {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: url('../../../assets/videos/barco.gif') center center fixed;
+    background-size: cover;
+}
+
+@keyframes backgroundAnimation {
+    0% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
