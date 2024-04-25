@@ -2,7 +2,7 @@
 <section class="gifback" src="/src/assets/images/water.gif"
 
   [style.backgroundColor]="
-    win === 1 ? ' z-index: -9999999999': win===0 ? 'red' : hit === 1 ? 'red'  : 'rgba(0, 255, 255, 0.377)'
+    win === 1 ? ' z-index: -9999999999': win===0 ? 'red' : hit >= 1 ? 'red'  : 'rgba(0, 255, 255, 0.377)'
   "
 
 >
@@ -91,7 +91,31 @@
             <blockquote class="blockquote mb-12" style="font-size: xx-large">
               <p>Hit </p>
               <footer class="blockquote-footer">
-                <cite title="Source title">Golpearon un barco</cite>
+                <cite title="Source title">Golpearon uno de tus barcos</cite>
+              </footer>
+            </blockquote>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="hit == 1.5 " [@showHideAnimation]="showDiv">
+      <!-- <h1>Hit</h1>
+</div> -->
+      <div  [@showHideAnimation]="showDiv">
+        <div
+          class="card"
+          style="
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          "
+        >
+          <div class="card-body"  [@showHideAnimation]="showDiv">
+            <blockquote class="blockquote mb-12" style="font-size: xx-large">
+              <p>Hit </p>
+              <footer class="blockquote-footer">
+                <cite title="Source title">Golpeaste un  barco</cite>
               </footer>
             </blockquote>
           </div>

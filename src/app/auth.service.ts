@@ -19,6 +19,6 @@ export class AuthService {
     const token = this.cookieService.get('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
 
-    return this.http.post<string>('http://127.0.0.1:8000/api/partida',{}, { headers: headers });
+    return this.http.post<string>('http://192.168.124.201:8000/api/partida',{}, { headers: headers });
   }
 }
