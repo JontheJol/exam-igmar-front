@@ -1,5 +1,9 @@
 
 <section class="gifback" src="/src/assets/images/water.gif">
+  <div *ngIf="mostrandoCronometro" class="overlay">
+    <h1>Tiempo de juego: {{ tiempoTranscurrido }} segundos</h1>
+  </div>
+
   <p>
     <mat-toolbar style="background-color: blueviolet">
       <span style="color: greenyellow">

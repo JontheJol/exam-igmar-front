@@ -55,11 +55,13 @@ turno =-1
 playerTiles: string[][] = Array.from({length: 5}, () => Array(3).fill('/src/assets/emptytile.jpeg'));
   appaer: boolean = false
 
-  // pusher: any;
-  // channel: any;
+  tiempoTranscurrido: number = 0;
+  mostrandoCronometro: boolean = true;
+  intervalId: any;
 
   constructor(private http: HttpClient,private cookieService: CookieService ,private servi: TokenService, protected router: Router,private route: ActivatedRoute ,private dataService: DataService) {
     if (this.dataService.getDato2() == 2){
+      this.quitarCronometro()
       this.getShipCoordinates();
     }
 
@@ -91,6 +93,7 @@ playerTiles: string[][] = Array.from({length: 5}, () => Array(3).fill('/src/asse
       console.log(self.id_partida);
       // self.router.navigate(['/registro']);
       self.getShipCoordinates();
+      self.quitarCronometro()
     });
 
     //para el turno del jugador
@@ -225,6 +228,10 @@ console.log("canaaaal2:"+this.channel2);
     this.servi.sendRequestWithToken('api/partidaCancelada',{}).subscribe((data: any) => {
       console.log("esto es cuando se cancela"+data);
     })
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+
     this.router.navigate(['/landing']);
 
   }
@@ -285,12 +292,16 @@ console.log(this.usuario)
     })
   }
   else {//enable los botones
-    this.buttonStates[rowIndex][colIndex] = false;
+ this.buttonStates[rowIndex][colIndex] = false;    
   }
 
-    //enviamos por medio de post la coordenada
   }
-
+  quitarCronometro(): void {
+    this.mostrandoCronometro = false;
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+  }
 
 
 
@@ -336,7 +347,9 @@ console.log(this.usuario)
     this.initializeOponentBoard();
     this.initializeButtonStates();
     // this.number = history.state.number;
-
+    this.intervalId = setInterval(() => {
+      this.tiempoTranscurrido++;
+    }, 1000);
 
   }
 
