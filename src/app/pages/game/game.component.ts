@@ -104,6 +104,7 @@ console.log("canaaaal2:"+this.channel2);
       // self.appaer = true;
       self.hit = 1
       self.showDiv = true;
+      self.getShipCoordinatesHit()
 
       setTimeout(() => {
         self.showDiv = false;
@@ -124,8 +125,7 @@ console.log("canaaaal2:"+this.channel2);
       console.log("funcionaaaaaaa22");
       console.log(data);
       console.log(self.id_partida);
-      // self.router.navigate(['/registro']);
-      // self.getShipCoordinates();
+
     });
 
     this.channel3 = 'nohit' + this.id_usuario;
@@ -213,6 +213,25 @@ console.log("canaaaal2:"+this.channel2);
           this.turno = -1
         }, 3000);
       }
+    });
+  }
+  getShipCoordinatesHit() {
+    const token = this.cookieService.get('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
+    .set('ngrok-skip-browser-warning', 'true')
+
+    console.log("entro a hit")
+
+    this.http.get('http://192.168.124.201:8000/api/consultarCordenadasHit',{ headers: headers }).subscribe((data: any) => {
+      // Process the data and update playerTiles
+      console.log("dataaaaaaa"+data);
+      console.log(data.data);
+      console.log(data.data.coordinate);
+      console.log(data.coordinate);
+      console.log("coordenadas"+this.usuario);
+      // console.log(data.coordinates[0]);
+      this.updatePlayerTiles2(data.data);
+
     });
   }
 
@@ -315,6 +334,17 @@ console.log(this.usuario)
       console.log(row, col);
 
       this.tiles[row-1][col] = 'assets/images/boat.jpeg';
+    }
+  }
+  updatePlayerTiles2(data: Array<string>) {
+//quiero recibir un array y que por cada coordenada que reciba, me cambia la primer letra a numero y despues
+    for (let coord of data) {
+
+      let row = this.getNumberFromLetter(coord[0]);
+      let col = parseInt(coord.slice(1)) - 1;
+      console.log(row, col);
+
+      this.tiles[row-1][col] = 'assets/images/image.png';
     }
   }
 

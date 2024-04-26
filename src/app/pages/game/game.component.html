@@ -47,6 +47,12 @@
     </div>
     <br />
     <div [style.opacity]=" win === 1 ? ' z-index: 0.2': '1'">
+      <div style="margin: 10px" class="row row-guides">
+        <div class="col" ></div>
+        <div style="padding-left: 10px; width: 10.5%;" class="col guide-col" *ngFor="let col of [0, 1, 2, 3, 4, 5, 6, 7]">
+          {{ col + 1 }}
+        </div>
+      </div>
       <div
         style="margin: 10px"
         class="row row-guides"
@@ -60,8 +66,7 @@
           class="col"
           *ngFor="let tile of row; let colIndex = index"
         >
-
-          <button mat-button  (click)="handleClick(rowIndex, colIndex)">
+          <button mat-button (click)="handleClick(rowIndex, colIndex)">
             <img
               class="img-fluid pixelated"
               src="assets/images/oceantile.jpeg"
